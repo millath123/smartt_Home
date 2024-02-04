@@ -17,11 +17,13 @@ app.use(express.static(path.join( 'public')));
 
 // Parse incoming requests with JSON payloads
 app.use(bodyParser.json());
-
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', userRoutes);
 
 // Set up user routes
 app.use(userRoutes);
+
+
 
 const port = process.env.PORT || '8080';
 app.listen(port, () => {
