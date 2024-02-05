@@ -9,7 +9,7 @@ import bcrypt from 'bcrypt';
 import User from '../model/user.js';
 import passport from'../helpers/googleauth.js';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
-
+import axios from 'axios';
 
 
 
@@ -170,7 +170,7 @@ const googleLogin = async (req, res) => {
   // Redirect to Google OAuth URL
   const googleAuthUrl = 'https://accounts.google.com/o/oauth2/auth';
   const clientId = '531146507350-2csbr5mm368t40s9o055mai756lj5aso.apps.googleusercontent.com';
-  const redirectUri = 'http://localhost:8080/googleauth/auth/google/callback';
+  const redirectUri = 'http://localhost:8080/auth/google/callback';
   const scope = 'https://www.googleapis.com/auth/userinfo.email';
 
   const url =`${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
@@ -186,7 +186,7 @@ const googleLoginCallback = async (req, res) => {
   const googleTokenUrl = 'https://accounts.google.com/o/oauth2/token';
   const clientId = '531146507350-2csbr5mm368t40s9o055mai756lj5aso.apps.googleusercontent.com'
   const clientSecret = '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'
-  const redirectUri = 'http://localhost:8080/googleauth/auth/google/callback';
+  const redirectUri = 'http://localhost:8080/auth/google/callback';
 
   try {
       const tokenResponse = await axios.post(googleTokenUrl, {
@@ -207,7 +207,24 @@ const googleLoginCallback = async (req, res) => {
 
       // Now, you can use userInfoResponse.data to create or authenticate the user
       const user = userInfoResponse.data;
-      console.log(user);
+      const userData = userInfoResponse.data;
+
+    // Check if the user already exists in your database based on their Google ID or email
+    let userr = await User.findOne({ googleId: userData.id });
+
+    if (!userr) {
+      // If the user doesn't exist, create a new user in the database
+      userr = new User({
+        googleId: userData.id,
+        displayName: userData.name,
+        email: userData.email,
+        Image:userData.picture
+        // Add any other user data you want to store
+      });
+
+      // Save the user to the database
+      await userr.save();
+    }
       // Handle user creation or authentication logic here
 
       // Generate a JWT token for the user
@@ -217,7 +234,7 @@ const googleLoginCallback = async (req, res) => {
       res.cookie('user_token', user_token, { httpOnly: true });
 
       // Redirect or render a success page
-      res.redirect('/dashboard');  // Replace with your desired redirect URL
+      res.redirect('/');  // Replace with your desired redirect URL
   } catch (error) {
       console.error('Error during Google authentication:', error);
       res.status(500).send('Internal Server Error');
