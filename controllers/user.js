@@ -169,7 +169,7 @@ const loginPostPage= async (req, res) => {
 const googleLogin = async (req, res) => {
   // Redirect to Google OAuth URL
   const googleAuthUrl = 'https://accounts.google.com/o/oauth2/auth';
-  const clientId = 'http://531146507350-2csbr5mm368t40s9o055mai756lj5aso.apps.googleusercontent.com';
+  const clientId = '531146507350-2csbr5mm368t40s9o055mai756lj5aso.apps.googleusercontent.com';
   const redirectUri = 'http://localhost:8080/googleauth/auth/google/callback';
   const scope = 'https://www.googleapis.com/auth/userinfo.email';
 
