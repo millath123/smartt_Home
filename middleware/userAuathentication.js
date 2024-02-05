@@ -4,7 +4,7 @@ import User from '../model/user.js'; // Import your User model
 const authenticateUser = async (req, res, next) => {
   try {
     // Get the JWT token from the cookie or headers
-    const token = req.cookies.user_token || req.header('Authorization').replace('Bearer ', '');
+    const token = req.cookies.user_token ;
 
     if (!token) {
       return next();

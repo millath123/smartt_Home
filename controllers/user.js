@@ -19,7 +19,7 @@ import axios from 'axios';
 const homePage = async function (req, res, next) {
   let user= req.user;
   console.log(user);
-  res.render(path.join('../views/user/home',{user}));
+  res.render(('../views/user/home',{user}));
 };
 const signUpGetPage = async (req, res, next) => {
   res.render(path.join('../views/user/signup'));
