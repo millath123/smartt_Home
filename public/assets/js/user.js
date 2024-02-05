@@ -41,3 +41,48 @@ function validateLoginForm() {
     }
     return isValid;
   }
+
+
+
+ const firebaseConfig = {
+    apiKey: "AIzaSyB1XUK9gm4GGNLE6tZK6-dcBYc199K6FEQ",
+    authDomain: "smarthome-84377.firebaseapp.com",
+    projectId: "smarthome-84377",
+    storageBucket: "smarthome-84377.appspot.com",
+    messagingSenderId: "871087542048",
+    appId: "1:871087542048:web:5f284129986567f4d1d145",
+    measurementId: "G-364WB53VG1"
+};
+firebase.initializeApp(firebaseConfig);
+
+render();
+function render() {
+    window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier('recaptcha-container');
+    recaptchaVerifier.render();
+}
+
+// function for send OTP
+function phoneAuth() {
+    var number = document.getElementById('number').value;
+    firebase.auth().signInWithPhoneNumber(number, window.recaptchaVerifier).then(function (confirmationResult) {
+        window.confirmationResult = confirmationResult;
+        coderesult = confirmationResult;
+
+        document.getElementsByClassName('sender')[0].style.display = 'block';
+        document.getElementsByClassName('verifier')[0].style.display = 'none';
+
+    }).catch(function (error) {
+        // error in sending OTP
+        alert(error.message);
+    });
+}
+
+// function for OTP verify
+function codeverify() {
+    var code = document.getElementById('verificationcode').value;
+    coderesult.confirm(code).then(function () {
+        window.location.href = '/';
+    }).catch(function () {
+        console.error('Verification failed:', error);
+    })
+}

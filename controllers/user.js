@@ -6,6 +6,13 @@ import path from 'path';
 import transporter from '../helpers/nodemailer.js';
 import generateOTP from '../helpers/generateOtp.js';
 import bcrypt from 'bcrypt';
+import User from '../model/user.js';
+import passport from'../helpers/googleauth.js';
+import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
+
+
+
+
 
 
 
@@ -20,7 +27,6 @@ const sendOtp = async (req, res) => {
   const email = req.body.email;
   const otp = generateOTP();
   const hashedOtp = await bcrypt.hash('' + otp, 10);
-  console.log(hashedOtp);
 
 
   const mailOptions = {
@@ -37,7 +43,7 @@ const sendOtp = async (req, res) => {
       <td class="es-stripe-html" align="center" style="padding:0;Margin:0"><table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"><tr><td style="Margin:0;padding-top:40px;padding-right:20px;padding-bottom:40px;padding-left:20px;background-color:#182838" bgcolor="#182838" align="left"><table width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"><tr><td valign="top" align="center" style="padding:0;Margin:0;width:560px"><table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"><tr>
       <td align="center" style="Margin:0;padding-right:20px;padding-left:20px;padding-top:5px;padding-bottom:10px"><h1 style="Margin:0;font-family:'merriweather sans', 'helvetica neue', helvetica, arial, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:30px;font-style:normal;font-weight:normal;line-height:30px;color:#ffffff"><strong>Smart Home</strong> </h1></td></tr><tr><td align="center" style="padding:0;Margin:0;padding-right:20px;padding-left:20px;padding-bottom:5px"><h3 style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:20px;font-style:normal;font-weight:normal;line-height:24px;color:#ffffff">Activate Your Account within 5 minutes</h3></td></tr><tr>
       <td align="center" style="Margin:0;padding-right:20px;padding-left:20px;padding-top:20px;padding-bottom:30px"><img class="adapt-img" alt="" width="520" src="https://cdt-timer.stripocdn.email/api/v1/images/vfA_ULwvzDb46O9iMam9D2IavjxmWv5v0S92vbrAoyw?l=1698474614997" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"></td></tr> <tr>
-      <td align="center" style="padding:10px;Margin:0"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#ffffff;border-width:0px 0px 2px 0px;display:inline-block;border-radius:30px;width:auto"><a href="http://localhost:8080/users/active/${otp}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#333333;font-size:18px;padding:10px 20px 10px 20px;display:inline-block;background:#ffffff;border-radius:30px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #31CB4B;border-color:#ffffff">Active Now</a></span></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></div></body> </html>`
+      <td align="center" style="padding:10px;Margin:0"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#ffffff;border-width:0px 0px 2px 0px;display:inline-block;border-radius:30px;width:auto"><a href="http://localhost:8080/active/${otp}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#333333;font-size:18px;padding:10px 20px 10px 20px;display:inline-block;background:#ffffff;border-radius:30px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #31CB4B;border-color:#ffffff">Active Now</a></span></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></div></body> </html>`
   };
 
   res.cookie('email', email, {
@@ -54,8 +60,7 @@ const sendOtp = async (req, res) => {
 
       console.log(hashedOtp);
       res.cookie('otp', hashedOtp, {
-        maxAge: 5 * 60 * 1000,
-        httpOnly: true,
+        maxAge: 5 * 60 * 1000
 
       });
       res.status(200).render(path.join('../views/user/signup'), { sucsess: 'ok' })
@@ -125,7 +130,7 @@ const setSignupPassword= async (req, res) => {
 
 // user login
 const loginGetPage=  (req, res) => {
-  res.render(path.join(__dirname, '../views/user/login'))
+  res.render(path.join('../views/user/login'))
 }
 
 
@@ -136,19 +141,19 @@ const loginPostPage= async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).render(path.join(__dirname, '../views/user/conformSignupPassword'), { invalidmail: 'Invalid Email Address' });
+      return res.status(401).render(path.join( '../views/user/conformSignupPassword'), { invalidmail: 'Invalid Email Address' });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      return res.status(200).render(path.join(__dirname, '../views/user/conformSignupPassword'), { notmatch: 'password not match' });
+      return res.status(200).render(path.join('../views/user/conformSignupPassword'), { notmatch: 'password not match' });
     }
 
     const user_token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
     user.token = user_token
     await user.save()
     res.cookie('user_token', user_token, { httpOnly: true });
-    return res.redirect('/users/mobileotp');
+    return res.redirect('/');
     res.json({ token });
 
   } catch (error) {
@@ -157,6 +162,67 @@ const loginPostPage= async (req, res) => {
   }
 }
 
+// const googleAuthGet = (req, res, next) => {
+//   passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
+// };
+
+const googleLogin = async (req, res) => {
+  // Redirect to Google OAuth URL
+  const googleAuthUrl = 'https://accounts.google.com/o/oauth2/auth';
+  const clientId = 'http://531146507350-2csbr5mm368t40s9o055mai756lj5aso.apps.googleusercontent.com';
+  const redirectUri = 'http://localhost:8080/googleauth/auth/google/callback';
+  const scope = 'https://www.googleapis.com/auth/userinfo.email';
+
+  const url =`${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
+
+  res.redirect(url);
+};
+
+// Google login callback endpoint
+const googleLoginCallback = async (req, res) => {
+  const { code } = req.query;
+
+  // Exchange code for access token
+  const googleTokenUrl = 'https://accounts.google.com/o/oauth2/token';
+  const clientId = '531146507350-2csbr5mm368t40s9o055mai756lj5aso.apps.googleusercontent.com'
+  const clientSecret = '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'
+  const redirectUri = 'http://localhost:8080/googleauth/auth/google/callback';
+
+  try {
+      const tokenResponse = await axios.post(googleTokenUrl, {
+          code,
+          client_id: clientId,
+          client_secret: clientSecret,
+          redirect_uri: redirectUri,
+          grant_type: 'authorization_code',
+      });
+
+      const { access_token, id_token } = tokenResponse.data;
+
+      // Fetch user information using the access token
+      const userInfoUrl = 'https://www.googleapis.com/oauth2/v2/userinfo';
+      const userInfoResponse = await axios.get(userInfoUrl, {
+          headers: { Authorization: `Bearer ${access_token} `},
+      });
+
+      // Now, you can use userInfoResponse.data to create or authenticate the user
+      const user = userInfoResponse.data;
+      console.log(user);
+      // Handle user creation or authentication logic here
+
+      // Generate a JWT token for the user
+      const user_token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+
+      // Set the JWT token in the cookie
+      res.cookie('user_token', user_token, { httpOnly: true });
+
+      // Redirect or render a success page
+      res.redirect('/dashboard');  // Replace with your desired redirect URL
+  } catch (error) {
+      console.error('Error during Google authentication:', error);
+      res.status(500).send('Internal Server Error');
+  }
+};
 
 export default {
   homePage,
@@ -166,5 +232,8 @@ export default {
   passwordConformationPage,
   setSignupPassword,
   loginGetPage,
-  loginPostPage
+  loginPostPage,
+  googleLogin,
+  googleLoginCallback
+  
 };

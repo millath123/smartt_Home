@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <style>
+        .container {
+            width: 302px;
+            height: 175px;
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            top: 0px;
+            bottom: 0px;
+            margin: auto;
+        }
+
+        #number,
+        #verificationcode {
+            width: calc(100%-24px);
+            padding: 10px;
+            font-size: 20px;
+            margin-bottom: 5px;
+            outline: none;
+        }
+
+        .recaptcha-container {
+            margin-bottom: 5px;
+        }
+
+        #send,
+        #verify {
+            width: 100%;
+            height: 40px;
+            outline: none;
+        }
+
+        .p-conf,
+        .n-cof {
+            width: calc(100%-22px);
+            border: 2px solid green;
+            border-radius: 4px;
+            padding: 8px 10px;
+            margin: 4px 0px;
+            background-color: rgba(0, 249, 12, 0.5);
+            display: none;
+        }
+
+        .n-cof {
+            border-color: red;
+            background-color: rgba(255, 0, 4, 0.5);
+
+        }
+
+        .otpf {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <div class="sender">
+            <input type="text" id="number" placeholder="+923...">
+
+            <div id="recaptcha-container"></div>
+            <input type="button" id="send" value="send" onclick="phoneAuth()">
+        </div>
+
+        <div id="verifier">
+            <input type="text" id="verificationcode" placeholder="OTP Code">
+            <input type="button" id="verify" value="verify" onclick="codeverify() ">
+            {{#if mOtp}}
+            <script>
+                Swal.fire({
+                    position: "top-end",
+                    icon: "success",
+                    title: "OTP Send to Your Mobile",
+                    showConfirmButton: false,
+                    timer: 1500
+                });
+            </script>
+            {{/if}}
+            {{#if mOtpf}}
+            <p class="otpf">Wrong OTP!!</p>
+            {{/if}}
+        </div>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.12.1/firebase-auth-compat.js"></script>
+
+
+</body>
+
+</html>

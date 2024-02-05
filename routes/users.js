@@ -11,6 +11,12 @@ router.get('/passwordConformation', userController.passwordConformationPage)
 router.post('/set-password', userController.setSignupPassword)
 router.get('/login', userController.loginGetPage)
 router.post('/login', userController.loginPostPage)
+router.post('/login', userController.loginPostPage)
+router.get('/googleauth/google', userController.googleLogin);
+router.get('/auth/google/callback', userController.googleLoginCallback);
+
+
+
 
 
 export default router; 

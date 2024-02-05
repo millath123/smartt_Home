@@ -1,6 +1,6 @@
 import passport from 'passport';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
-import User from './model/user';
+import User from '../model/user.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -10,7 +10,7 @@ passport.use(new GoogleStrategy({
     clientID: process.env.GOOGLE_CLINT_ID,
     clientSecret: process.env.GOOGLE_CLINT_SECRET,
     callbackURL: process.env.callbackURL
-    
+
 }, async (accessToken, refreshToken, profile, done) => {
     try {
         console.log("this" + profile);
@@ -27,7 +27,7 @@ passport.use(new GoogleStrategy({
         });
         const savedUser = await newUser.save();
         console.log(savedUser);
-        
+
         done(null, savedUser);
     } catch (error) {
         console.error('Error in Google OAuth strategy:', error);
@@ -44,8 +44,8 @@ passport.deserializeUser((id, done) => {
     User.findById(id)
         .then((User) => {
             if (!User) {
-                
-                return done(null, false); 
+
+                return done(null, false);
             }
             console.log(User);
             done(null, User);
@@ -53,8 +53,8 @@ passport.deserializeUser((id, done) => {
         .catch((error) => {
             // Handle any errors, including cast errors
             console.error('Error in deserialization:', error);
-            done(error, false); 
+            done(error, false);
         });
 });
 
-module.exports = passport;
+export default passport;
