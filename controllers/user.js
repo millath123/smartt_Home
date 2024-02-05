@@ -37,7 +37,7 @@ const sendOtp = async (req, res) => {
       <td class="es-stripe-html" align="center" style="padding:0;Margin:0"><table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"><tr><td style="Margin:0;padding-top:40px;padding-right:20px;padding-bottom:40px;padding-left:20px;background-color:#182838" bgcolor="#182838" align="left"><table width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"><tr><td valign="top" align="center" style="padding:0;Margin:0;width:560px"><table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"><tr>
       <td align="center" style="Margin:0;padding-right:20px;padding-left:20px;padding-top:5px;padding-bottom:10px"><h1 style="Margin:0;font-family:'merriweather sans', 'helvetica neue', helvetica, arial, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:30px;font-style:normal;font-weight:normal;line-height:30px;color:#ffffff"><strong>Smart Home</strong> </h1></td></tr><tr><td align="center" style="padding:0;Margin:0;padding-right:20px;padding-left:20px;padding-bottom:5px"><h3 style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:20px;font-style:normal;font-weight:normal;line-height:24px;color:#ffffff">Activate Your Account within 5 minutes</h3></td></tr><tr>
       <td align="center" style="Margin:0;padding-right:20px;padding-left:20px;padding-top:20px;padding-bottom:30px"><img class="adapt-img" alt="" width="520" src="https://cdt-timer.stripocdn.email/api/v1/images/vfA_ULwvzDb46O9iMam9D2IavjxmWv5v0S92vbrAoyw?l=1698474614997" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"></td></tr> <tr>
-      <td align="center" style="padding:10px;Margin:0"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#ffffff;border-width:0px 0px 2px 0px;display:inline-block;border-radius:30px;width:auto"><a href="http://localhost:5006/users/active/${otp}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#333333;font-size:18px;padding:10px 20px 10px 20px;display:inline-block;background:#ffffff;border-radius:30px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #31CB4B;border-color:#ffffff">Active Now</a></span></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></div></body> </html>`
+      <td align="center" style="padding:10px;Margin:0"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#ffffff;border-width:0px 0px 2px 0px;display:inline-block;border-radius:30px;width:auto"><a href="http://localhost:8080/users/active/${otp}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#333333;font-size:18px;padding:10px 20px 10px 20px;display:inline-block;background:#ffffff;border-radius:30px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #31CB4B;border-color:#ffffff">Active Now</a></span></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></div></body> </html>`
   };
 
   res.cookie('email', email, {
@@ -73,21 +73,98 @@ const activeOtp = async (req, res) => {
       console.error(err);
       res.status(500).send('Internal Server Error');
     } else if (result) {
-      res.render('user/conformreg');
+      res.render('user/conformSignupPassword');
     } else {
       res.send('Activation failed');
     }
   });
 }
 
+
+//  set password and conform for registration
 const passwordConformationPage = async (req, res) => {
   res.render('users/setpassword');
 }
+
+const setSignupPassword= async (req, res) => {
+  const email = req.cookies.email;
+  const fullName = req.body.fullName;
+  const phoneNumber = req.body.phoneNumber;
+  const newPassword = req.body.newPassword;
+  const confirmNewPassword = req.body.confirmNewPassword;
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+
+  if (newPassword !== confirmNewPassword) {
+    return res.status(400).send('Passwords do not match.');
+  }
+
+  try {
+
+    const existingUser = await User.findOne({ email });
+
+    if (existingUser) {
+      return res.status(400).send('Email is already in use. Please use a different email.');
+    }
+    const newUser = new User({
+      fullName,
+      phoneNumber,
+      email,
+      password: hashedPassword
+    });
+
+    await newUser.save();
+
+    res.redirect('/users/login');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Error saving user to the database');
+  }
+}
+
+
+// user login
+const loginGetPage=  (req, res) => {
+  res.render(path.join(__dirname, '../views/user/login'))
+}
+
+
+const loginPostPage= async (req, res) => {
+  const { email, password } = req.body;
+  try {
+
+    const user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(401).render(path.join(__dirname, '../views/user/conformSignupPassword'), { invalidmail: 'Invalid Email Address' });
+    }
+    const passwordMatch = await bcrypt.compare(password, user.password);
+
+    if (!passwordMatch) {
+      return res.status(200).render(path.join(__dirname, '../views/user/conformSignupPassword'), { notmatch: 'password not match' });
+    }
+
+    const user_token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
+    user.token = user_token
+    await user.save()
+    res.cookie('user_token', user_token, { httpOnly: true });
+    return res.redirect('/users/mobileotp');
+    res.json({ token });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+}
+
 
 export default {
   homePage,
   signUpGetPage,
   sendOtp,
   activeOtp,
-  passwordConformationPage
+  passwordConformationPage,
+  setSignupPassword,
+  loginGetPage,
+  loginPostPage
 };

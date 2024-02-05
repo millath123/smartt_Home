@@ -1,10 +1,10 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
-  name: {
+  fullName: {
     type: String,
   },
-  mobile: {
+  phoneNumber: {
     type: Number,
   },
   email: {
@@ -40,6 +40,6 @@ const userSchema = new mongoose.Schema({
   
 });
 
-const userModel = mongoose.model("user", userSchema);
+const User = mongoose.model("user", userSchema);
 
-export default userModel;
+export default User;
