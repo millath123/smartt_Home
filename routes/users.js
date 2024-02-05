@@ -1,9 +1,10 @@
 import express from 'express';
 const router = express.Router();
 import userController from '../controllers/user.js';
+import authenticateUser from './middleware/authenticateUser';
 
 
-router.get('/', userController.homePage)
+router.get('/',authenticateUser, userController.homePage)
 router.get('/userSignup', userController.signUpGetPage)
 router.post('/send-otp', userController.sendOtp)
 router.get('/active/:otp', userController.activeOtp)
@@ -14,7 +15,6 @@ router.post('/login', userController.loginPostPage)
 router.post('/login', userController.loginPostPage)
 router.get('/googleauth/google', userController.googleLogin);
 router.get('/auth/google/callback', userController.googleLoginCallback);
-
 
 
 
