@@ -214,23 +214,26 @@ const googleLoginCallback = async (req, res) => {
     // Check if the user already exists in your database based on their Google ID or email
     let userr = await User.findOne({ googleId: userData.id });
 
+    let tempUser;  // Declare tempUser variable outside the if block
+
     if (!userr) {
-      // If the user doesn't exist, create a new user in the database
-      userr = new User({
-        googleId: userData.id,
-        displayName: userData.name,
-        email: userData.email,
-        Image:userData.picture
-        // Add any other user data you want to store
-      });
+        // If the user doesn't exist, create a new user in the database
+        tempUser = new User({
+            googleId: userData.id,
+            displayName: userData.name,
+            email: userData.email,
+            Image: userData.picture,
+            // Add any other user data you want to store
+        });
 
-      // Save the user to the database
-      var tempUser =  await userr.save();
+        // Save the user to the database
+        tempUser = await tempUser.save();
     }
-      // Handle user creation or authentication logic here
 
-      // Generate a JWT token for the user
-      const user_token = jwt.sign({ userId: tempUser._id }, process.env.JWT_SECRET);
+    // Handle user creation or authentication logic here
+
+    // Generate a JWT token for the user
+    const user_token = jwt.sign({ userId: (tempUser || userr)._id }, process.env.JWT_SECRET);
 
       // Set the JWT token in the cookie
       res.cookie('user_token', user_token, { httpOnly: true });
