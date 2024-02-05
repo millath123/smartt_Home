@@ -225,18 +225,18 @@ const googleLoginCallback = async (req, res) => {
       });
 
       // Save the user to the database
-      await userr.save();
+      var tempUser =  await userr.save();
     }
       // Handle user creation or authentication logic here
 
       // Generate a JWT token for the user
-      const user_token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET);
+      const user_token = jwt.sign({ userId: tempUser._id }, process.env.JWT_SECRET);
 
       // Set the JWT token in the cookie
       res.cookie('user_token', user_token, { httpOnly: true });
 
       // Redirect or render a success page
-      res.redirect('/');  // Replace with your desired redirect URL
+      res.redirect('/');  
   } catch (error) {
       console.error('Error during Google authentication:', error);
       res.status(500).send('Internal Server Error');

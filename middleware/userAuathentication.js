@@ -7,7 +7,7 @@ const authenticateUser = async (req, res, next) => {
     const token = req.cookies.user_token || req.header('Authorization').replace('Bearer ', '');
 
     if (!token) {
-      return res.status(401).json({ error: 'Unauthorized - No token provided' });
+      return next();
     }
 
     // Verify the JWT token

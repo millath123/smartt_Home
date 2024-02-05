@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 import userController from '../controllers/user.js';
-import authenticateUser from './middleware/authenticateUser';
+import authenticateUser from '../middleware/userAuathentication.js';
 
 
 router.get('/',authenticateUser, userController.homePage)
