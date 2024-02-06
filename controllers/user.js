@@ -201,40 +201,29 @@ const googleLoginCallback = async (req, res) => {
       const userInfoResponse = await axios.get(userInfoUrl, {
           headers: { Authorization: `Bearer ${access_token} `},
       });
-
-      // Now, you can use userInfoResponse.data to create or authenticate the user
       const user = userInfoResponse.data;
       const userData = userInfoResponse.data;
 
-    // Check if the user already exists in your database based on their Google ID or email
-    let userr = await User.findOne({ googleId: userData.id });
-
-    let tempUser;  // Declare tempUser variable outside the if block
-
-    if (!userr) {
-        // If the user doesn't exist, create a new user in the database
-        tempUser = new User({
-          fullName: userData.name,
-            googleId: userData.id,
-            displayName: userData.name,
-            email: userData.email,
-            Image: userData.picture,
-            // Add any other user data you want to store
-        });
-
-        // Save the user to the database
-        tempUser = await tempUser.save();
-    }
-
-    // Handle user creation or authentication logic here
-
-    // Generate a JWT token for the user
-    const user_token = jwt.sign({ userId: (tempUser || userr)._id }, process.env.JWT_SECRET);
-
-      // Set the JWT token in the cookie
+      let existingUser = await User.findOne({ googleId: userData.id });
+      
+      let tempUser;
+      
+      if (!existingUser) {
+          tempUser = new User({
+              fullName: userData.name,
+              googleId: userData.id,
+              email: userData.email,
+              Image: userData.picture,
+          });
+          tempUser = await tempUser.save();
+      } else {
+        existingUser.fullName= userData.name,
+          existingUser.email = userData.email;
+          existingUser.Image = userData.picture;
+          tempUser = await existingUser.save();
+      }
+      const user_token = jwt.sign({ userId: (tempUser || existingUser)._id }, process.env.JWT_SECRET);
       res.cookie('user_token', user_token, { httpOnly: true });
-
-      // Redirect or render a success page
       res.redirect('/');  
   } catch (error) {
       console.error('Error during Google authentication:', error);

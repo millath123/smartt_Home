@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Sidebar 09</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap/utilities/_stretched-link.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap/_media.css">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .profimg {
+      width: 120px;
+      height: 120px;
+      border-radius: 100%;
+
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+      <div class="custom-menu">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+        </button>
+      </div>
+      <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+        <div class="user-logo">
+          {{!-- <div><img src="/public/images/logo-only.jpg" alt="kkk"></div> --}}
+
+          <div style="font-family: Fantasy;  font-size: 37px; padding-bottom:10px; color:rgb(185, 152, 112);"> SmartHome
+          </div>
+
+          <div><img class="profimg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1gc6iKFF08AO-tJb3gAsQPPJP7yS27pPmg&usqp=CAU"
+              alt=""></div>
+          <h3 class="profilename">ADILA MILLATH C</h3>
+        </div>
+      </div>
+      <ul class="list-unstyled components mb-5">
+        <li class="active">
+          <a href="/"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
+        </li>
+
+        <li>
+          <a href="/admin/users"><span class="fa fa-users mr-3 notif"></span> USERS</a>
+        </li>
+         <li>
+          <a href="/admin/category"><span class="fa fa-trophy mr-3"></span>CATEGORY</a>
+        </li>
+        <li>
+          <a href="/admin/product"><span class="fa fa-th mr-3"></span>PRODUCTS</a>
+        </li>
+        <li>
+          <a href="/admin/banner"><span class="fa fa-cog mr-3"></span> BANNERS</a>
+        </li>
+        <li>
+          <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+        </li>
+
+        <li>
+          <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
+        </li>
+       <li>
+  <a href="/admin/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+</li>
+
+      </ul>
+    </nav>
+
+
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/popper.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

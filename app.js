@@ -2,6 +2,8 @@ import express from 'express';
 import connect from './database/connect.js';
 import bodyParser from 'body-parser';
 import userRoutes from './routes/users.js';
+import adminRoutes from './routes/admin.js';
+
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import session from 'express-session';
@@ -32,6 +34,8 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', userRoutes);
+app.use('/', adminRoutes);
+
 
 // Set up user routes
 app.use(userRoutes);
