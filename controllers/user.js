@@ -11,15 +11,10 @@ import passport from'../helpers/googleauth.js';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import axios from 'axios';
 
-
-
-
-
-
 const homePage = async function (req, res, next) {
   let user= req.user;
   console.log(user);
-  res.render(('../views/user/home',{user}));
+  res.render('../views/user/home',{user});
 };
 const signUpGetPage = async (req, res, next) => {
   res.render(path.join('../views/user/signup'));
@@ -219,6 +214,7 @@ const googleLoginCallback = async (req, res) => {
     if (!userr) {
         // If the user doesn't exist, create a new user in the database
         tempUser = new User({
+          fullName: userData.name,
             googleId: userData.id,
             displayName: userData.name,
             email: userData.email,
@@ -259,3 +255,5 @@ export default {
   googleLoginCallback
   
 };
+
+
