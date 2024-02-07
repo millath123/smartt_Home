@@ -25,23 +25,23 @@ const adminSighnupPage = async (req, res) => {
 
 const adminLoginGetPage = async (req, res) => {
     res.render(path.join('../views/admin/login'));
-  }
+}
 
-const adminLoginGgetPage =async (req, res) => {
+const adminLoginGgetPage = async (req, res) => {
     try {
-      const adminId = req.cookies.adminToken;
-      const admin = await Admin.findById(adminId);
-  
-      if (!admin) {
-        return res.status(401).redirect('/admin/adminLogin');
-      }
-  
-      res.render(path.join('../views/admin/dashboard'), { admin });
+        const adminId = req.cookies.adminToken;
+        const admin = await Admin.findById(adminId);
+
+        if (!admin) {
+            return res.status(401).redirect('/admin/adminLogin');
+        }
+
+        res.render(path.join('../views/admin/dashboard'), { admin });
     } catch (error) {
-      console.error(error);
-      res.status(500).send('Error fetching admin details');
+        console.error(error);
+        res.status(500).send('Error fetching admin details');
     }
-  }
+}
 
 const adminLoginPostPage = async (req, res) => {
     const { email, password } = req.body;
@@ -65,18 +65,33 @@ const adminLoginPostPage = async (req, res) => {
 }
 // Assuming this code is within a router instance
 const adminLogout = (req, res) => {
-  res.clearCookie('adminToken');
-  res.redirect('/admin/dashboard');
+    res.clearCookie('adminToken');
+    res.redirect('/admin/dashboard');
 };
-  
 
 
 
-const adminDshboard=async function(req, res, next) {
+
+const adminDshboard = async function (req, res, next) {
 
     res.render(path.join('../views/admin/dashboard'));
-  }
+}
 
+const adminLogoutPage = async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+        const user = await User.findByIdAndRemove(userId);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        res.status(204).send();
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error deleting user.');
+    }
+}
 
 export default {
     adminSighnupPage,
@@ -84,5 +99,6 @@ export default {
     adminLoginGgetPage,
     adminLoginPostPage,
     adminLogout,
-    adminDshboard
+    adminDshboard,
+    adminLogoutPage
 };

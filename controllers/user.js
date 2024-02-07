@@ -114,7 +114,7 @@ const setSignupPassword= async (req, res) => {
 
     await newUser.save();
 
-    res.redirect('/users/login');
+    // res.redirect('/users/login');
   } catch (err) {
     console.error(err);
     res.status(500).send('Error saving user to the database');

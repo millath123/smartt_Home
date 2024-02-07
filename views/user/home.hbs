@@ -886,6 +886,13 @@
                   <div class="">
                     <a href="/userSignup"><i class="bi bi-person-fill" style="color: #2a74ed; font-size: 25px;"></i>
                     </a>
+                    {{#if user}}
+        <img src="{{user.Image}}" alt="url problem">
+    {{else}}
+        <a href="/userSignup">
+            <i class="bi bi-person-fill" style="color: #2a74ed; font-size: 25px;"></i>
+        </a>
+    {{/if}}
                   </div>
                 </div>
               </div>
