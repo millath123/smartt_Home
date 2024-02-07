@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Sidebar 09</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="../assets/css/styles.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap/utilities/_stretched-link.css">
+  <link rel="stylesheet" href="../assets/css/bootstrap/_media.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    th.border-bottom {
+      border-bottom: 2px solid #000;
+
+      text-align: center;
+
+    }
+
+    .profimg {
+      width: 120px;
+      height: 120px;
+      border-radius: 100%;
+
+    }
+
+    .profilename {}
+
+    td {
+      text-align: center;
+
+    }
+
+    .custom-view-button,
+    .custom-edit-button,
+    .custom-delete-button {
+      color: rgb(24, 23, 23);
+      border: none;
+      cursor: pointer;
+    }
+
+    .add-product-btn {
+      background-color: rgb(51, 192, 93);
+      border: none;
+      margin: 10px;
+      padding: 5px;
+      border-radius: 5%;
+      color: white;
+      justify-content: end;
+    }
+
+    .custom-edit-button,
+    .custom-delete-button {
+      color: black;
+    }
+
+    #addProductModal {
+      display: none;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 500px;
+      max-height: 500px;
+      width: 100%;
+    }
+
+    .modal-content {
+      background-color: #f1f1f1;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .close {
+      color: #aaa;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: black;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    /* Style for form elements */
+    .form-control {
+      width: 100%;
+      margin-bottom: 10px;
+      height: 20px;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .form-control textarea {
+      resize: none;
+    }
+
+    .error-message {
+      color: red;
+    }
+  </style>
+
+
+</head>
+
+<body>
+
+  <div class="wrapper d-flex align-items-stretch">
+    <nav id="sidebar">
+      <div class="custom-menu">
+        <button type="button" id="sidebarCollapse" class="btn btn-primary">
+        </button>
+      </div>
+      <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+        <div class="user-logo">
+          {{!-- <div><img src="/public/images/logo-only.jpg" alt="kkk"></div> --}}
+
+          <div style="font-family: Fantasy;  font-size: 37px; padding-bottom:10px; color:rgb(185, 152, 112);"> SmartHome
+          </div>
+
+          <div><img class="profimg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1gc6iKFF08AO-tJb3gAsQPPJP7yS27pPmg&usqp=CAU"
+              alt=""></div>
+          <h3 class="profilename">ADILA MILLATH C</h3>
+        </div>
+      </div>
+      <ul class="list-unstyled components mb-5">
+        <li class="active">
+          <a href="#"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
+        </li>
+        <li>
+          <a href="/admin/users"><span class="fa fa-users mr-3 notif"></span> USERS</a>
+        </li>
+        <li>
+          <a href="/admin/category"><span class="fa fa-trophy mr-3"></span>CATEGORY</a>
+        </li>
+        <li>
+          <a href="/admin/product"><span class="fa fa-th mr-3"></span>PRODUCTS</a>
+        </li>
+        <li>
+          <a href="/admin/banner"><span class="fa fa-cog mr-3"></span> BANNERS</a>
+        </li>
+        <li>
+          <a href="#"><span class="fa fa-trophy mr-3"></span> Top Review</a>
+        </li>
+        <li>
+          <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+        </li>
+        <li>
+          <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
+        </li>
+        <li>
+          <a href="/admin/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+        </li>
+      </ul>
+
+    </nav>
+
+    <div class="container">
+      <br><br><br>
+      <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Product List</h1>
+
+      <button class="btn btn-primary add-product-btn" onclick="openAddProductModal()">Add Product</button>
+
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead class="thead">
+            <tr>
+              <th scope="col" class="border-bottom">ID</th>
+              <th scope="col" class="border-bottom">Product Image</th>
+              <th scope="col" class="border-bottom">Product Name</th>
+              <th scope="col" class="border-bottom">Category</th>
+              <th scope="col" class="border-bottom">Price</th>
+              <th scope="col" class="border-bottom">Quantity</th>
+              <th scope="col" class="border-bottom">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="userList">
+            {{#each product}}
+            <tr>
+              <td class="indexing">{{@index}}</td>
+              <td><img src={{this.productImage.[0]}} width="30px" height="30px"></td>
+              <td>{{this.productName}}</td>
+              <td>{{this.productCategory}}</td>
+              <td>{{this.productPrice}}</td>
+              <td>{{this.productQuantity}}</td>
+              <td>
+                <button class="btn custom-view-button"
+                  onclick="viewProduct('{{this.id}}','{{this.productName}}','{{this.productDescription}}','{{this.productCategory}}',
+    '{{this.productBrand}}','{{this.productConnectivity}}','{{this.productColor}}','{{this.productPrice}}','{{this.productQuantity}}')">
+                  <i class="fa fa-eye" aria-hidden="true"></i>
+                </button>
+
+
+
+                <button class="btn custom-edit-button"
+                  onclick="editProduct('{{this.id}}', '{{this.productName}}', '{{this.productDescription}}', '{{this.productCategory}}', '{{this.productBrand}}', '{{this.productConnectivity}}', '{{this.productColor}}', '{{this.productPrice}}', '{{this.productQuantity}}')">
+                  <i class="fa fa-pencil" aria-hidden="true"></i>
+                </button>
+
+
+                <button class="btn custom-delete-button"
+                  onclick="deleteProduct('{{this.id}}', this.parentNode.parentNode)">
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+            {{/each}}
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+
+    <!-- Add Product Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
+            {{!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+          </div>
+          <div class="modal-body">
+            <form id="addProductForm" action="/product/upload" method="post" enctype="multipart/form-data">
+
+              <div class="custom-file">
+                <label class="form-label" for="customFile">Image</label>
+                <input type="file" class="form-control" id="customFile" name="images" multiple>
+              </div>
+              <div class="custom-file">
+                <label class="form-label" for="customFile">Image</label>
+                <input type="file" class="form-control" id="customFile" name="images" multiple>
+              </div>
+              <div class="custom-file">
+                <label class="form-label" for="customFile">Image</label>
+                <input type="file" class="form-control" id="customFile" name="images" multiple>
+              </div>
+
+              <div class="mb-3">
+                <label for="productName" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="productName" name="productName">
+                <div id="productNameError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productDescription" class="form-label">Description</label>
+                <input type="text" class="form-control" id="productDescription" name="productDescription">
+                <div id="productDescriptionError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productCategory" class="form-label">Category</label>
+                <input type="text" class="form-control" id="productCategory" name="productCategory">
+                <div id="productCategoryError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productBrand" class="form-label">Brand</label>
+                <input type="text" class="form-control" id="productBrand" name="productBrand">
+                <div id="productBrandError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productConnectivity" class="form-label">Connectivity</label>
+                <input type="text" class="form-control" id="productConnectivity" name="productConnectivity">
+                <div id="productConnectivityError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productColor" class="form-label">Color</label>
+                <input type="text" class="form-control" id="productColor" name="productColor">
+                <div id="productColorError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productPrice" class="form-label">Price</label>
+                <input type="text" class="form-control" id="productPrice" name="productPrice">
+                <div id="productPriceError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productQuantity" class="form-label">Quantity</label>
+                <input type="text" class="form-control" id="productQuantity" name="productQuantity">
+                <div id="productQuantityError" class="error-message"></div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary" onclick="addProduct()">Save</button>
+              </div>
+              {{#if addproduct}}
+              <p>Image Uploaded to Cloudinary</p>
+              {{/if}}
+
+              {{#if addproduct}}
+              <script>
+                Swal.fire({
+                  icon: "error",
+                  title: "Oops...",
+                  text: "No files uploaded.",
+                  footer: '<a href="#">Why do I have this issue?</a>'
+                });
+              </script>
+              {{/if}}
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <p></p>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Add Product Modal -->
+    <script>
+      function openAddProductModal() {
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.show();
+      }
+
+      function closeAddProductModal() {
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.hide();
+      }
+
+      function addProduct() {
+
+        var productImage = document.getElementById('productImage').value;
+        var productImage = document.getElementById('productImage').value;
+        var productImage = document.getElementById('productImage').value;
+        var productName = document.getElementById('productName').value;
+        var productDescription = document.getElementById('productDescription').value;
+        var productCategory = document.getElementById('productCategory').value;
+        var productBrand = document.getElementById('productBrand').value;
+        var productConnectivity = document.getElementById('productConnectivity').value;
+        var productColor = document.getElementById('productColor').value;
+        var productPrice = document.getElementById('productPrice').value;
+        var productQuantity = document.getElementById('productQuantity').value;
+
+        var isValid = true;
+
+
+        if (productName.trim() === '') {
+          displayErrorMessage('productNameError', 'Please enter a product name');
+          isValid = false;
+        }
+
+        if (productDescription.trim() === '') {
+          displayErrorMessage('productDescriptionError', 'Please enter a product description');
+          isValid = false;
+        }
+
+        if (productCategory.trim() === '') {
+          displayErrorMessage('productCategoryError', 'Please enter a product category');
+          isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(productCategory)) {
+          displayErrorMessage('productCategoryError', 'Category must contain only letters and spaces');
+          isValid = false;
+        }
+
+        if (productBrand.trim() === '') {
+          displayErrorMessage('productBrandError', 'Please enter a product brand');
+          isValid = false;
+        } else if (!/^[a-zA-Z\s]+$/.test(productBrand)) {
+          displayErrorMessage('productBrandError', 'Brand must contain only letters and spaces');
+          isValid = false;
+        }
+
+        if (productConnectivity.trim() === '') {
+          displayErrorMessage('productConnectivityError', 'Please enter product connectivity');
+          isValid = false;
+        } else if (!/^[a-zA-Z0-9\s]+$/.test(productConnectivity)) {
+          displayErrorMessage('productConnectivityError', 'Connectivity must contain only letters, numbers, and spaces');
+          isValid = false;
+        }
+
+        if (productColor.trim() === '') {
+          displayErrorMessage('productColorError', 'Please enter product color');
+          isValid = false;
+        } else if (!/^[a-zA-Z0-9\s]+$/.test(productColor)) {
+          displayErrorMessage('productColorError', 'Color must contain only letters, numbers, and spaces');
+          isValid = false;
+        }
+
+        if (productPrice.trim() === '') {
+          displayErrorMessage('productPriceError', 'Please enter product price');
+          isValid = false;
+        } else if (!/^\d+$/.test(productPrice)) {
+          displayErrorMessage('productPriceError', 'Price must contain only numbers');
+          isValid = false;
+        }
+
+        if (productQuantity.trim() === '') {
+          displayErrorMessage('productQuantityError', 'Please enter product quantity');
+          isValid = false;
+        } else if (!/^\d+$/.test(productQuantity)) {
+          displayErrorMessage('productQuantityError', 'Quantity must contain only numbers');
+          isValid = false;
+        }
+
+        if (!isValid) {
+          return;
+        }
+
+        axios.post('/product/upload', {
+          productName,
+          productDescription,
+          productCategory,
+          productBrand,
+          productConnectivity,
+          productColor,
+          productPrice,
+          productQuantity
+        })
+          .then(response => {
+            console.log('Product added successfully:', response.data);
+            window.location.href = '/admin/product';
+          })
+          .catch(error => {
+            console.error('Error adding product:', error);
+          });
+      }
+
+      function displayErrorMessage(id, message) {
+        document.getElementById(id).innerHTML = message;
+      }
+    </script>
+
+
+    <!-- Edit Product Modal -->
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
+            {{!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
+          </div>
+          <div class="modal-body">
+            <form id="editProductForm">
+              <div class="custom-file">
+                <label class="form-label" for="customFile">Image</label>
+                <input type="file" class="form-control" id="editProductImage" name="images" value="" multiple>
+              </div>
+              <div class="custom-file">
+                <label class="form-label" for="customFile">Image</label>
+                <input type="file" class="form-control" id="editProductImage" name="images" value="" multiple>
+              </div>
+
+              <div class="custom-file">
+                <label class="form-label" for="customFile">Image</label>
+                <input type="file" class="form-control" id="editProductImage" name="images" value="" multiple>
+              </div>
+
+              <div class="mb-3">
+                <label for="productName" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="editProductName" name="productName"
+                  value="{{this.productName}}">
+                <div id="productNameError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productDescription" class="form-label">Description</label>
+                <input type="text" class="form-control" id="editProductDescription" name="productDescription"
+                  value="{{this.productDescription}}">
+                <div id="productDescriptionError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productCategory" class="form-label">Category</label>
+                <input type="text" class="form-control" id="editProductCategory" name="productCategory"
+                  value="{{this.productCategory}}">
+                <div id="productCategoryError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productBrand" class="form-label">Brand</label>
+                <input type="text" class="form-control" id="editProductBrand" name="productBrand"
+                  value="{{this.productBrand}}">
+                <div id="productBrandError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productConnectivity" class="form-label">Connectivity</label>
+                <input type="text" class="form-control" id="editProductConnectivity" name="productConnectivity"
+                  value="{{this.productConnectivity}}">
+                <div id="productConnectivityError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productColor" class="form-label">Color</label>
+                <input type="text" class="form-control" id="editProductColor" name="productColor"
+                  value="{{this.productColor}}">
+                <div id="productColorError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productPrice" class="form-label">Price</label>
+                <input type="text" class="form-control" id="editProductPrice" name="productPrice"
+                  value="{{this.productPrice}}">
+                <div id="productPriceError" class="error-message"></div>
+              </div>
+
+              <div class="mb-3">
+                <label for="productQuantity" class="form-label">Quantity</label>
+                <input type="text" class="form-control" id="editProductQuantity" name="editProductQuantity"
+                  value="{{this.productQuantity}}">
+                <div id="productQuantityError" class="error-message"></div>
+              </div>
+
+              <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+              </div>
+
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function editProduct(
+
+        id,
+        productName,
+        productCategory,
+        productColor,
+        productBrand,
+        productPrice,
+        productQuantity,
+        productDescription,
+        productConnectivity
+      ) {
+        $('#editProductName').val(productName),
+          $('#editProductCategory').val(productCategory);
+        $('#editProductColor').val(productColor);
+        $('#editProductPrice').val(productPrice);
+        $('#editProductBrand').val(productBrand);
+        $('#editProductQuantity').val(productQuantity);
+        $('#editProductDescription').val(productDescription);
+        $('#editProductConnectivity').val(productConnectivity);
+
+        var editProductModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+        editProductModal.show();
+
+        $('#editProductForm').on('submit', function (e) {
+          e.preventDefault();
+
+          const updatedData = {
+            productName: $('#editProductName').val(),
+            productCategory: $('#editProductCategory').val(),
+            productColor: $('#editProductColor').val(),
+            productPrice: $('#editProductPrice').val(),
+            productBrand: $('#editProductBrand').val(),
+            productQuantity: $('#editProductQuantity').val(),
+            productDescription: $('#editProductDescription').val(),
+            productConnectivity: $('#editProductConnectivity').val(),
+          };
+
+          const productId = id;
+
+          updateProductDetails(productId, updatedData);
+        });
+      }
+
+      function updateProductDetails(productId, updatedData) {
+
+        const baseUrl = '/admin/products/';
+
+        fetch(`${baseUrl}${productId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updatedData),
+        })
+          .then(response => {
+            if (!response.ok) {
+              throw new Error(`Error updating product: ${response.status}`);
+            }
+            return response.json();
+          })
+          .then(data => {
+            console.log('Product updated successfully:', data);
+            window.location.reload()
+
+          })
+          .catch(error => {
+            console.error('Error updating product:', error);
+          });
+      }
+    </script>
+
+
+    <script>
+      function deleteProduct(productId, productRow) {
+        fetch(`/admin/products/${productId}`, {
+          method: 'DELETE'
+        })
+          .then(response => {
+            if (response.ok) {
+              console.log('Product deleted');
+              if (productRow) {
+                productRow.remove();
+              }
+            } else {
+              console.error('Error deleting product:', response.status);
+            }
+          })
+          .catch(error => {
+            console.error('Fetch error:', error);
+          });
+      }
+    </script>
+
+    <script>
+      function viewProduct(
+        id,
+        productName,
+        productDescription,
+        productCategory,
+        productBrand,
+        productConnectivity,
+        productColor,
+        productPrice,
+        productQuantity
+      ) {
+        $('#editProductName').val(productName);
+        $('#editProductCategory').val(productCategory);
+        $('#editProductColor').val(productColor);
+        $('#editProductPrice').val(productPrice);
+        $('#editProductBrand').val(productBrand);
+        $('#editProductQuantity').val(productQuantity);
+        $('#editProductDescription').val(productDescription);
+        $('#editProductConnectivity').val(productConnectivity);
+
+        $('#editProductModal').modal('show'); // Show the modal
+      }
+    </script>
+
+
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        var indexingElements = document.querySelectorAll(".indexing");
+
+        indexingElements.forEach(function (element, index) {
+          element.textContent = index + 1;
+        });
+      });
+    </script>
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/popper.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+
+</body>
+
+</html>

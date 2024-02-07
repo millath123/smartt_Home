@@ -1,0 +1,573 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Sidebar 09</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap/utilities/_stretched-link.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap/_media.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        th.border-bottom {
+            border-bottom: 2px solid #000;
+
+            text-align: center;
+
+        }
+
+        .profimg {
+            width: 120px;
+            height: 120px;
+            border-radius: 100%;
+
+        }
+
+        .profilename {}
+
+        td {
+            text-align: center;
+
+        }
+
+        .custom-view-button,
+        .custom-edit-button,
+        .custom-delete-button {
+            color: rgb(24, 23, 23);
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-banner-btn {
+            background-color: rgb(51, 192, 93);
+            border: none;
+            margin: 10px;
+            padding: 5px;
+            border-radius: 5%;
+            color: white;
+            justify-content: end;
+        }
+
+        .custom-edit-button,
+        .custom-delete-button {
+            color: black;
+        }
+
+        #addBannerModal {
+            display: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 500px;
+            max-height: 500px;
+            width: 100%;
+        }
+
+        .modal-content {
+            background-color: #f1f1f1;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Style for form elements */
+        .form-control {
+            width: 100%;
+            margin-bottom: 10px;
+            height: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-control textarea {
+            resize: none;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                </button>
+            </div>
+            <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+                <div class="user-logo">
+                    {{!-- <div><img src="/public/images/logo-only.jpg" alt="kkk"></div> --}}
+
+                    <div style="font-family: Fantasy;  font-size: 37px; padding-bottom:10px; color:rgb(185, 152, 112);">
+                        SmartHome
+                    </div>
+
+                    <div><img class="profimg"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1gc6iKFF08AO-tJb3gAsQPPJP7yS27pPmg&usqp=CAU"
+                            alt=""></div>
+                    <h3 class="profilename">ADILA MILLATH C</h3>
+                </div>
+            </div>
+            <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a href="#"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
+                </li>
+                <li>
+                    <a href="/admin/users"><span class="fa fa-users mr-3 notif"></span> USERS</a>
+                </li>
+                <li>
+                    <a href="/admin/category"><span class="fa fa-trophy mr-3"></span>CATEGORY</a>
+                </li>
+                <li>
+                    <a href="/admin/product"><span class="fa fa-th mr-3"></span>PRODUCTS</a>
+                </li>
+                <li>
+                    <a href="/admin/banner"><span class="fa fa-cog mr-3"></span> BANNERS</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-trophy mr-3"></span> Top Review</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
+                </li>
+                <li>
+                    <a href="/admin/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+                </li>
+            </ul>
+
+        </nav>
+
+        <div class="container">
+            <br><br><br>
+            <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Banners</h1>
+
+            <button class="btn btn-primary add-banner-btn" onclick="openAddBannerModal()">Add Product</button>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col" class="border-bottom">ID</th>
+                            <th scope="col" class="border-bottom">Banner Image</th>
+                            <th scope="col" class="border-bottom">Product Name</th>
+                            <th scope="col" class="border-bottom">Announcement</th>
+                            <th scope="col" class="border-bottom">Discription</th>
+                            <th scope="col" class="border-bottom">price</th>
+                            <th scope="col" class="border-bottom">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userList">
+                        {{#each banner}}
+                        <tr>
+                            <td class="indexing">{{@index}}</td>
+                            <td><img src={{this.bannerImage.[0]}} width="30px" height="30px"></td>
+                            <td>{{this.bannerProduct}}</td>
+                            <td>{{this.bannerAnnouncement}}</td>
+                            <td>{{this.bannerDescription}}</td>
+                            <td>{{this.bannerPrice}}</td>
+                            <td>
+                                <button class="btn custom-view-button" onclick="viewBanner('{{this.id}}','{{this.bannerImage}}'{{this.bannerAnnouncement}}','{{this.bannerDescription}}','{{this.bannerProduct}}',
+    '{{this.bannerPrice}}')">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button>
+
+
+
+                                <button class="btn custom-edit-button"
+                                    onclick="editBanner('{{this.id}}','{{this.bannerImage}}'{{this.bannerAnnouncement}}','{{this.bannerDescription}}','{{this.bannerProduct}}')">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+
+
+                                <button class="btn custom-delete-button"
+                                    onclick="deleteBanner('{{this.id}}', this.parentNode.parentNode)">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!-- Add Banner Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Banner</h5>
+                        {{!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button> --}}
+                    </div>
+                    <div class="modal-body">
+                        <form id="addBannerForm" action="/banner/addBanner" method="post" enctype="multipart/form-data">
+
+                            <div class="custom-file">
+                                <label class="form-label" for="customFile">Image</label>
+                                <input type="file" class="form-control" id="bannerImage" name="bannerImage" multiple>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="bannerProduct" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="bannerProduct" name="bannerProduct">
+                                <div id="bannerProductError" class="error-message"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bannerDescription" class="form-label">Description</label>
+                                <input type="text" class="form-07aA" id="bannerDescription" name="bannerDescription">
+                                <div id="bannerDescriptionError" class="error-message"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bannerAnnouncement" class="form-label">Announcement
+                                </label>
+                                <input type="text" class="form-control" id="bannerAnnouncement"
+                                    name="bannerAnnouncement">
+                                <div id="bannerAnnouncementError" class="error-message"></div>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="bannerPrice" class="form-label">Offer Price</label>
+                                <input type="text" class="form-control" id="bannerPrice" name="bannerPrice">
+                                <div id="bannerPriceError" class="error-message"></div>
+                            </div>
+
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary" onclick="addBanner()">Save</button>
+                            </div>
+                            {{#if addbanner}}
+                            <p>Image Uploaded to Cloudinary</p>
+                            {{/if}}
+
+                            {{#if addbanner}}
+                            <script>
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "No files uploaded.",
+                                    footer: '<a href="#">Why do I have this issue?</a>'
+                                });
+                            </script>
+                            {{/if}}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Add Banner Modal -->
+        <script>
+            function openAddBannerModal() {
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }
+
+            function closeAddBannerModal() {
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.hide();
+            }
+
+            function addBanner() {
+
+                var bannerImage = document.getElementById('bannerImage').value;
+                var bannerProduct = document.getElementById('bannerProduct').value;
+                var bannerAnnouncement = document.getElementById('bannerAnnouncement').value;
+                var bannerDescription = document.getElementById('bannerDescription').value;
+                var bannerPrice = document.getElementById('bannerPrice').value;
+                var isValid = true;
+
+
+                if (bannerProduct.trim() === '') {
+                    displayErrorMessage('bannerProductError', 'Please enter a product name');
+                    isValid = false;
+                }
+
+                if (productDescription.trim() === '') {
+                    displayErrorMessage('bannerDescriptionError', 'Please enter a  description');
+                    isValid = false;
+                }
+
+                if (bannerAnnouncement.trim() === '') {
+                    displayErrorMessage('bannerAnnouncementError', 'Please enter a Announcement');
+                    isValid = false;
+                } else if (!/^[a-zA-Z\s]+$/.test(productCategory)) {
+                    displayErrorMessage('bannerAnnouncementError', 'bannerAnnouncement must contain only letters and spaces');
+                    isValid = false;
+                }
+
+
+                if (bannerPrice.trim() === '') {
+                    displayErrorMessage('bannerPrice', 'Please enter product price');
+                    isValid = false;
+                } else if (!/^\d+$/.test(bannerPrice)) {
+                    displayErrorMessage('bannerPrice', 'Price must contain only numbers');
+                    isValid = false;
+                }
+
+
+
+                if (!isValid) {
+                    return;
+                }
+
+                axios.post('/banner/addBanner', {
+                    bannerImage,
+                    bannerProduct,
+                    bannerAnnouncement,
+                    bannerDescription,
+                    bannerPrice,
+
+                })
+                    .then(response => {
+                        console.log('Banner added successfully:', response.data);
+                        window.location.href = '/admin/banner';
+                    })
+                    .catch(error => {
+                        console.error('Error adding product:', error);
+                    });
+            }
+
+            function displayErrorMessage(id, message) {
+                document.getElementById(id).innerHTML = message;
+            }
+        </script>
+
+
+        <!-- Edit Banner Modal -->
+        <div class="modal fade" id="editBannerModal" tabindex="-1" aria-labelledby="editBannerModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit Banner</h5>
+                        {{!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button> --}}
+                    </div>
+                    <div class="modal-body">
+                        <form id="editBannerForm">
+                            <div class="custom-file">
+                                <label class="form-label" for="customFile">Image</label>
+                                <input type="file" class="form-control" id="editBannerImage" name="images" value=""
+                                    multiple>
+                            </div>
+                            <div class="custom-file">
+                                <label class="form-label" for="customFile">Image</label>
+                                <input type="file" class="form-control" id="editBannerImage" name="images" value="">
+                            </div>
+
+                            <div class="custom-file">
+                                <label class="form-label" for="customFile">Image</label>
+                                <input type="file" class="form-control" id="editBannerImage" name="images" value=""
+                                    multiple>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bannerProduct" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="editBannerName" name="bannerProduct"
+                                    value="{{this.bannerProduct}}">
+                                <div id="bannerProductError" class="error-message"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bannerDescription" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="editBannerDescription"
+                                    name="bannerDescription" value="{{this.bannerDescription}}">
+                                <div id="bannerDescriptionError" class="error-message"></div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="bannerAnnouncement" class="form-label">Announcement</label>
+                                <input type="text" class="form-control" id="editBannerAnnouncement"
+                                    name="bannerAnnouncement" value="{{this.productCategory}}">
+                                <div id="bannerAnnouncementError" class="error-message"></div>
+                            </div>
+
+
+                            <div class="mb-3">
+                                <label for="bannerPrice" class="form-label">Price</label>
+                                <input type="text" class="form-control" id="editBannerPrice" name="bannerPrice"
+                                    value="{{this.bannerPrice}}">
+                                <div id="bannerPriceError" class="error-message"></div>
+                            </div>
+
+
+
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function editBanner(
+
+                id,
+                bannerImage,
+                bannerProduct,
+                bannerAnnouncement,
+                bannerDescription,
+                bannerPrice,
+            ) {
+                $('#editBnnerImage').val(bannerImage)
+                $('#editBannerProduct').val(bannerProduct),
+                    $('#editBannerAnnouncement').val(bannerAnnouncement);
+                $('#editBannerDescription').val(bannerDescription);
+                $('#editbannerPrice').val(bannerPrice);
+
+                var editBannerModal = new bootstrap.Modal(document.getElementById('editBannerModal'));
+                editBannerModal.show();
+
+                $('#editBannerForm').on('submit', function (e) {
+                    e.preventDefault();
+
+                    const updatedData = {
+                        bannerImage: $('#editBannerImage').val(),
+                        bannerProduct: $('#editBannerProduct').val(),
+                        bannerAnnouncement: $('#editBannerAnnouncement').val(),
+                        bannerPrice: $('#editBannerPrice').val(),
+                        bannerDescription: $('#editannerDescription').val(),
+                    };
+
+                    const BANNERId = id;
+
+                    updateBannerDetails(bannerId, updatedData);
+                });
+            }
+
+            function updateBannerDetails(bannerId, updatedData) {
+
+                const baseUrl = '/admin/banner/';
+
+                fetch(`${baseUrl}${bannerId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(updatedData),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error(`Error updating Banner: ${response.status}`);
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Banner updated successfully:', data);
+                        window.location.reload()
+
+                    })
+                    .catch(error => {
+                        console.error('Error updating Banner:', error);
+                    });
+            }
+        </script>
+
+
+        <script>
+            function deleteBanner(bannerId, bannerRow) {
+                fetch(`/admin/banner/${bannerId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Product deleted');
+                            if (bannerRow) {
+                                bannerRow.remove();
+                            }
+                        } else {
+                            console.error('Error deleting banner:', response.status);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                    });
+            }
+        </script>
+
+        <script>
+            function viewBanner(
+                id,
+                bannerImage,
+                bannerProduct,
+                bannerAnnouncement,
+                bannerDescription,
+                bannerPrice,
+
+            ) {
+                $('#editBnnerImage').val(bannerImage);
+                $('#editBannerProduct').val(bannerProduct);
+                $('#editBannerAnnouncement').val(bannerAnnouncement);
+                $('#editBannerDescription').val(bannerDescription);
+                $('#editbannerPrice').val(bannerPrice);
+
+
+                $('#editBannerModal').modal('show'); // Show the modal
+            }
+        </script>
+
+
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var indexingElements = document.querySelectorAll(".indexing");
+
+                indexingElements.forEach(function (element, index) {
+                    element.textContent = index + 1;
+                });
+            });
+        </script>
+
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../assets/js/popper.js"></script>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/main.js"></script>
+
+</body>
+
+</html>

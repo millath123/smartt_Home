@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Sidebar 09</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap/utilities/_stretched-link.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap/_media.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .profimg {
+            width: 120px;
+            height: 120px;
+            border-radius: 100%;
+
+        }
+
+        #editUserModal {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            background-color: #2196F3;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            padding-bottom: 50px;
+        }
+
+        .modalSave {
+            margin-bottom: 25px;
+        }
+
+        .modal-content {
+            padding: 20px;
+            color: #030303;
+
+        }
+
+        .close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #0c0c0c;
+        }
+
+        h2 {
+            color: black;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button[type="submit"] {
+            background-color: #4e42ee;
+            ;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            padding-bottom: 30px;
+        }
+
+        .custom-table th {
+            background-color: #fdf9f9;
+            color: black;
+            font-weight: bold;
+            font-size: larger;
+            font-family: "Times New Roman", Times, serif;
+
+        }
+
+        .custom-edit-button {
+            color: #4e42ee;
+            border: none;
+            cursor: pointer;
+        }
+
+        .custom-delete-button {
+            color: #f10909;
+            border: none;
+            cursor: pointer;
+        }
+
+        .custom-table td {
+            box-shadow: #636161;
+            background-color: white;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                </button>
+            </div>
+            <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+                <div class="user-logo">
+                    {{!-- <div><img src="/public/images/logo-only.jpg" alt="kkk"></div> --}}
+
+                    <div style="font-family: Fantasy;  font-size: 37px; padding-bottom:10px; color:rgb(185, 152, 112);">
+                        SmartHome</div>
+
+                    <div><img class="profimg"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1gc6iKFF08AO-tJb3gAsQPPJP7yS27pPmg&usqp=CAU"
+                            alt=""></div>
+                    <h3 class="profilename">ADILA MILLATH C</h3>
+                </div>
+            </div>
+            <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a href="#"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
+                </li>
+                <li>
+                    <a href="/admin/users"><span class="fa fa-users mr-3 notif"></small></span> USERS</a>
+                </li>
+                
+                <li>
+                    <a href="/admin/product"><span class="fa fa-th mr-3"></span>PRODUCTS</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-trophy mr-3"></span> Top Review</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+                </li>
+                <li>
+                    <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
+                </li>
+                <li>
+                <a href="/admin/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+                </li>
+            </ul>
+
+        </nav>
+
+        <!-- Page Content  -->
+
+        <div class="container mt-5">
+            <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Users List</h1>
+            <br>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">FULL NAME</th>
+                                <th scope="col">PHONE NUMBER</th>
+                                <th scope="col">EMAIL</th>
+                                <th scope="col">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody id="userList">
+                            {{#each users}}
+                            <tr>
+                                <th class="indexing">{{@index}}</th>
+                                <td>{{this.fullName}}</td>
+                                <td>{{this.phoneNumber}}</td>
+                                <td>{{this.email}}</td>
+                                <td>
+                                    <button class="custom-edit-button"
+                                        onclick="editUser('{{this.id}}','{{this.fullName}}','{{this.phoneNumber}}','{{this.email}}')">
+                                        <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </button>
+                                    <button class="custom-delete-button" onclick="deleteUser('{{this.id}}')">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            {{/each}}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Edit User Modal -->
+        <div id="editUserModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeEditUserModal()">&times;</span>
+                <h2>Edit User</h2>
+                <form id="editUserForm">
+                    <input type="hidden" id="editUserId">
+                    <label for="editFullName">Full Name:</label>
+                    <input type="text" id="editFullName">
+                    <label for="editPhoneNumber">Phone Number:</label>
+                    <input type="text" id="editPhoneNumber">
+                    <label for="editEmail">Email:</label>
+                    <input type="text" id="editEmail">
+                    <button type="submit">Save Changes</button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function deleteUser(userId) {
+                fetch(`/admin/users/${userId}`, {
+                    method: 'DELETE',
+                })
+                    .then((response) => {
+                        if (response.status === 204) {
+                            const userRow = document.getElementById(userId);
+                            if (userRow) {
+                                userRow.remove();
+                            }
+                        } else if (response.status === 404) {
+                            console.error('User not found.');
+                        } else {
+                            console.error('Error deleting user:', response.status);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+            }
+        </script>
+
+
+        <script>
+            function editUser(id, fullName, phoneNumber, email) {
+                document.getElementById('editUserId').value = id;
+                document.getElementById('editFullName').value = fullName;
+                document.getElementById('editPhoneNumber').value = phoneNumber;
+                document.getElementById('editEmail').value = email;
+
+                document.getElementById('editUserModal').style.display = 'block';
+            }
+
+            function closeEditUserModal() {
+                document.getElementById('editUserModal').style.display = 'none';
+            }
+
+            // Function to handle form submission for editing a user
+            document.getElementById('editUserForm').addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                const userId = document.getElementById('editUserId').value;
+                const fullName = document.getElementById('editFullName').value;
+                const phoneNumber = document.getElementById('editPhoneNumber').value;
+                const email = document.getElementById('editEmail').value;
+
+                console.log(userId);
+
+                fetch(`/admin/users/${userId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ fullName, phoneNumber, email }),
+                })
+                    .then((response) => {
+                        if (response.status === 200) {
+
+                            window.location.reload()
+
+                        } else {
+                            console.error('Error updating user:', response.status);
+                        }
+                    })
+                    .catch((error) => {
+                        console.error('Error updating user:', error);
+                    });
+            });
+        </script>
+
+        <!-- Overlay -->
+        <div class="layout-overlay layout-menu-toggle"></div>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var indexingElements = document.querySelectorAll(".indexing");
+
+            indexingElements.forEach(function (element, index) {
+                element.textContent = index + 1;
+            });
+        });
+    </script>
+    <!-- / Layout wrapper -->
+
+
+    {{!-- <div class="modal fade" id="changePasswordModal" data-bs-backdrop="static" tabindex="-1">
+        <div class="modal-dialog">
+            <form class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="changePasswordModalTitle">Change Password</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="emailChange" class="form-label">Email</label>
+                            <input type="email" id="emailChange" class="form-control" placeholder="Enter Email" />
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col mb-0">
+                            <label for="oldPassword" class="form-label">Old Password</label>
+                            <input type="password" id="oldPassword" class="form-control"
+                                placeholder="Enter Old Password" />
+                        </div>
+                        <div class="col mb-0">
+                            <label for="newPassword" class="form-label">New Password</label>
+                            <input type="password" id="newPassword" class="form-control"
+                                placeholder="Enter New Password" />
+                        </div>
+                    </div>
+                    <div class="row g-2">
+                        <div class="col mb-0">
+                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                            <input type="password" id="confirmPassword" class="form-control"
+                                placeholder="Confirm New Password" />
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                    <button type="button" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div> --}}
+
+    <script src="../assets/js/jquery.min.js"></script>
+    <script src="../assets/js/popper.js"></script>
+    <script src="../assets/js/bootstrap.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

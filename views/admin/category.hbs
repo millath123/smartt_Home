@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Sidebar 09</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap/utilities/_stretched-link.css">
+    <link rel="stylesheet" href="../assets/css/bootstrap/_media.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        th.border-bottom {
+            border-bottom: 2px solid #000;
+
+            text-align: center;
+
+        }
+
+        .profimg {
+            width: 120px;
+            height: 120px;
+            border-radius: 100%;
+
+        }
+
+        .profilename {}
+
+        td {
+            text-align: center;
+
+        }
+
+        .custom-view-button,
+        .custom-edit-button,
+        .custom-delete-button {
+            color: rgb(24, 23, 23);
+            border: none;
+            cursor: pointer;
+        }
+
+        .add-product-btn {
+            background-color: rgb(51, 192, 93);
+            border: none;
+            margin: 10px;
+            padding: 5px;
+            border-radius: 5%;
+            color: white;
+            justify-content: end;
+        }
+
+        .custom-edit-button,
+        .custom-delete-button {
+            color: black;
+        }
+
+        #addProductModal {
+            display: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 500px;
+            max-height: 500px;
+            width: 100%;
+        }
+
+        .modal-content {
+            background-color: #f1f1f1;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        /* Style for form elements */
+        .form-control {
+            width: 100%;
+            margin-bottom: 10px;
+            height: 20px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .form-control textarea {
+            resize: none;
+        }
+
+        .error-message {
+            color: red;
+        }
+    </style>
+
+
+</head>
+
+<body>
+
+    <div class="wrapper d-flex align-items-stretch">
+        <nav id="sidebar">
+            <div class="custom-menu">
+                <button type="button" id="sidebarCollapse" class="btn btn-primary">
+                </button>
+            </div>
+            <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
+                <div class="user-logo">
+                    {{!-- <div><img src="/public/images/logo-only.jpg" alt="kkk"></div> --}}
+
+                    <div style="font-family: Fantasy;  font-size: 37px; padding-bottom:10px; color:rgb(185, 152, 112);">
+                        SmartHome
+                    </div>
+
+                    <div><img class="profimg"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1gc6iKFF08AO-tJb3gAsQPPJP7yS27pPmg&usqp=CAU"
+                            alt=""></div>
+                    <h3 class="profilename">ADILA MILLATH C</h3>
+                </div>
+            </div>
+            <ul class="list-unstyled components mb-5">
+                <li class="active">
+                    <a href="#"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
+                </li>
+                <li>
+                    <a href="/admin/users"><span class="fa fa-users mr-3 notif"></span> USERS</a>
+                </li>
+                <li>
+                    <a href="/admin/category"><span class="fa fa-trophy mr-3"></span>CATEGORY</a>
+                </li>
+                <li>
+                    <a href="/admin/product"><span class="fa fa-th mr-3"></span>PRODUCTS</a>
+                </li>
+                <li>
+          <a href="/admin/banner"><span class="fa fa-cog mr-3"></span> BANNERS</a>
+        </li>
+                <li>
+                    <a href=""><span class="fa fa-cog mr-3"></span> Settings</a>
+                </li>
+                <li>
+                    <a href=""><span class="fa fa-support mr-3"></span> Support</a>
+                </li>
+                <li>
+                    <a href="/admin/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
+                </li>
+            </ul>
+
+        </nav>
+
+        <div class="container">
+            <br><br><br>
+            <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Category List</h1>
+
+            <button class="btn btn-primary add-product-btn" onclick="openAddCategoryModal()">Add Category</button>
+
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead class="thead">
+                        <tr>
+                            <th scope="col" class="border-bottom">ID</th>
+                            <th scope="col" class="border-bottom">Category Image</th>
+                            <th scope="col" class="border-bottom">Category Name</th>
+                            <th scope="col" class="border-bottom">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="userList">
+                        {{#each category}}
+                        <tr>
+                            <td class="indexing">{{@index}}</td>
+                            <td><img src={{this.categoryImage}} width="30px" height="30px"></td>
+                            <td>{{this.categoryName}}</td>
+                            <td>
+                                {{!-- <button class="btn custom-view-button"
+                                    onclick="viewProduct('{{this.id}}','{{this.categoryName}}','{{this.categoryName}}')">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                </button> --}}
+
+                                <button class="btn custom-edit-button"
+                                    onclick="openEditCategoryModal('{{this.id}}','{{this.categoryName}}','{{this.categoryImage}}')">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                </button>
+
+                                <button class="btn custom-delete-button"
+                                    onclick="deleteCategory('{{this.id}}', this.parentNode.parentNode)">
+                                    <i class="fa fa-trash" aria-hidden="true"></i>
+                                </button>
+                            </td>
+                        </tr>
+                        {{/each}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+        <!-- Add Product Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Category</h5>
+                        {{!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Close"></button> --}}
+                    </div>
+                    <div class="modal-body">
+                        <form id="addCategoryForm" action="/category/upload" method="post"
+                            enctype="multipart/form-data">
+                            <label for="customFile">Image</label>
+                            <input type="file" class="form-control" id="customFile" name="image">
+                            <label for="categoryName" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="categoryName" name="categoryName">
+                            <!-- Other form fields for category name, etc. -->
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            {{#if addcategory}}
+                            <p>Image Uploaded to Cloudinary</p>
+                            {{/if}}
+
+                            {{#if addcategory}}
+                            <script>
+                                Swal.fire({
+                                    icon: "error",
+                                    title: "Oops...",
+                                    text: "No files uploaded.",
+                                    footer: '<a href="#">Why do I have this issue?</a>'
+                                });
+                            </script>
+                            {{/if}}
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <p></p>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+        <!-- Add Category Modal -->
+        <script>
+            function openAddCategoryModal() {
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
+            }
+
+            function closeAddCategoryModal() {
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.hide();
+            }
+
+            function addCategory() {
+                var productName = document.getElementById('CategoryImage').value;
+                var productName = document.getElementById('categorytName').value;
+                var isValid = true;
+
+
+                if (categoryName.trim() === '') {
+                    displayErrorMessage('categoryNameError', 'Please enter a category name');
+                    isValid = false;
+                }
+
+                if (!isValid) {
+                    return;
+                }
+
+                axios.post('/category/upload', {
+                    categoryName,
+                })
+                    .then(response => {
+                        console.log('category added successfully:', response.data);
+                        window.location.href = '/admin/category';
+                    })
+                    .catch(error => {
+                        console.error('Error adding category:', error);
+                    });
+            }
+
+            function displayErrorMessage(id, message) {
+                document.getElementById(id).innerHTML = message;
+            }
+        </script>
+
+
+        <!-- Edit Category Modal -->
+        <div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editCategoryModalLabel">Edit Category</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editCategoryForm">
+                            <input type="hidden" id="editCategoryId">
+                            <label for="editCategoryName" class="form-label">Category Name</label>
+                            <input type="text" class="form-control" id="editCategoryName" name="editCategoryName">
+                            <label for="customFile" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="customFile" name="image"
+                                onchange="handleFileSelect(event)">
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="submitEditCategory()">Save
+                            changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function deleteCategory(categoryId, categoryRow) {
+                fetch(`/admin/category/${categoryId}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => {
+                        if (response.ok) {
+                            console.log('Category deleted');
+                            if (categoryRow) {
+                                categoryRow.remove();
+                            }
+                        } else {
+                            console.error('Error deleting category:', response.status);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Fetch error:', error);
+                    });
+            }
+        </script>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var indexingElements = document.querySelectorAll(".indexing");
+
+                indexingElements.forEach(function (element, index) {
+                    element.textContent = index + 1;
+                });
+            });
+        </script>
+
+<!-- Edit Category Modal -->
+<div class="modal fade" id="editCategoryModal" tabindex="-1" aria-labelledby="editCategoryModalLabel"
+    aria-hidden="true">
+    <!-- ... Other modal content ... -->
+    <div class="modal-body">
+        <form id="editCategoryForm">
+            <input type="hidden" id="editCategoryId">
+            <label for="editCategoryName" class="form-label">Category Name</label>
+            <input type="text" class="form-control" id="editCategoryName" name="editCategoryName">
+            <!-- Additional input fields for editing category information -->
+        </form>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" onclick="submitEditCategory()">Save changes</button>
+    </div>
+</div>
+
+
+
+
+        <script>
+            function openEditCategoryModal(categoryId, categoryName, categoryImage) {
+    document.getElementById('editCategoryId').value = categoryId;
+    document.getElementById('editCategoryName').value = categoryName;
+
+    var modal = new bootstrap.Modal(document.getElementById('editCategoryModal'));
+    modal.show();
+}
+
+function submitEditCategory() {
+    const categoryId = document.getElementById('editCategoryId').value;
+    const categoryName = document.getElementById('editCategoryName').value;
+
+    axios.put(`/admin/category/${categoryId}`, {
+        categoryName,
+    })
+    .then(response => {
+        console.log('Category updated successfully:', response.data);
+        window.location.href = '/admin/category'; 
+    })
+    .catch(error => {
+        console.error('Error updating category:', error);
+    });
+}
+
+        </script>
+
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../assets/js/popper.js"></script>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/main.js"></script>
+</body>
+
+</html>

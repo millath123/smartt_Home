@@ -11,8 +11,8 @@ router.get('/adminLogin',adminController.adminLoginGetPage)
  router.get('/dashboard',isAuthenticated,adminController.adminLoginGgetPage)
 router.post('/adminLogin',adminController.adminLoginPostPage)
 router.get('/adminLogout',isAuthenticated,adminController.adminLogoutPage)
-
 router.post('/dashboard',adminController.adminDshboard)
+
 
 // router.get('/dashboard',adminController.adminDshboard)
 // router.get('/dashboard',adminController.adminDshboard)

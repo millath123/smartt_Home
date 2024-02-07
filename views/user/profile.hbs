@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+        body {
+            background-color: rgb(230, 230, 247);
+        }
+
+        input {
+            margin-bottom: 7px;
+        }
+
+        #defaultAddress {
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            height: 250px;
+        }
+
+        #addadress2 {
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+
+        }
+
+        #showAdminModalBtn {
+            background-color: white;
+            border-color: black;
+            color: black;
+        }
+
+        #removebtn {
+            background-color: white;
+            border-color: black;
+            color: black;
+        }
+
+        #editbtn {
+            background-color: white;
+            border-color: black;
+            color: black;
+        }
+
+        .checkout-steps {
+            list-style: none;
+            display: flex;
+
+            justify-content: center;
+        }
+
+        #headadress {
+            color: #20BD99;
+            ;
+        }
+    </style>
+</head>
+
+<body>
+
+    {{!-- <div class="container"> --}}
+        <div class="py-5 text-center">
+
+            <ol class="checkout-steps ">
+                {{!-- <li class="step step1 clickable">USER ------- </li> --}}
+                <li class="divider"></li>
+                <li class="step step2 active" id="headadress">USER PROFILE</li>
+                <li class="divider"></li>
+                {{!-- <li class="step step3"> ------- DETAILS</li> --}}
+            </ol>
+            {{!-- <p class="lead">Below is an example form built entirely with Bootstrap 5 form controls. Each
+                required
+                form group has a validation state that can be triggered by attempting to submit the form without
+                completing it.</p> --}}
+        </div>
+
+
+
+        <div class="row" style="">
+            {{!-- <div class="col-md-4 order-md-2 mb-4">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted">Your cart</span>
+                    <span class="badge badge-secondary badge-pill">3</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Product name</h6>
+                            <small class="text-muted">Brief description</small>
+                        </div>
+                        <span class="text-muted">$12</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Second product</h6>
+                            <small class="text-muted">Brief description</small>
+                        </div>
+                        <span class="text-muted">$8</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                        <div>
+                            <h6 class="my-0">Third item</h6>
+                            <small class="text-muted">Brief description</small>
+                        </div>
+                        <span class="text-muted">$5</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <div class="text-success">
+                            <h6 class="my-0">Promo code</h6>
+                            <small>EXAMPLECODE</small>
+                        </div>
+                        <span class="text-success">-$5</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>Total (USD)</span>
+                        <strong>$20</strong>
+                    </li>
+                </ul>
+
+                <form class="card p-2">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Promo code">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-secondary">Redeem</button>
+                        </div>
+                    </div>
+                </form>
+            </div> --}}
+
+            <div style="display: flex;">
+                <h5>Select Delivery Address</h5>
+                <button type="button" id="showAdminModalBtn" style="margin-left: 300px;" class="btn btn-primary"
+                    data-bs-toggle="modal" data-bs-target="#adminModal">
+                    ADD NEW ADDRESS
+                </button>
+
+            </div>
+            <h6 class="mb-3">Defualt Address</h6>
+            {{#each profile}}
+            <div class="col-md-8 order-md-1" id="defaultAddress" style="  background-color:white;">
+                <form class="needs-validation" novalidate>
+                    <div class="row" style="display: flex;">
+                        <div class="col-md-6 mb-3">
+                            <h3>{{this.name}}</h3>
+                            <p>{{this.address}}</p>
+                            <p>PinCode:{{this.pinCode}}</p>
+                            <p>{{this.mobileNo}}</p>
+                            <button type="button" id="removebtn" onclick="deleteProfile('{{this._id}}')">REMOVE</button>
+                            <button id="editbtn">EDIT</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            {{/each}}
+        </div>
+
+        {{!-- <div id="addadress2">
+            +ADD NEW ADDRESS
+        </div> --}}
+
+    </div>
+    </div>
+    </div>
+
+
+
+    {{!--
+    <hr class="mb-4">
+    <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button> --}}
+
+    </form>
+    </div>
+    </div>
+
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">ADD ADDRESS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="adEmail" class="form-label">CONTACT DETAILS</label>
+                            <input type="text" id="name" class="form-control" placeholder="Name*" />
+                            <input type="tel" id="mobileNo" class="form-control" placeholder="Mobile No*" />
+                            <input type="email" name="email" class="form-control" id="email" placeholder="Email*" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="adminPassword" class="form-label">Pin Code</label>
+                            <input type="number" id="pincode" class="form-control" placeholder="Pin Code*" />
+                            <label for="adminPassword" class="form-label">ADDRESS</label>
+
+                            <input type="text" id="address" class="form-control"
+                                placeholder="Address(House No, Building, Street, Area*" />
+                            <input type="text" id="locality" class="form-control" placeholder="Localiy/Town*" />
+                            <div style="display: flex;">
+                                <input type="text" id="city" class="form-control" placeholder="City/ Dstrict*" />
+                                <input type="text" id="state" class="form-control" placeholder="State*" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="adminPassword" class="form-label">Save Address As</label>
+                        <div style="display: flex;">
+                            <input style="border-radius: 50px; width:75px ;color:black; hight:10px" type="radio"
+                                id="home" class="form-control" placeholder="Home" />
+                            <input style="border-radius: 50px;width:75px;color:black; hight:10px" type="radio" id="work"
+                                class="form-control" placeholder="work*" />
+                        </div>
+                    </div>
+
+                    <input type="checkbox" name="" id=""> Make this my deffualt address
+                    {{!-- <div class="row">
+                        <div class="col mb-3">
+                            <label for="adminRePassword" class="form-label">Confirm Password</label>
+                            <input type="password" id="adminRePassword" class="form-control"
+                                placeholder="Confirm Password" />
+                        </div>
+                    </div> --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="submitAddressBtn" class="btn btn-primary">Add Address</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var submitAddressBtn = document.getElementById('submitAddressBtn');
+            if (submitAddressBtn) {
+                submitAddressBtn.addEventListener('click', async () => {
+                    modal.show();
+                });
+
+                var submitAddressBtn = document.getElementById('submitAddressBtn');
+                submitAddressBtn.addEventListener('click', async () => {
+                    try {
+                        const name = document.getElementById('name').value;
+                        const email = document.getElementById('email').value;
+                        const mobileNo = document.getElementById('mobileNo').value;
+                        const pinCode = document.getElementById('pincode').value;
+                        const address = document.getElementById('address').value;
+                        const locality = document.getElementById('locality').value;
+                        const city = document.getElementById('city').value;
+                        const state = document.getElementById('state').value;
+                        const saveAddressAs = document.getElementById('home').value;
+
+                        const response = await axios.post('/users/profile', {
+                            name,
+                            mobileNo,
+                            email,
+                            pinCode,
+                            address,
+                            locality,
+                            city,
+                            state,
+                            saveAddressAs,
+                        });
+
+                        console.log('Address added:', response.data);
+                        modal.hide();
+                    } catch (error) {
+                        console.error('Error adding address:', error);
+                    }
+                })
+            };
+        });
+
+    </script>
+
+    <script>
+        function deleteProfile(profileId) {
+            try {
+                if (!profileId) {
+                    console.error('profileId is undefined or null.');
+                    return;
+                }
+
+                axios.delete(`/users/profile/${profileId}`)
+                    .then(() => {
+                        console.log('Profile deleted successfully');
+                    })
+                    .catch(error => {
+                        console.error('Error deleting profile:', error);
+                    });
+            } catch (error) {
+                console.error('An error occurred:', error);
+            }
+        }
+    </script>
+
+    <script>
+        const submitAddressBtn = document.getElementById('submitAddressBtn');
+        submitAddressBtn.addEventListener('click', async () => {
+            try {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const mobileNo = document.getElementById('mobileNo').value;
+                const pinCode = document.getElementById('pincode').value;
+                const address = document.getElementById('address').value;
+                const locality = document.getElementById('locality').value;
+                const city = document.getElementById('city').value;
+                const state = document.getElementById('state').value;
+                const saveAddressAs = document.getElementById('home').value;
+
+                await addNewProfileWithAxios({
+                    name,
+                    mobileNo,
+                    email,
+                    pinCode,
+                    address,
+                    locality,
+                    city,
+                    state,
+                    saveAddressAs,
+                });
+
+                $('#adminModal').modal('hide');
+            } catch (error) {
+                console.error('Error adding address:', error);
+            }
+        });
+
+        async function updateProfileWithAxios(updatedData) {
+            const profileId = {{ profileId }
+        };
+        await axios.put(`/profile/${profileId}`, updatedData);
+        console.log('Profile updated successfully');
+    }
+
+        async function addNewProfileWithAxios(profileData) {
+            await axios.post('/users/profile', profileData);
+            console.log('Address added successfully');
+        }
+    </script>
+
+
+    <div class="modal fade" id="editModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Profile</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+
+
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="adEmail" class="form-label">CONTACT DETAILS</label>
+                            <input type="text" id="editName" class="form-control" placeholder="Name*" />
+                            <input type="tel" id="editMobileNo" class="form-control" placeholder="Mobile No*" />
+                            <input type="email" name="editEmail" class="form-control" id="email" placeholder="Email*" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="adminPassword" class="form-label">Pin Code</label>
+                            <input type="number" id="editPincode" class="form-control" placeholder="Pin Code*" />
+                            <label for="adminPassword" class="form-label">ADDRESS</label>
+
+                            <input type="text" id="editAddress" class="form-control"
+                                placeholder="Address(House No, Building, Street, Area*" />
+                            <input type="text" id="editLocality" class="form-control" placeholder="Localiy/Town*" />
+                            <div style="display: flex;">
+                                <input type="text" id="editCity" class="form-control" placeholder="City/ Dstrict*" />
+                                <input type="text" id="editState" class="form-control" placeholder="State*" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="adminPassword" class="form-label">Save Address As</label>
+                        <div style="display: flex;">
+                            <input style="border-radius: 50px; width:75px ;color:black; hight:10px" type="radio"
+                                id="editHome" class="form-control" placeholder="Home" />
+                            <input style="border-radius: 50px;width:75px;color:black; hight:10px" type="radio"
+                                id="editWork" class="form-control" placeholder="work*" />
+                        </div>
+                    </div>
+
+                    <input type="checkbox" name="" id=""> Make this my deffualt address
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button id="saveEditBtn" class="btn btn-primary">Save Changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+            document.addEventListener('DOMContentLoaded', () => {
+                var editBtn = document.getElementById('editbtn');
+                var editModal = new bootstrap.Modal(document.getElementById('editModal'));
+                var saveEditBtn = document.getElementById('saveEditBtn');
+                var editNameInput = document.getElementById('editName');
+                var editMobileNoInput = document.getElementById('editMobileNo');
+                var editEmailInput = document.getElementById('editEmail');
+                var editPincodeInput = document.getElementById('editPincode');
+                var editAddressInput = document.getElementById('editAddress');
+                var editLocalityInput = document.getElementById('editLocality');
+                var editCityInput = document.getElementById('editCity');
+                var editStateInput = document.getElementById('editState');
+                var editHomeInput = document.getElementById('editHome');
+
+
+                if (editBtn && editModal && saveEditBtn) {
+                    editBtn.addEventListener('click', () => {
+                        const currentName = document.querySelector('#defaultAddress h3').textContent;
+                        alert(currentName)
+                        editNameInput.value = currentName;
+                        editMobileNoInput.value = currentMobileNo;
+                        editEmailInput.value = currentEmail;
+                        editPincodeInput.value = currentPincode;
+                        editAddressInput.value = currentAddress;
+                        editLocalityInput.value = currentLocality;
+                        editCityInput.value = currentCity;
+                        editStateInput.value = currentState;
+                        editHomeInput.value = currentHome;
+                        editModal.show();
+                    });
+
+                    saveEditBtn.addEventListener('click', async () => {
+                        try {
+                            const editedName = editNameInput.value;
+                            const editMobileNo = editMobileNoInput.value;
+                            const editEmail = editEmailInput.value;
+                            const editPincode = editPincodeInput.value;
+                            const editAddress = editAddressInput.value;
+                            const editLocality = editLocalityInput.value;
+                            const editCity = editCityInput.value;
+                            const editState = editStateInput.value;
+                            const editHome = editHomeInput.value;
+
+
+                            await axios.put(`/profile/{{profile._id}}`, { name: editedName });
+
+                            editModal.hide();
+
+                            location.reload();
+                        } catch (error) {
+                            console.error('Error saving changes:', error);
+                        }
+                    });
+                }
+            });
+
+            function deleteProfile(profileId) {
+                try {
+                    if (!profileId) {
+                        console.error('profileId is undefined or null.');
+                        return;
+                    }
+
+                    axios.delete(`/users/profile/${profileId}`)
+                        .then(() => {
+                            console.log('Profile deleted successfully');
+                            location.reload();
+                        })
+                        .catch(error => {
+                            console.error('Error deleting profile:', error);
+                        });
+                } catch (error) {
+                    console.error('An error occurred:', error);
+                }
+            }
+
+        </script>
+
+
+        <hr class="mb-4">
+        <footer class="my-5 pt-5 text-muted text-center text-small">
+            <p class="mb-1">© 2021 - 2045 smartHome</p>
+            <ul class="list-inline">
+                <li class="list-inline-item"><a href="/users">Home</a></li>
+                <li class="list-inline-item"><a href="/product">Products</a></li>
+                <li class="list-inline-item"><a href="#">About us</a></li>
+            </ul>
+        </footer>
+
+        <!-- jQuery CDN -->
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"></script>
+    </div>
+</body>
+
+</html>

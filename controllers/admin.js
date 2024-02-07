@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt';
 import Admin from '../model/admin.js';
 import User from '../model/user.js';
 import Product from '../model/product.js';
-import isAuthenticated from '../middleware/adminAuthentication.js';
 import dotenv from 'dotenv';
 dotenv.config();
 
@@ -68,8 +67,6 @@ const adminLogout = (req, res) => {
     res.clearCookie('adminToken');
     res.redirect('/admin/dashboard');
 };
-
-
 
 
 const adminDshboard = async function (req, res, next) {

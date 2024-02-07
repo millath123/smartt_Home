@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    <style>
+        body {
+            background: #ddd;
+            min-height: 100vh;
+            vertical-align: middle;
+            display: flex;
+            font-family: sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .title {
+            margin-bottom: 5vh;
+        }
+
+        .card {
+            margin: auto;
+            max-width: 950px;
+            width: 90%;
+            box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            border-radius: 1rem;
+            border: transparent;
+        }
+
+        @media(max-width:767px) {
+            .card {
+                margin: 3vh auto;
+            }
+        }
+
+        .cart {
+            background-color: #fff;
+            padding: 4vh 5vh;
+            border-bottom-left-radius: 1rem;
+            border-top-left-radius: 1rem;
+        }
+
+        @media(max-width:767px) {
+            .cart {
+                padding: 4vh;
+                border-bottom-left-radius: unset;
+                border-top-right-radius: 1rem;
+            }
+        }
+
+        .summary {
+            background-color: #ddd;
+            border-top-right-radius: 1rem;
+            border-bottom-right-radius: 1rem;
+            padding: 4vh;
+            color: rgb(65, 65, 65);
+        }
+
+        @media(max-width:767px) {
+            .summary {
+                border-top-right-radius: unset;
+                border-bottom-left-radius: 1rem;
+            }
+        }
+
+        .summary .col-2 {
+            padding: 0;
+        }
+
+        .summary .col-10 {
+            padding: 0;
+        }
+
+        .row {
+            margin: 0;
+        }
+
+        .title b {
+            font-size: 1.5rem;
+        }
+
+        .main {
+            margin: 0;
+            padding: 2vh 0;
+            width: 100%;
+        }
+
+        .col-2,
+        .col {
+            padding: 0 1vh;
+        }
+
+        a {
+            padding: 0 1vh;
+        }
+
+        .close {
+            margin-left: auto;
+            font-size: 0.7rem;
+        }
+
+        img {
+            width: 3.5rem;
+        }
+
+        .back-to-shop {
+            margin-top: 4.5rem;
+        }
+
+        h5 {
+            margin-top: 4vh;
+        }
+
+        hr {
+            margin-top: 1.25rem;
+        }
+
+        form {
+            padding: 2vh 0;
+        }
+
+        select {
+            border: 1px solid rgba(0, 0, 0, 0.137);
+            padding: 1.5vh 1vh;
+            margin-bottom: 4vh;
+            outline: none;
+            width: 100%;
+            background-color: rgb(247, 247, 247);
+        }
+
+        input {
+            border: 1px solid rgba(0, 0, 0, 0.137);
+            padding: 1vh;
+            margin-bottom: 4vh;
+            outline: none;
+            width: 100%;
+            background-color: rgb(247, 247, 247);
+        }
+
+        input:focus::-webkit-input-placeholder {
+            color: transparent;
+        }
+
+        .btn {
+            background-color: blue;
+            - border-color: blue;
+            color: white;
+            width: 100%;
+            font-size: 0.7rem;
+            margin-top: 4vh;
+            padding: 1vh;
+            border-radius: 0;
+        }
+
+        .btn:focus {
+            box-shadow: none;
+            outline: none;
+            box-shadow: none;
+            color: white;
+            -webkit-box-shadow: none;
+            -webkit-user-select: none;
+            transition: none;
+        }
+
+        .btn:hover {
+            color: white;
+        }
+
+        a {
+            color: black;
+        }
+
+        a:hover {
+            color: black;
+            text-decoration: none;
+        }
+
+        #code {
+            background-image: linear-gradient(to left, rgba(255, 255, 255, 0.253), rgba(255, 255, 255, 0.185)), url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
+            background-repeat: no-repeat;
+            background-position-x: 95%;
+            background-position-y: center;
+        }
+
+        .qty {
+            display: flex;
+            align-items: center;
+            width: 120px;
+            border: none;
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        .decrement,
+        .increment {
+            display: inline-block;
+            text-decoration: none;
+            padding: 3px 8px;
+            margin: 0 5px;
+            background-color: #f0f0f0;
+            color: #333;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .quantity {
+            font-weight: bold;
+            font-size: 1.2em;
+            margin: 0 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="card">
+        <div class="row">
+            <div class="col-md-8 cart">
+                <div class="title">
+                    <div class="col">
+                        <h4><b>Shopping Cart</b></h4>
+                    </div>
+                </div>
+
+{{#each cartItems.[0].products}}
+  <div class="row border-top border-bottom">
+    <div class="row main align-items-center">
+      <div class="col-2"><img class="img-fluid" src="{{this.productData.productImage.[0]}}"></div>
+      <div class="col">
+        <div class="row text-muted">{{this.productData.productCategory}}</div>
+        <div class="row">{{this.productData.productName}}</div>
+      </div>
+      <div class="qty">
+        <a href="#" class="decrement">-</a>
+        <span class="quantity">{{this.quantity}}</span>
+        <a href="#" class="increment">+</a>
+      </div>
+
+      <div class="col">₹<span class="product-price">{{this.productData.productPrice}}</span>
+        <span class="close">
+          <button class="btn-delete" data-productId="{{this.productId}}">&#10005;</button>
+        </span>
+      </div>
+
+      <p class="deletcart" style="display: none;">{{this.productId}}</p>
+    </div>
+  </div>
+{{/each}}
+
+
+                <div class="back-to-shop"><a href="/product">&leftarrow;</a><span class="text-muted">Back to shop</span>
+                </div>
+            </div>
+
+            <div class="col-md-4 summary">
+                <div>
+                    <h5><b>Summary</b></h5>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="col" style="padding-left:0;" id="totalItems">ITEMS {{cartItems.[0].productData.length}}</div>
+                </div>
+
+                <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                    <div class="col">TOTAL PRICE</div>
+                    <div class="col text-right" id="totalSum"></div>
+                </div>
+
+                <a href="/checkout"><button id="checkout" class="btn">CHECKOUT</button></a>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const deleteButtons = document.querySelectorAll('.btn-delete');
+
+            deleteButtons.forEach((button, index) => {
+                button.addEventListener('click', async (event) => {
+                    const productId = document.getElementsByClassName("deletcart")[index].textContent;
+
+                    try {
+                        const response = await fetch(`/cart/delete/${productId}`, {
+                            method: 'DELETE'
+                        });
+
+                        if (response.ok) {
+
+                            event.target.closest('.border-top').remove();
+                        } else {
+                            console.error('Failed to delete product from cart');
+                        }
+                    } catch (error) {
+                        console.error('Error deleting product:', error);
+                    }
+                });
+            });
+        });
+    </script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const qtyContainers = document.querySelectorAll('.qty');
+        qtyContainers.forEach(container => {
+            const decrementButton = container.querySelector('.decrement');
+            const incrementButton = container.querySelector('.increment');
+            const quantityElement = container.querySelector('.quantity');
+            const productPriceElement = container.closest('.row').querySelector('.product-price');
+            const productId = container.closest('.row').querySelector('.btn-delete').getAttribute('data-productId');
+
+            const originalPrice = parseFloat(productPriceElement.textContent);
+
+            // Get the default quantity from the template
+            let defaultQuantity = parseInt(quantityElement.textContent);
+
+            incrementButton.addEventListener('click', () => {
+                updateQuantity('increment');
+            });
+
+            decrementButton.addEventListener('click', () => {
+                updateQuantity('decrement');
+            });
+
+            function updateQuantity(action) {
+                let quantity = parseInt(quantityElement.textContent);
+
+                if (action === 'increment' && quantity < 10) {
+                    quantity++;
+                } else if (action === 'decrement' && quantity > 1) {
+                    quantity--;
+                }
+
+                quantityElement.textContent = quantity;
+
+                const totalPrice = originalPrice * quantity;
+                productPriceElement.textContent = totalPrice;
+
+                // Send AJAX request to update quantity in the database
+                updateQuantityInDatabase(productId, quantity);
+            }
+
+            // Trigger the increment logic based on the default quantity
+            for (let i = 1; i < defaultQuantity; i++) {
+                incrementButton.click();
+                decrementButton.click()
+            }
+        });
+
+        function updateQuantityInDatabase(productId, quantity) {
+            // Send an AJAX request to update quantity in the database
+            fetch(`/cart/${productId}/${quantity}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                // You can include additional data in the body if needed
+                // body: JSON.stringify({ quantity: quantity }),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to update quantity in the database');
+                }
+            })
+            .catch(error => {
+                console.error(error);
+            });
+        }
+    });
+</script>
+
+    {{!-- sum of the product price --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const updateTotalSum = () => {
+                const productPriceElements = document.querySelectorAll('.product-price');
+                let totalSum = 0;
+
+                productPriceElements.forEach((priceElement) => {
+                    const priceText = priceElement.textContent.trim();
+                    const price = parseFloat(priceText);
+                    totalSum += price;
+                });
+                const totalSumElement = document.getElementById('totalSum');
+                totalSumElement.textContent = `₹${totalSum.toFixed(2)}`;
+            };
+            updateTotalSum();
+            document.addEventListener('click', updateTotalSum);
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const updateTotalItems = () => {
+                const cartItems = document.querySelectorAll('.row.main');
+                const totalItemsElement
+                + document.getElementById('totalItems');
+
+                const totalItems = cartItems.length;
+                totalItemsElement.textContent = `ITEMS ${totalItems}`;
+            };
+
+            updateTotalItems();
+            document.addEventListener('click', updateTotalItems);
+        });
+    </script>
+
+</body>
+
+</html>
