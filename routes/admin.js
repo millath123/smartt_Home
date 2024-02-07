@@ -5,21 +5,21 @@ import authenticateUser from '../middleware/adminAuthentication.js';
 import isAuthenticated from '../middleware/adminAuthentication.js';
 
 
-router.get('/register',isAuthenticated,adminController.adminSighnupPage)
+router.get('/register',adminController.adminSighnupPage)
 
-router.get('/adminLogin',isAuthenticated,adminController.adminLoginGetPage)
-router.get('/admin/dashboard',isAuthenticated,adminController.adminLoginGgetPage)
-router.post('/adminLogin',isAuthenticated,adminController.adminLoginPostPage)
-router.get('/adminLogout',isAuthenticated,adminController.adminLogout)
-router.get('/admin/passwordReset',adminController.passwordReset)
-router.post('/admin/passwordReset',adminController.passwordResetPost)
-router.post('/admin/passwordVerify',adminController.passwordVerifyPost)
-router.get('/admin/NewPassword',adminController.NewPassword)
-router.post('/admin/NewPassword',adminController.NewPasswordPost)
+router.get('/adminLogin',adminController.adminLoginGetPage)
+ router.get('/dashboard',isAuthenticated,adminController.adminLoginGgetPage)
+router.post('/adminLogin',adminController.adminLoginPostPage)
+router.get('/adminLogout',adminController.adminLogout)
+router.post('/dashboard',adminController.adminDshboard)
+// router.get('/dashboard',adminController.adminDshboard)
+// router.get('/dashboard',adminController.adminDshboard)
+
+// router.get('/admin/passwordReset',adminController.passwordReset)
+// router.post('/admin/passwordReset',rs.passwordResetPost)
+// router.post('/admin/passwordVerify',adminController.passwordVerifyPost)
+// router.get('/admin/NewPassword',adminController.NewPassword)
+// router.post('/admin/NewPassword',adminController.NewPasswordPost)
 
 
-
-
-
-
-export default router; 
+export default router;

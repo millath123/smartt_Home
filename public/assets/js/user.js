@@ -14,6 +14,7 @@ function validateEmail() {
   return isValid;
 }
 
+
 // login form validation
 function validateLoginForm() {
     document.getElementById('emailError').textContent = '';
@@ -76,6 +77,7 @@ function phoneAuth() {
         alert(error.message);
     });
 }
+
 
 // function for OTP verify
 function codeverify() {

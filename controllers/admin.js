@@ -5,7 +5,8 @@ import Admin from '../model/admin.js';
 import User from '../model/user.js';
 import Product from '../model/product.js';
 import isAuthenticated from '../middleware/adminAuthentication.js';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const router = express.Router();
 
@@ -32,10 +33,10 @@ const adminLoginGgetPage =async (req, res) => {
       const admin = await Admin.findById(adminId);
   
       if (!admin) {
-        return res.status(401).redirect('/admin/login');
+        return res.status(401).redirect('/admin/adminLogin');
       }
   
-      res.render(path.join( '../views/admin/index'), { admin });
+      res.render(path.join('../views/admin/dashboard'), { admin });
     } catch (error) {
       console.error(error);
       res.status(500).send('Error fetching admin details');
@@ -63,17 +64,25 @@ const adminLoginPostPage = async (req, res) => {
     }
 }
 // Assuming this code is within a router instance
-router.get('/logout', (req, res) => {
-    res.clearCookie('adminToken');
-    res.redirect('/admin/dashboard');
-  });
+const adminLogout = (req, res) => {
+  res.clearCookie('adminToken');
+  res.redirect('/admin/dashboard');
+};
   
+
+
+
+const adminDshboard=async function(req, res, next) {
+
+    res.render(path.join('../views/admin/dashboard'));
+  }
+
 
 export default {
     adminSighnupPage,
     adminLoginGetPage,
     adminLoginGgetPage,
     adminLoginPostPage,
-    adminLogout
-
+    adminLogout,
+    adminDshboard
 };

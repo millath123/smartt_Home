@@ -6,8 +6,7 @@ import adminRoutes from './routes/admin.js';
 
 import path from 'path';
 import cookieParser from 'cookie-parser';
-import session from 'express-session';
-import googleauthrouter from './helpers/googleauth.js';
+
 
 
 // app.use(session({
@@ -34,8 +33,7 @@ app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', userRoutes);
-app.use('/', adminRoutes);
-
+app.use('/admin', adminRoutes);
 
 // Set up user routes
 app.use(userRoutes);

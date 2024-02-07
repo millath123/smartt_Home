@@ -1,4 +1,3 @@
-
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 const { OK, INTERNAL_SERVER_ERROR } = httpStatus;
@@ -7,8 +6,6 @@ import transporter from '../helpers/nodemailer.js';
 import generateOTP from '../helpers/generateOtp.js';
 import bcrypt from 'bcrypt';
 import User from '../model/user.js';
-import passport from'../helpers/googleauth.js';
-import { Strategy as GoogleStrategy } from 'passport-google-oauth20';
 import axios from 'axios';
 
 const homePage = async function (req, res, next) {
@@ -244,5 +241,3 @@ export default {
   googleLoginCallback
   
 };
-
-
