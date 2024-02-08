@@ -145,6 +145,27 @@ const adminproduct = async function (req, res, next) {
       res.status(500).json({ error: 'Error fetching products' });
     }
   };
+
+
+
+  //   cart
+  const getCart = async (req, res, next) => {
+    try {
+      const userToken = req.cookies.user_token;
+      const user = await User.findOne({ token: userToken });
+      
+      const cartItems = await Cart.find({ userId: user._id });
+  
+      const productIds = cartItems.map(item => item.productId);
+      const productData = await Product.find({ _id: productIds });
+  
+      res.render(path.join( '../views/user/cart'), { cart: cartItems, product: productData });
+    } catch (error) {
+      console.error('Error occurred:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  };
+  
   const addToCart = async (req, res) => {
     const productId = req.body.productId;
   
@@ -177,23 +198,7 @@ const adminproduct = async function (req, res, next) {
   };
 
 
-//   cart
-  const getCart = async (req, res, next) => {
-    try {
-      const userToken = req.cookies.user_token;
-      const user = await User.findOne({ token: userToken });
-      
-      const cartItems = await Cart.find({ userId: user._id });
-  
-      const productIds = cartItems.map(item => item.productId);
-      const productData = await Product.find({ _id: productIds });
-  
-      res.render(path.join( '../views/user/cart'), { cart: cartItems, product: productData });
-    } catch (error) {
-      console.error('Error occurred:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
-    }
-  };
+
 
 
 //   checkout

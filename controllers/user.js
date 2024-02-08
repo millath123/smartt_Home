@@ -8,6 +8,9 @@ import bcrypt from 'bcrypt';
 import User from '../model/user.js';
 import axios from 'axios';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 const homePage = async function (req, res, next) {
   let user = req.user;
   res.render('../views/user/home', { user });
@@ -163,10 +166,10 @@ const loginPostPage = async (req, res) => {
 
 const googleLogin = async (req, res) => {
   // Redirect to Google OAuth URL
-  const googleAuthUrl = 'https://accounts.google.com/o/oauth2/auth';
-  const clientId = '531146507350-2csbr5mm368t40s9o055mai756lj5aso.apps.googleusercontent.com';
-  const redirectUri = 'http://localhost:8080/auth/google/callback';
-  const scope = 'https://www.googleapis.com/auth/userinfo.email';
+  const googleAuthUrl = process.env.GOOGLE_AUTH_URL;
+  const clientId =  process.env.GOOGLE_CLINT_ID;
+  const redirectUri = process.env.REDIRECT_URL;
+  const scope =  process.env.SCOPE;
 
   const url = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
 
@@ -179,11 +182,10 @@ const googleLogin = async (req, res) => {
 const googleLoginCallback = async (req, res) => {
   const { code } = req.query;
 
-  // Exchange code for access token
-  const googleTokenUrl = 'https://accounts.google.com/o/oauth2/token';
-  const clientId = '531146507350-2csbr5mm368t40s9o055mai756lj5aso.apps.googleusercontent.com'
-  const clientSecret = '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'
-  const redirectUri = 'http://localhost:8080/auth/google/callback';
+  const googleTokenUrl =  process.env.GOOGLE_TOKEN_URL;
+  const clientId = process.env.GOOGLE_CLINT_ID
+  const clientSecret =  process.env.GOOGLE_CLINT_SECRET;
+  const callbackURL =   process.env.callbackURL;
 
   try {
     const tokenResponse = await axios.post(googleTokenUrl, {
@@ -197,7 +199,7 @@ const googleLoginCallback = async (req, res) => {
     const { access_token, id_token } = tokenResponse.data;
 
     // Fetch user information using the access token
-    const userInfoUrl = 'https://www.googleapis.com/oauth2/v2/userinfo';
+    const userInfoUrl = USERINFO_URL;
     const userInfoResponse = await axios.get(userInfoUrl, {
       headers: { Authorization: `Bearer ${access_token} ` },
     });
@@ -230,6 +232,13 @@ const googleLoginCallback = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 };
+
+const logoutPage = (req, res) => {
+  res.clearCookie('user_token');
+  res.redirect('/login');
+};
+
+
 
 import Profile from '../model/user.js';
 
@@ -315,5 +324,6 @@ export default {
   loginGetPage,
   loginPostPage,
   googleLogin,
-  googleLoginCallback
+  googleLoginCallback,logoutPage
+  
 };

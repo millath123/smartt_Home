@@ -167,5 +167,6 @@ export default {
     adminusers,
     adminbanner,
     deleteRoute,
-    updateRoute,deleteUserController
+    updateRoute,
+    deleteUserController
 };
