@@ -230,6 +230,8 @@ const googleLoginCallback = async (req, res) => {
 
 import Profile from '../model/user.js';
 
+
+// user profile
 export const getProfile = async (req, res) => {
   try {
     const userToken = req.cookies.user_token;

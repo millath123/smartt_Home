@@ -3,7 +3,7 @@ import cloudinary from '../helpers/cloudinary.js';
 import multer from 'multer';
 import Product from '../model/product.js';
 import User from '../model/user.js';
-import Cart from '../model/cart.js'
+import Cart from '../model/cart.js';
 import path from 'path';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
 
@@ -60,6 +60,8 @@ const adminproduct = async function (req, res, next) {
       res.status(500).json({ error: 'Error adding the product' });
     }
   };
+
+//   delete product
 
   const deleteProduct = async (req, res) => {
     const productId = req.params.id;
@@ -169,6 +171,9 @@ const adminproduct = async function (req, res, next) {
       res.status(500).json({ error: 'Failed to add product to cart' });
     }
   };
+
+
+//   cart
   const getCart = async (req, res, next) => {
     try {
       const userToken = req.cookies.user_token;
@@ -185,6 +190,9 @@ const adminproduct = async function (req, res, next) {
       res.status(500).json({ error: 'Internal Server Error' });
     }
   };
+
+
+//   checkout
   const getCheckout = async (req, res) => {
     try {
       const userToken = req.cookies.user_token;
@@ -212,6 +220,9 @@ const adminproduct = async function (req, res, next) {
       res.status(500).send('Error deleting profile');
     }
   };
+
+
+//   payment
   const placeOrder = async (req, res, next) => {
     try {
         const { userId, profileId, productId, cartId, paymentMethod } = req.body;
@@ -270,5 +281,6 @@ const adminproduct = async function (req, res, next) {
     getCart,
     getCheckout,
     deleteProfile,
-    placeOrder
+    placeOrder,
+
   }

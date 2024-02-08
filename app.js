@@ -22,6 +22,13 @@ const app = express();
 
 // Connect to the database
 connect();
+app.use(function (req, res, next) { //cache clearing for all request and responses
+    res.header(
+      "Cache-Control",
+      "no-cache, private, no-store, must-revalidate, max-stale=0, post-check=0, pre-check=0"
+  )
+  next()
+  })
 
 // Set the view engine to use Handlebars
 app.set('view engine', 'hbs');
@@ -34,6 +41,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/', userRoutes);
 app.use('/admin', adminRoutes);
+
 
 // Set up user routes
 app.use(userRoutes);
