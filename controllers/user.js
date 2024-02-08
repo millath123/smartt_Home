@@ -228,6 +228,78 @@ const googleLoginCallback = async (req, res) => {
   }
 };
 
+import Profile from '../model/user.js';
+
+export const getProfile = async (req, res) => {
+  try {
+    const userToken = req.cookies.user_token;
+    const user = await User.findOne({ token: userToken });
+    const profile = await Profile.findOne({ userId: user._id });
+    console.log(profile);
+    res.render(path.join(__dirname, '../views/user/profile'), { profile });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error fetching user profile' });
+  }
+};
+
+export const createProfile = async (req, res) => {
+  const { name, mobileNo, email, pinCode, address, locality, city, state, saveAddressAs } = req.body;
+
+  try {
+    const existingUser = await Profile.findOne({ email });
+    const userToken = req.cookies.user_token;
+    const user = await User.findOne({ token: userToken });
+
+    if (existingUser) {
+      return res.status(400).send('This mail is already used');
+    }
+
+    const userProfile = new Profile({
+      userId: user._id,
+      name,
+      mobileNo,
+      email,
+      pinCode,
+      address,
+      locality,
+      city,
+      state,
+      saveAddressAs,
+    });
+
+    await userProfile.save();
+    res.status(201).json(userProfile);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error saving user to the database');
+  }
+};
+
+export const deleteProfile = async (req, res) => {
+  try {
+    const profileId = req.params.profileId;
+    await Profile.findOneAndDelete({ _id: profileId });
+    res.status(204).send();
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error deleting profile');
+  }
+};
+
+export const updateProfile = async (req, res) => {
+  try {
+    const profileId = req.params.profileId;
+    const updatedData = req.body;
+    const updatedProfile = await Profile.findByIdAndUpdate(profileId, updatedData, { new: true });
+    res.json({ success: true, profile: updatedProfile });
+  } catch (error) {
+    console.error('Error updating profile:', error);
+    res.status(500).json({ success: false, error: 'Internal Server Error' });
+  }
+};
+
+
 export default {
   homePage,
   signUpGetPage,
@@ -239,5 +311,4 @@ export default {
   loginPostPage,
   googleLogin,
   googleLoginCallback
-  
 };

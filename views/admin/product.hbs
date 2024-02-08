@@ -233,7 +233,7 @@
             {{!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> --}}
           </div>
           <div class="modal-body">
-            <form id="addProductForm" action="/product/upload" method="post" enctype="multipart/form-data">
+            <form id="addProductForm" action="/admin/upload" method="post" enctype="multipart/form-data">
 
               <div class="custom-file">
                 <label class="form-label" for="customFile">Image</label>
@@ -579,7 +579,7 @@
 
         const baseUrl = '/admin/products/';
 
-        fetch(`${baseUrl}${productId}`, {
+        fetch(${baseUrl}${productId}, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -588,7 +588,7 @@
         })
           .then(response => {
             if (!response.ok) {
-              throw new Error(`Error updating product: ${response.status}`);
+              throw new Error(Error updating product: ${response.status});
             }
             return response.json();
           })
@@ -606,7 +606,7 @@
 
     <script>
       function deleteProduct(productId, productRow) {
-        fetch(`/admin/products/${productId}`, {
+        fetch(/admin/products/${productId}, {
           method: 'DELETE'
         })
           .then(response => {
