@@ -31,7 +31,7 @@ router.get('/users',isAuthenticated,adminController.adminusers)
 router.get('/banner',isAuthenticated,adminController.adminbanner)
 
 router.put('/users/:id',adminController.updateRoute)
-router.delete('/user/:id',adminController.deleteRoute)
+router.delete('/user/:id', adminController.deleteUserController);
 
 router.post('/dashboard',adminController.adminLoginPostPage)
 

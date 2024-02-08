@@ -9,9 +9,8 @@ import User from '../model/user.js';
 import axios from 'axios';
 
 const homePage = async function (req, res, next) {
-  let user= req.user;
-  console.log(user);
-  res.render('../views/user/home',{user});
+  let user = req.user;
+  res.render('../views/user/home', { user });
 };
 const signUpGetPage = async (req, res, next) => {
   res.render(path.join('../views/user/signup'));
@@ -85,7 +84,7 @@ const passwordConformationPage = async (req, res) => {
   res.render('users/setpassword');
 }
 
-const setSignupPassword= async (req, res) => {
+const setSignupPassword = async (req, res) => {
   const email = req.cookies.email;
   const fullName = req.body.fullName;
   const phoneNumber = req.body.phoneNumber;
@@ -123,19 +122,19 @@ const setSignupPassword= async (req, res) => {
 
 
 // user login
-const loginGetPage=  (req, res) => {
+const loginGetPage = (req, res) => {
   res.render(path.join('../views/user/login'))
 }
 
 
-const loginPostPage= async (req, res) => {
+const loginPostPage = async (req, res) => {
   const { email, password } = req.body;
   try {
 
     const user = await User.findOne({ email });
 
     if (!user) {
-      return res.status(401).render(path.join( '../views/user/conformSignupPassword'), { invalidmail: 'Invalid Email Address' });
+      return res.status(401).render(path.join('../views/user/conformSignupPassword'), { invalidmail: 'Invalid Email Address' });
     }
     const passwordMatch = await bcrypt.compare(password, user.password);
 
@@ -160,6 +159,8 @@ const loginPostPage= async (req, res) => {
 //   passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
 // };
 
+
+
 const googleLogin = async (req, res) => {
   // Redirect to Google OAuth URL
   const googleAuthUrl = 'https://accounts.google.com/o/oauth2/auth';
@@ -167,10 +168,12 @@ const googleLogin = async (req, res) => {
   const redirectUri = 'http://localhost:8080/auth/google/callback';
   const scope = 'https://www.googleapis.com/auth/userinfo.email';
 
-  const url =`${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
+  const url = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
 
   res.redirect(url);
 };
+
+
 
 // Google login callback endpoint
 const googleLoginCallback = async (req, res) => {
@@ -183,48 +186,48 @@ const googleLoginCallback = async (req, res) => {
   const redirectUri = 'http://localhost:8080/auth/google/callback';
 
   try {
-      const tokenResponse = await axios.post(googleTokenUrl, {
-          code,
-          client_id: clientId,
-          client_secret: clientSecret,
-          redirect_uri: redirectUri,
-          grant_type: 'authorization_code',
+    const tokenResponse = await axios.post(googleTokenUrl, {
+      code,
+      client_id: clientId,
+      client_secret: clientSecret,
+      redirect_uri: redirectUri,
+      grant_type: 'authorization_code',
+    });
+
+    const { access_token, id_token } = tokenResponse.data;
+
+    // Fetch user information using the access token
+    const userInfoUrl = 'https://www.googleapis.com/oauth2/v2/userinfo';
+    const userInfoResponse = await axios.get(userInfoUrl, {
+      headers: { Authorization: `Bearer ${access_token} ` },
+    });
+    const user = userInfoResponse.data;
+    const userData = userInfoResponse.data;
+
+    let existingUser = await User.findOne({ googleId: userData.id });
+
+    let tempUser;
+
+    if (!existingUser) {
+      tempUser = new User({
+        fullName: userData.name,
+        googleId: userData.id,
+        email: userData.email,
+        Image: userData.picture,
       });
-
-      const { access_token, id_token } = tokenResponse.data;
-
-      // Fetch user information using the access token
-      const userInfoUrl = 'https://www.googleapis.com/oauth2/v2/userinfo';
-      const userInfoResponse = await axios.get(userInfoUrl, {
-          headers: { Authorization: `Bearer ${access_token} `},
-      });
-      const user = userInfoResponse.data;
-      const userData = userInfoResponse.data;
-
-      let existingUser = await User.findOne({ googleId: userData.id });
-      
-      let tempUser;
-      
-      if (!existingUser) {
-          tempUser = new User({
-              fullName: userData.name,
-              googleId: userData.id,
-              email: userData.email,
-              Image: userData.picture,
-          });
-          tempUser = await tempUser.save();
-      } else {
-        existingUser.fullName= userData.name,
-          existingUser.email = userData.email;
-          existingUser.Image = userData.picture;
-          tempUser = await existingUser.save();
-      }
-      const user_token = jwt.sign({ userId: (tempUser || existingUser)._id }, process.env.JWT_SECRET);
-      res.cookie('user_token', user_token, { httpOnly: true });
-      res.redirect('/');  
+      tempUser = await tempUser.save();
+    } else {
+      existingUser.fullName = userData.name,
+        existingUser.email = userData.email;
+      existingUser.Image = userData.picture;
+      tempUser = await existingUser.save();
+    }
+    const user_token = jwt.sign({ userId: (tempUser || existingUser)._id }, process.env.JWT_SECRET);
+    res.cookie('user_token', user_token, { httpOnly: true });
+    res.redirect('/');
   } catch (error) {
-      console.error('Error during Google authentication:', error);
-      res.status(500).send('Internal Server Error');
+    console.error('Error during Google authentication:', error);
+    res.status(500).send('Internal Server Error');
   }
 };
 

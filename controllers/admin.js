@@ -84,6 +84,8 @@ const adminLogout = (req, res) => {
 };
 
 
+// admin dashboard
+
 const adminDshboard = async function (req, res, next) {
 
     res.render(path.join('../views/admin/dashboard'));
@@ -107,19 +109,19 @@ const adminLogoutPage = async (req, res) => {
 
 const deleteUserController = async (req, res) => {
     const userId = req.params.id;
-  
+
     try {
-      const user = await User.findByIdAndRemove(userId);
-  
-      if (!user) {
-        return res.status(404).send('User not found');
-      }
-      res.status(204).send();
+        const user = await User.findByIdAndRemove(userId);
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        res.status(204).send();
     } catch (error) {
-      console.error(error);
-      res.status(500).send('Error deleting user.');
+        console.error(error);
+        res.status(500).send('Error deleting user.');
     }
-  };
+};
   
   const updateUserController = async (req, res) => {
     const userId = req.params.id;
@@ -165,5 +167,5 @@ export default {
     adminusers,
     adminbanner,
     deleteRoute,
-    updateRoute
+    updateRoute,deleteUserController
 };

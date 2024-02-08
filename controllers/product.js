@@ -80,6 +80,8 @@ const adminproduct = async function (req, res, next) {
     }
   };
   
+
+//   edit product
   const updateProduct = async (req, res) => {
     const productId = req.params.id;
     const {
@@ -129,6 +131,8 @@ const adminproduct = async function (req, res, next) {
       res.status(500).json({ error: 'Error updating product' });
     }
   };
+
+//   view product
   const getProduct = async (req, res, next) => {
     try {
       // Fetch all products

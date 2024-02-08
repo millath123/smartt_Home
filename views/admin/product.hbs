@@ -440,8 +440,8 @@
 
 
     <!-- Edit Product Modal -->
-    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
-      aria-hidden="true">
+<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
+      
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
@@ -530,21 +530,11 @@
       </div>
     </div>
 
-    <script>
-      function editProduct(
-
-        id,
-        productName,
-        productCategory,
-        productColor,
-        productBrand,
-        productPrice,
-        productQuantity,
-        productDescription,
-        productConnectivity
-      ) {
+  <script>
+       function editProduct(id, productName, productCategory, productColor, productBrand, productPrice, productQuantity, productDescription, productConnectivity) {
+ {
         $('#editProductName').val(productName),
-          $('#editProductCategory').val(productCategory);
+        $('#editProductCategory').val(productCategory);
         $('#editProductColor').val(productColor);
         $('#editProductPrice').val(productPrice);
         $('#editProductBrand').val(productBrand);
@@ -556,74 +546,73 @@
         editProductModal.show();
 
         $('#editProductForm').on('submit', function (e) {
-          e.preventDefault();
+            e.preventDefault();
 
-          const updatedData = {
-            productName: $('#editProductName').val(),
-            productCategory: $('#editProductCategory').val(),
-            productColor: $('#editProductColor').val(),
-            productPrice: $('#editProductPrice').val(),
-            productBrand: $('#editProductBrand').val(),
-            productQuantity: $('#editProductQuantity').val(),
-            productDescription: $('#editProductDescription').val(),
-            productConnectivity: $('#editProductConnectivity').val(),
-          };
+            const updatedData = {
+                productName: $('#editProductName').val(),
+                productCategory: $('#editProductCategory').val(),
+                productColor: $('#editProductColor').val(),
+                productPrice: $('#editProductPrice').val(),
+                productBrand: $('#editProductBrand').val(),
+                productQuantity: $('#editProductQuantity').val(),
+                productDescription: $('#editProductDescription').val(),
+                productConnectivity: $('#editProductConnectivity').val(),
+            };
 
-          const productId = id;
+            const productId = id;
 
-          updateProductDetails(productId, updatedData);
+            updateProductDetails(productId, updatedData);
         });
-      }
+    }
 
-      function updateProductDetails(productId, updatedData) {
-
+    function updateProductDetails(productId, updatedData) {
         const baseUrl = '/admin/products/';
 
-        fetch(${baseUrl}${productId}, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(updatedData),
+        fetch(`${baseUrl}${productId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(updatedData),
         })
-          .then(response => {
+        .then(response => {
             if (!response.ok) {
-              throw new Error(Error updating product: ${response.status});
+                throw new Error(`Error updating product: ${response.status}`);
             }
             return response.json();
-          })
-          .then(data => {
-            console.log('Product updated successfully:', data);
-            window.location.reload()
-
-          })
-          .catch(error => {
-            console.error('Error updating product:', error);
-          });
-      }
-    </script>
-
-
-    <script>
-      function deleteProduct(productId, productRow) {
-        fetch(/admin/products/${productId}, {
-          method: 'DELETE'
         })
-          .then(response => {
+        .then(data => {
+            console.log('Product updated successfully:', data);
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error updating product:', error);
+        });
+    }
+</script>
+    
+ <script>
+    function deleteProduct(productId, productRow) {
+        fetch(`/admin/products/${productId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
             if (response.ok) {
-              console.log('Product deleted');
-              if (productRow) {
-                productRow.remove();
-              }
+                console.log('Product deleted');
+                if (productRow) {
+                    productRow.remove();
+                }
             } else {
-              console.error('Error deleting product:', response.status);
+                console.error('Error deleting product:', response.status);
             }
-          })
-          .catch(error => {
+        })
+        .catch(error => {
             console.error('Fetch error:', error);
-          });
-      }
-    </script>
+        });
+    }
+</script>
+
+    
 
     <script>
       function viewProduct(
