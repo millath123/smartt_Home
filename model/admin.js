@@ -5,13 +5,13 @@ const adminSchema = new mongoose.Schema(
         password: String,
     },
     {
-    bannerImage: String,
-    bannerProduct: String,
-    bannerAnnouncement: String,
-    bannerDescription: String,
-    bannerPrice: String,
-},
+        bannerImage: String,
+        bannerProduct: String,
+        bannerAnnouncement: String,
+        bannerDescription: String,
+        bannerPrice: String,
+    },
 );
 
-const Admin = mongoose.model('Admin',adminSchema);
+const Admin = mongoose.model('Admin', adminSchema);
 export default Admin;

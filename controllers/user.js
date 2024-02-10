@@ -210,7 +210,7 @@ const googleLoginCallback = async (req, res) => {
     } else {
       // eslint-disable-next-line no-unused-expressions, no-sequences
       existingUser.fullName = userData.name,
-      existingUser.email = userData.email;
+        existingUser.email = userData.email;
       existingUser.Image = userData.picture;
       tempUser = await existingUser.save();
     }

@@ -228,7 +228,7 @@ const placeOrder = async (req, res, next) => {
 
     if (paymentMethod === 'cashOnDelivery') {
 
-    } 
+    }
     else if (paymentMethod === 'razorpay') {
       // Process Razorpay
       const { amount } = req.body; // Extract amount from the request body
