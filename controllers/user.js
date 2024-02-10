@@ -1,29 +1,34 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable camelcase */
+/* eslint-disable no-undef */
+/* eslint-disable no-unused-vars */
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
-const { OK, INTERNAL_SERVER_ERROR } = httpStatus;
 import path from 'path';
+import bcrypt from 'bcrypt';
+import axios from 'axios';
+import dotenv from 'dotenv';
 import transporter from '../helpers/nodemailer.js';
 import generateOTP from '../helpers/generateOtp.js';
-import bcrypt from 'bcrypt';
 import User from '../model/user.js';
-import axios from 'axios';
+import Profile from '../model/user.js';
 
-import dotenv from 'dotenv';
+// eslint-disable-next-line no-unused-vars
+const { OK, INTERNAL_SERVER_ERROR } = httpStatus;
 dotenv.config();
 
-const homePage = async function (req, res, next) {
-  let user = req.user;
+const homePage = async function (req, res) {
+  const { user } = req;
   res.render('../views/user/home', { user });
 };
 const signUpGetPage = async (req, res, next) => {
   res.render(path.join('../views/user/signup'));
-}
+};
 
 const sendOtp = async (req, res) => {
-  const email = req.body.email;
+  const { email } = req.body;
   const otp = generateOTP();
-  const hashedOtp = await bcrypt.hash('' + otp, 10);
-
+  const hashedOtp = await bcrypt.hash(`${otp}`, 10);
 
   const mailOptions = {
     from: 'adilamillath@gmail.com',
@@ -39,35 +44,28 @@ const sendOtp = async (req, res) => {
       <td class="es-stripe-html" align="center" style="padding:0;Margin:0"><table class="es-content-body" cellspacing="0" cellpadding="0" bgcolor="#ffffff" align="center" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;background-color:#FFFFFF;width:600px"><tr><td style="Margin:0;padding-top:40px;padding-right:20px;padding-bottom:40px;padding-left:20px;background-color:#182838" bgcolor="#182838" align="left"><table width="100%" cellspacing="0" cellpadding="0" role="none" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"><tr><td valign="top" align="center" style="padding:0;Margin:0;width:560px"><table width="100%" cellspacing="0" cellpadding="0" role="presentation" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px"><tr>
       <td align="center" style="Margin:0;padding-right:20px;padding-left:20px;padding-top:5px;padding-bottom:10px"><h1 style="Margin:0;font-family:'merriweather sans', 'helvetica neue', helvetica, arial, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:30px;font-style:normal;font-weight:normal;line-height:30px;color:#ffffff"><strong>Smart Home</strong> </h1></td></tr><tr><td align="center" style="padding:0;Margin:0;padding-right:20px;padding-left:20px;padding-bottom:5px"><h3 style="Margin:0;font-family:arial, 'helvetica neue', helvetica, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:20px;font-style:normal;font-weight:normal;line-height:24px;color:#ffffff">Activate Your Account within 5 minutes</h3></td></tr><tr>
       <td align="center" style="Margin:0;padding-right:20px;padding-left:20px;padding-top:20px;padding-bottom:30px"><img class="adapt-img" alt="" width="520" src="https://cdt-timer.stripocdn.email/api/v1/images/vfA_ULwvzDb46O9iMam9D2IavjxmWv5v0S92vbrAoyw?l=1698474614997" style="display:block;font-size:14px;border:0;outline:none;text-decoration:none"></td></tr> <tr>
-      <td align="center" style="padding:10px;Margin:0"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#ffffff;border-width:0px 0px 2px 0px;display:inline-block;border-radius:30px;width:auto"><a href="http://localhost:8080/active/${otp}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#333333;font-size:18px;padding:10px 20px 10px 20px;display:inline-block;background:#ffffff;border-radius:30px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #31CB4B;border-color:#ffffff">Active Now</a></span></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></div></body> </html>`
+      <td align="center" style="padding:10px;Margin:0"><span class="es-button-border" style="border-style:solid;border-color:#2CB543;background:#ffffff;border-width:0px 0px 2px 0px;display:inline-block;border-radius:30px;width:auto"><a href="http://localhost:8080/active/${otp}" class="es-button" target="_blank" style="mso-style-priority:100 !important;text-decoration:none !important;mso-line-height-rule:exactly;color:#333333;font-size:18px;padding:10px 20px 10px 20px;display:inline-block;background:#ffffff;border-radius:30px;font-family:arial, 'helvetica neue', helvetica, sans-serif;font-weight:normal;font-style:normal;line-height:22px;width:auto;text-align:center;letter-spacing:0;mso-padding-alt:0;mso-border-alt:10px solid #31CB4B;border-color:#ffffff">Active Now</a></span></td></tr></table></td></tr></table></td></tr></table></td></tr></table></td></tr></table></div></body> </html>`,
   };
 
   res.cookie('email', email, {
     httpOnly: true,
   });
 
-
-  transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions, (error) => {
     if (error) {
-      console.log(error);
       res.status(500).send('Failed to send OTP.');
-    }
-    else {
-
-      console.log(hashedOtp);
+    } else {
       res.cookie('otp', hashedOtp, {
-        maxAge: 5 * 60 * 1000
-
+        maxAge: 5 * 60 * 1000,
       });
-      res.status(200).render(path.join('../views/user/signup'), { sucsess: 'ok' })
+      res.status(200).render(path.join('../views/user/signup'), { sucsess: 'ok' });
     }
   });
-}
+};
 
 const activeOtp = async (req, res) => {
   const urlOtp = req.params.otp;
   const storedOtpHash = req.cookies.otp;
-
 
   bcrypt.compare(urlOtp, storedOtpHash, (err, result) => {
     if (err) {
@@ -79,29 +77,26 @@ const activeOtp = async (req, res) => {
       res.send('Activation failed');
     }
   });
-}
-
+};
 
 //  set password and conform for registration
 const passwordConformationPage = async (req, res) => {
   res.render('users/setpassword');
-}
+};
 
 const setSignupPassword = async (req, res) => {
-  const email = req.cookies.email;
-  const fullName = req.body.fullName;
-  const phoneNumber = req.body.phoneNumber;
-  const newPassword = req.body.newPassword;
-  const confirmNewPassword = req.body.confirmNewPassword;
+  const { email } = req.cookies;
+  const { fullName } = req.body;
+  const { phoneNumber } = req.body;
+  const { newPassword } = req.body;
+  const { confirmNewPassword } = req.body;
   const hashedPassword = await bcrypt.hash(newPassword, 10);
-
 
   if (newPassword !== confirmNewPassword) {
     return res.status(400).send('Passwords do not match.');
   }
 
   try {
-
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -111,7 +106,7 @@ const setSignupPassword = async (req, res) => {
       fullName,
       phoneNumber,
       email,
-      password: hashedPassword
+      password: hashedPassword,
     });
 
     await newUser.save();
@@ -121,19 +116,17 @@ const setSignupPassword = async (req, res) => {
     console.error(err);
     res.status(500).send('Error saving user to the database');
   }
-}
-
+};
 
 // user login
 const loginGetPage = (req, res) => {
-  res.render(path.join('../views/user/login'))
-}
+  res.render(path.join('../views/user/login'));
+};
 
-
+// eslint-disable-next-line consistent-return
 const loginPostPage = async (req, res) => {
   const { email, password } = req.body;
   try {
-
     const user = await User.findOne({ email });
 
     if (!user) {
@@ -145,47 +138,43 @@ const loginPostPage = async (req, res) => {
       return res.status(200).render(path.join('../views/user/conformSignupPassword'), { notmatch: 'password not match' });
     }
 
-    const user_token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET)
-    user.token = user_token
-    await user.save()
+    // eslint-disable-next-line no-underscore-dangle
+    const user_token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    // eslint-disable-next-line camelcase
+    user.token = user_token;
+    await user.save();
     res.cookie('user_token', user_token, { httpOnly: true });
     return res.redirect('/');
-    res.json({ token });
-
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Internal Server Error' });
   }
-}
+};
 
 // const googleAuthGet = (req, res, next) => {
 //   passport.authenticate('google', { scope: ['profile', 'email'] })(req, res, next);
 // };
 
-
-
 const googleLogin = async (req, res) => {
   // Redirect to Google OAuth URL
   const googleAuthUrl = process.env.GOOGLE_AUTH_URL;
-  const clientId =  process.env.GOOGLE_CLINT_ID;
+  const clientId = process.env.GOOGLE_CLINT_ID;
   const redirectUri = process.env.REDIRECT_URL;
-  const scope =  process.env.SCOPE;
+  const scope = process.env.SCOPE;
 
   const url = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
 
   res.redirect(url);
 };
 
-
-
 // Google login callback endpoint
 const googleLoginCallback = async (req, res) => {
   const { code } = req.query;
 
-  const googleTokenUrl =  process.env.GOOGLE_TOKEN_URL;
-  const clientId = process.env.GOOGLE_CLINT_ID
-  const clientSecret =  process.env.GOOGLE_CLINT_SECRET;
-  const callbackURL =   process.env.callbackURL;
+  const googleTokenUrl = process.env.GOOGLE_TOKEN_URL;
+  const clientId = process.env.GOOGLE_CLINT_ID;
+  const clientSecret = process.env.GOOGLE_CLINT_SECRET;
+  const { callbackURL } = process.env;
 
   try {
     const tokenResponse = await axios.post(googleTokenUrl, {
@@ -206,7 +195,7 @@ const googleLoginCallback = async (req, res) => {
     const user = userInfoResponse.data;
     const userData = userInfoResponse.data;
 
-    let existingUser = await User.findOne({ googleId: userData.id });
+    const existingUser = await User.findOne({ googleId: userData.id });
 
     let tempUser;
 
@@ -219,11 +208,13 @@ const googleLoginCallback = async (req, res) => {
       });
       tempUser = await tempUser.save();
     } else {
+      // eslint-disable-next-line no-unused-expressions, no-sequences
       existingUser.fullName = userData.name,
-        existingUser.email = userData.email;
+      existingUser.email = userData.email;
       existingUser.Image = userData.picture;
       tempUser = await existingUser.save();
     }
+    // eslint-disable-next-line no-underscore-dangle
     const user_token = jwt.sign({ userId: (tempUser || existingUser)._id }, process.env.JWT_SECRET);
     res.cookie('user_token', user_token, { httpOnly: true });
     res.redirect('/');
@@ -233,32 +224,32 @@ const googleLoginCallback = async (req, res) => {
   }
 };
 
+// admin logout
 const logoutPage = (req, res) => {
   res.clearCookie('user_token');
   res.redirect('/login');
 };
-
-
-
-import Profile from '../model/user.js';
-
 
 // user profile
 export const getProfile = async (req, res) => {
   try {
     const userToken = req.cookies.user_token;
     const user = await User.findOne({ token: userToken });
+    // eslint-disable-next-line no-underscore-dangle
     const profile = await Profile.findOne({ userId: user._id });
-    console.log(profile);
-    res.render(path.join(__dirname, '../views/user/profile'), { profile });
+
+    res.render(path.join('../views/user/profile'), { profile });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error fetching user profile' });
   }
 };
 
+// eslint-disable-next-line consistent-return
 export const createProfile = async (req, res) => {
-  const { name, mobileNo, email, pinCode, address, locality, city, state, saveAddressAs } = req.body;
+  const {
+    name, mobileNo, email, pinCode, address, locality, city, state, saveAddressAs,
+  } = req.body;
 
   try {
     const existingUser = await Profile.findOne({ email });
@@ -292,7 +283,7 @@ export const createProfile = async (req, res) => {
 
 export const deleteProfile = async (req, res) => {
   try {
-    const profileId = req.params.profileId;
+    const { profileId } = req.params;
     await Profile.findOneAndDelete({ _id: profileId });
     res.status(204).send();
   } catch (error) {
@@ -303,7 +294,7 @@ export const deleteProfile = async (req, res) => {
 
 export const updateProfile = async (req, res) => {
   try {
-    const profileId = req.params.profileId;
+    const { profileId } = req.params;
     const updatedData = req.body;
     const updatedProfile = await Profile.findByIdAndUpdate(profileId, updatedData, { new: true });
     res.json({ success: true, profile: updatedProfile });
@@ -312,7 +303,6 @@ export const updateProfile = async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 };
-
 
 export default {
   homePage,
@@ -324,6 +314,6 @@ export default {
   loginGetPage,
   loginPostPage,
   googleLogin,
-  googleLoginCallback,logoutPage
-  
+  googleLoginCallback,
+  logoutPage,
 };

@@ -91,40 +91,40 @@
       </div>
     </div>
   </div>
-             {{#if user}}
-        <img src="{{user.Image}}" alt="user image">
-        <a href="/logout" class="btn btn-danger custom-btn" id="logoutButton">logout
-        </a>
-    {{else}}
-        <a href="/userSignup">
-            <i class="bi bi-person-fill" style="color: #2a74ed; font-size: 25px;"></i>
-        </a>
-    {{/if}}
-
   {{#if user}}
-  <p>{{user.fullName}}</p>
+  <img src="{{user.Image}}" alt="user image">
+  <a href="/logout" class="btn btn-danger custom-btn" id="logoutButton">logout
+  </a>
+  {{else}}
+  <a href="/userSignup">
+    <i class="bi bi-person-fill" style="color: #2a74ed; font-size: 25px;"></i>
+  </a>
   {{/if}}
- 
+
+  {{!-- {{#if user}}
+  <p>{{user.fullName}}</p>
+  {{/if}} --}}
+
 
 
   <script>
-    document.getElementById('logoutButton').addEventListener('click', function() {
-        fetch('/logout', {
-            method: 'GET',
-            credentials: 'same-origin' 
-        })
+    document.getElementById('logoutButton').addEventListener('click', function () {
+      fetch('/logout', {
+        method: 'GET',
+        credentials: 'same-origin'
+      })
         .then(response => {
-            if (response.ok) {
-                window.location.href = '/login';
-            } else {
-                console.error('Failed to logout');
-            }
+          if (response.ok) {
+            window.location.href = '/login';
+          } else {
+            console.error('Failed to logout');
+          }
         })
         .catch(error => {
-            console.error('Error during logout:', error);
+          console.error('Error during logout:', error);
         });
     });
-</script>
+  </script>
 
   <script src="/public/assets/js/user.js"></script>
 

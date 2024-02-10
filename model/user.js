@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
   fullName: {
@@ -14,10 +14,9 @@ const userSchema = new mongoose.Schema({
     type: String,
   },
   token: String,
-  googleId:String,
-  name:String,
-  Image:{type:String,default:"https://cdn4.vectorstock.com/i/1000x1000/35/53/person-icon-female-user-profile-avatar-vector-18833553.jpg"},
- googleId:String,
+  googleId: String,
+  name: String,
+  Image: { type: String, default: 'https://cdn4.vectorstock.com/i/1000x1000/35/53/person-icon-female-user-profile-avatar-vector-18833553.jpg' },
 
   address: [
     {
@@ -41,10 +40,9 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
- 
-  
+
 });
 
-const User = mongoose.model("user", userSchema);
+const User = mongoose.model('user', userSchema);
 
 export default User;
