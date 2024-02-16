@@ -81,7 +81,7 @@ const adminLogoutPage = async (req, res) => {
         }
         res.status(204).send();
     } catch (error) {
-        res.status(500).send('Error deleting user.');
+        res.status(500).send('Error deleting user');
     }
 };
 

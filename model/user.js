@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
       state: {
         type: String,
       },
-      landmark: {
+      locality: {
         type: String,
       },
       pincode: {
@@ -40,7 +40,6 @@ const userSchema = new mongoose.Schema({
       },
     },
   ],
-
 });
 
 const User = mongoose.model('user', userSchema);

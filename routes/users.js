@@ -17,7 +17,7 @@ router.get('/logout', userController.logoutPage);
 
 router.get('/googleauth/google', userController.googleLogin);
 router.get('/auth/google/callback', userController.googleLoginCallback);
-
+router.get('/profile', userController.getProfile);
 router.get('/product', authenticateUser, productController.getProduct);
 router.get('/cart', authenticateUser, productController.getCart);
 router.post('/addToCart',  productController.addToCart);

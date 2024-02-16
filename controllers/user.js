@@ -1,7 +1,3 @@
-/* eslint-disable no-underscore-dangle */
-/* eslint-disable camelcase */
-/* eslint-disable no-undef */
-/* eslint-disable no-unused-vars */
 import httpStatus from 'http-status';
 import jwt from 'jsonwebtoken';
 import path from 'path';
@@ -123,7 +119,6 @@ const loginGetPage = (req, res) => {
   res.render(path.join('../views/user/login'));
 };
 
-// eslint-disable-next-line consistent-return
 const loginPostPage = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -138,9 +133,7 @@ const loginPostPage = async (req, res) => {
       return res.status(200).render(path.join('../views/user/conformSignupPassword'), { notmatch: 'password not match' });
     }
 
-    // eslint-disable-next-line no-underscore-dangle
     const user_token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-    // eslint-disable-next-line camelcase
     user.token = user_token;
     await user.save();
     res.cookie('user_token', user_token, { httpOnly: true });
@@ -174,7 +167,7 @@ const googleLoginCallback = async (req, res) => {
   const googleTokenUrl = process.env.GOOGLE_TOKEN_URL;
   const clientId = process.env.GOOGLE_CLINT_ID;
   const clientSecret = process.env.GOOGLE_CLINT_SECRET;
-  const redirectUri= process.env.REDIRECT_URL
+  const redirectUri = process.env.REDIRECT_URL
   const { callbackURL } = process.env;
 
   try {
@@ -231,13 +224,13 @@ const logoutPage = (req, res) => {
   res.redirect('/login');
 };
 
+
+
 // user profile
 export const getProfile = async (req, res) => {
   try {
-    const userToken = req.cookies.user_token;
-    const user = await User.findOne({ token: userToken });
-    // eslint-disable-next-line no-underscore-dangle
-    const profile = await Profile.findOne({ userId: user._id });
+    const user = req.user;
+    const profile = await User.findOne({ userId: user._id });
 
     res.render(path.join('../views/user/profile'), { profile });
   } catch (error) {
@@ -246,16 +239,14 @@ export const getProfile = async (req, res) => {
   }
 };
 
-// eslint-disable-next-line consistent-return
 export const createProfile = async (req, res) => {
   const {
-    name, mobileNo, email, pinCode, address, locality, city, state, saveAddressAs,
+    fullName, phoneNumber, email, pinCode, userAddress, locality, city, state, 
   } = req.body;
 
   try {
-    const existingUser = await Profile.findOne({ email });
-    const userToken = req.cookies.user_token;
-    const user = await User.findOne({ token: userToken });
+    const existingUser = await User.findOne({ email });
+    const user = req.user;
 
     if (existingUser) {
       return res.status(400).send('This mail is already used');
@@ -263,15 +254,7 @@ export const createProfile = async (req, res) => {
 
     const userProfile = new Profile({
       userId: user._id,
-      name,
-      mobileNo,
-      email,
-      pinCode,
-      address,
-      locality,
-      city,
-      state,
-      saveAddressAs,
+      fullName, phoneNumber,email, pinCode,userAddress, locality, city, state,
     });
 
     await userProfile.save();
@@ -317,4 +300,5 @@ export default {
   googleLogin,
   googleLoginCallback,
   logoutPage,
+  getProfile
 };
