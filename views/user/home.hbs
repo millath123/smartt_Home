@@ -884,10 +884,11 @@
                
                 <div class="thb-secondary-item thb-quick-cart">
                   <div class="">
-                    <a href="/userSignup"><i class="bi bi-person-fill" style="color: #2a74ed; font-size: 25px;"></i>
-                    </a>
+                   
                     {{#if user}}
-        <img src="{{user.Image}}" alt="url problem">
+        <a href="/profile">
+            <img src="{{user.Image}}" alt="tutu">
+        </a>
     {{else}}
         <a href="/userSignup">
             <i class="bi bi-person-fill" style="color: #2a74ed; font-size: 25px;"></i>

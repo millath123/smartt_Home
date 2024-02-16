@@ -174,6 +174,7 @@ const googleLoginCallback = async (req, res) => {
   const googleTokenUrl = process.env.GOOGLE_TOKEN_URL;
   const clientId = process.env.GOOGLE_CLINT_ID;
   const clientSecret = process.env.GOOGLE_CLINT_SECRET;
+  const redirectUri= process.env.REDIRECT_URL
   const { callbackURL } = process.env;
 
   try {
@@ -188,8 +189,8 @@ const googleLoginCallback = async (req, res) => {
     const { access_token, id_token } = tokenResponse.data;
 
     // Fetch user information using the access token
-    const userInfoUrl = USERINFO_URL;
-    const userInfoResponse = await axios.get(userInfoUrl, {
+    const USERINFO_URL = 'https://www.googleapis.com/oauth2/v3/userinfo';
+    const userInfoResponse = await axios.get(USERINFO_URL, {
       headers: { Authorization: `Bearer ${access_token} ` },
     });
     const user = userInfoResponse.data;

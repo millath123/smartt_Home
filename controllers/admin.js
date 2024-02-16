@@ -36,6 +36,7 @@ const adminbanner = async (req, res) => {
     res.render(path.join('../views/admin/banner'));
 };
 
+
 const adminLoginPostPage = async (req, res) => {
     const { email, password } = req.body;
 
@@ -63,7 +64,6 @@ const adminLogout = (req, res) => {
     res.clearCookie('adminToken');
     res.redirect('/admin/dashboard');
 };
-
 
 // admin dashboard
 const adminDshboard = async function (req, res) {

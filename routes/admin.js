@@ -21,8 +21,8 @@ const storage = new CloudinaryStorage({
 router.get('/register',adminController.adminSighnupPage)
 
 router.get('/login',adminController.adminLoginGetPage)
- router.get('/',isAuthenticated,adminController.adminLoginGgetPage)
-router.post('/adminLogin',adminController.adminLoginPostPage)
+ router.get('/',isAuthenticated,adminController.adminLoginGetPage)
+router.post('/login',adminController.adminLoginPostPage)
 router.get('/logout',isAuthenticated,adminController.adminLogout)
 router.get('/dashboard',isAuthenticated,adminController.adminDshboard)
 router.get('/users',isAuthenticated,adminController.adminusers)

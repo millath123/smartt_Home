@@ -142,8 +142,7 @@ const getProduct = async (req, res, next) => {
 //   cart
 const getCart = async (req, res) => {
   try {
-    const userToken = req.cookies.user_token;
-    const user = await User.findOne({ token: userToken });
+    const user = req.user
 
     // eslint-disable-next-line no-underscore-dangle
     const cartItems = await Cart.find({ userId: user._id });
