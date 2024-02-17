@@ -12,7 +12,8 @@
 
     <style>
         body {
-            background: -webkit-linear-gradient(left, #2A74ED,#9bbbee);
+            background: -webkit-linear-gradient(left, #84b0f8, #c0d5f6);
+
         }
 
         .emp-profile {
@@ -145,13 +146,123 @@
                 </div>
                 <div class="col-md-6">
                     <div class="profile-head">
-                        <h5>
-                            Kshiti Ghelani
+                        <h5> {{user.fullName}}
                         </h5>
                         <h6>
                             Web Developer and Designer
                         </h6>
-                        <p class="proile-rating">RANKINGS : <span>8/10</span></p>
+                        <div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="modalCenterTitle">ADD ADDRESS</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="adEmail" class="form-label">CONTACT DETAILS</label>
+                                                <input type="text" id="name" class="form-control" placeholder="Name*" />
+                                                <input type="tel" id="mobileNo" class="form-control"
+                                                    placeholder="Mobile No*" />
+                                                <input type="email" name="email" class="form-control" id="email"
+                                                    placeholder="Email*" />
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="adminPassword" class="form-label">Pin Code</label>
+                                                <input type="number" id="pincode" class="form-control"
+                                                    placeholder="Pin Code*" />
+                                                <label for="adminPassword" class="form-label">ADDRESS</label>
+
+                                                <input type="text" id="address" class="form-control"
+                                                    placeholder="Address(House No, Building, Street, Area*" />
+                                                <input type="text" id="locality" class="form-control"
+                                                    placeholder="Localiy/Town*" />
+                                                <div style="display: flex;">
+                                                    <input type="text" id="city" class="form-control"
+                                                        placeholder="City/ Dstrict*" />
+                                                    <input type="text" id="state" class="form-control"
+                                                        placeholder="State*" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="row">
+                                            <label for="adminPassword" class="form-label">Save Address As</label>
+                                            <div style="display: flex;">
+                                                <input style="border-radius: 50px; width:75px ;color:black; hight:10px"
+                                                    type="radio" id="home" class="form-control" placeholder="Home" />
+                                                <input style="border-radius: 50px;width:75px;color:black; hight:10px"
+                                                    type="radio" id="work" class="form-control" placeholder="work*" />
+                                            </div>
+                                        </div>
+
+                                        <input type="checkbox" name="" id=""> Make this my deffualt address
+                                        {{!-- <div class="row">
+                                            <div class="col mb-3">
+                                                <label for="adminRePassword" class="form-label">Confirm Password</label>
+                                                <input type="password" id="adminRePassword" class="form-control"
+                                                    placeholder="Confirm Password" />
+                                            </div>
+                                        </div> --}}
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button id="submitAddressBtn" class="btn btn-primary">Add Address</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <script>
+
+                            document.addEventListener('DOMContentLoaded', () => {
+                                var submitAddressBtn = document.getElementById('submitAddressBtn');
+                                if (submitAddressBtn) {
+                                    submitAddressBtn.addEventListener('click', async () => {
+                                        modal.show();
+                                    });
+
+                                    var submitAddressBtn = document.getElementById('submitAddressBtn');
+                                    submitAddressBtn.addEventListener('click', async () => {
+                                        try {
+                                            const name = document.getElementById('name').value;
+                                            const email = document.getElementById('email').value;
+                                            const mobileNo = document.getElementById('mobileNo').value;
+                                            const pinCode = document.getElementById('pincode').value;
+                                            const address = document.getElementById('address').value;
+                                            const locality = document.getElementById('locality').value;
+                                            const city = document.getElementById('city').value;
+                                            const state = document.getElementById('state').value;
+                                            const saveAddressAs = document.getElementById('home').value;
+
+                                            const response = await axios.post('/users/profile', {
+                                                name,
+                                                mobileNo,
+                                                email,
+                                                pinCode,
+                                                address,
+                                                locality,
+                                                city,
+                                                state,
+                                                saveAddressAs,
+                                            });
+
+                                            console.log('Address added:', response.data);
+                                            modal.hide();
+                                        } catch (error) {
+                                            console.error('Error adding address:', error);
+                                        }
+                                    })
+                                };
+                            });
+                            
+                        </script>
+
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
@@ -187,27 +298,27 @@
                     <div class="tab-content profile-tab" id="myTabContent">
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
-                                <div class="col-md-6">
+                                {{!-- <div class="col-md-6">
                                     <label>User Id</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>Kshiti123</p>
+                                    <p>{{user.}}</p>
+                                </div> --}}
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>{{user.fullName}}</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{user.}}</p>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Name</label>
+                                    <label>{{user.email}}</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>Kshiti Ghelani</p>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label>Email</label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p>kshitighelani@gmail.com</p>
+                                    <p></p>
                                 </div>
                             </div>
                             <div class="row">
@@ -215,7 +326,7 @@
                                     <label>Phone</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>123 456 7890</p>
+                                    <p>{{user.phoneNumber}}</p>
                                 </div>
                             </div>
                             <div class="row">
@@ -280,6 +391,109 @@
             </div>
         </form>
     </div>
+
+    <div class="modal fade" id="adminModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalCenterTitle">ADD ADDRESS</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="adEmail" class="form-label">CONTACT DETAILS</label>
+                            <input type="text" id="name" class="form-control" placeholder="Name*" />
+                            <input type="tel" id="mobileNo" class="form-control" placeholder="Mobile No*" />
+                            <input type="email" name="email" class="form-control" id="email" placeholder="Email*" />
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col mb-3">
+                            <label for="adminPassword" class="form-label">Pin Code</label>
+                            <input type="number" id="pincode" class="form-control" placeholder="Pin Code*" />
+                            <label for="adminPassword" class="form-label">ADDRESS</label>
+
+                            <input type="text" id="address" class="form-control"
+                                placeholder="Address(House No, Building, Street, Area*" />
+                            <input type="text" id="locality" class="form-control" placeholder="Localiy/Town*" />
+                            <div style="display: flex;">
+                                <input type="text" id="city" class="form-control" placeholder="City/ Dstrict*" />
+                                <input type="text" id="state" class="form-control" placeholder="State*" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <label for="adminPassword" class="form-label">Save Address As</label>
+                        <div style="display: flex;">
+                            <input style="border-radius: 50px; width:75px ;color:black; hight:10px" type="radio"
+                                id="home" class="form-control" placeholder="Home" />
+                            <input style="border-radius: 50px;width:75px;color:black; hight:10px" type="radio" id="work"
+                                class="form-control" placeholder="work*" />
+                        </div>
+                    </div>
+
+                    <input type="checkbox" name="" id=""> Make this my deffualt address
+                    {{!-- <div class="row">
+                        <div class="col mb-3">
+                            <label for="adminRePassword" class="form-label">Confirm Password</label>
+                            <input type="password" id="adminRePassword" class="form-control"
+                                placeholder="Confirm Password" />
+                        </div>
+                    </div> --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                    <button id="submitAddressBtn" class="btn btn-primary">Add Address</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            var submitAddressBtn = document.getElementById('submitAddressBtn');
+            if (submitAddressBtn) {
+                submitAddressBtn.addEventListener('click', async () => {
+                    modal.show();
+                });
+
+                var submitAddressBtn = document.getElementById('submitAddressBtn');
+                submitAddressBtn.addEventListener('click', async () => {
+                    try {
+                        const name = document.getElementById('name').value;
+                        const email = document.getElementById('email').value;
+                        const mobileNo = document.getElementById('mobileNo').value;
+                        const pinCode = document.getElementById('pincode').value;
+                        const address = document.getElementById('address').value;
+                        const locality = document.getElementById('locality').value;
+                        const city = document.getElementById('city').value;
+                        const state = document.getElementById('state').value;
+                        const saveAddressAs = document.getElementById('home').value;
+
+                        const response = await axios.post('/users/profile', {
+                            name,
+                            mobileNo,
+                            email,
+                            pinCode,
+                            address,
+                            locality,
+                            city,
+                            state,
+                            saveAddressAs,
+                        });
+
+                        console.log('Address added:', response.data);
+                        modal.hide();
+                    } catch (error) {
+                        console.error('Error adding address:', error);
+                    }
+                })
+            };
+        });
+    </script>
+
 </body>
 
 </html>

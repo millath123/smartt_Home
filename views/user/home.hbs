@@ -860,16 +860,15 @@
                 </div>
               
                                 <div class="thb-secondary-item thb-quick-cart">
-     <a href="/profile">
+     {{!-- <a href="/profile">
                   
                     <div class="thb-quick-cart-inner" style="margin-left: 5px;">
                       <span class="thb-item-text">profile</span>
                          <div class="thb-item-icon-wrapper">
-									{{!-- <span class="count thb-cart-count"></span> --}}
 							</div>
                     </div>
                  
-                  </a>
+                  </a> --}}
               
                   <a href="/cart">
                   
@@ -887,7 +886,7 @@
                    
                     {{#if user}}
         <a href="/profile">
-            <img src="{{user.Image}}" alt="tutu">
+            <img src="{{user.Image}}" alt="tutu" width="38px" height="38px" style="border-radius: 50%;">
         </a>
     {{else}}
         <a href="/userSignup">
