@@ -26,4 +26,5 @@ router.get('/checkout', authenticateUser, productController.getCheckout);
 router.delete('/checkout/:profileId',  productController.deleteProfile);
 router.post('/placeorder', productController.placeOrder);
 
+
 export default router;

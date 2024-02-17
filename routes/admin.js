@@ -12,8 +12,7 @@ const storage = new CloudinaryStorage({
     params: {
       folder: 'uploads', 
       allowed_formats: ['jpg', 'png', 'jpeg'],
-    },
-  });
+    },});
   
   const upload = multer({ storage });
 
@@ -31,7 +30,6 @@ router.get('/banner',isAuthenticated,adminController.adminbanner)
 
 router.put('/users/:id',adminController.updateRoute)
 router.delete('/user/:id',adminController.deleteRoute)
-
 router.post('/dashboard',adminController.adminLoginPostPage)
 
 
@@ -40,10 +38,7 @@ router.post('/upload',upload.array('images', 5), productController.uploadImages)
 router.delete('/products/:id',productController.deleteProduct)
 router.put('/products/:id',productController.updateProduct)
 
-// router.get('/users'adminController.)
 
-// router.get('/dashboard',adminController.adminDshboard)
-// router.get('/dashboard',adminController.adminDshboard)
 
 // router.get('/admin/passwordReset',adminController.passwordReset)
 // router.post('/admin/passwordReset',rs.passwordResetPost)

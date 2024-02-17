@@ -229,10 +229,7 @@ const logoutPage = (req, res) => {
 // user profile
 export const getProfile = async (req, res) => {
   try {
-    const user = req.user;
-    const profile = await User.findOne({ userId: user._id });
-
-    res.render(path.join('../views/user/profile'), { profile });
+    res.render(path.join('../views/user/profile'), { profile:req.user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error fetching user profile' });
