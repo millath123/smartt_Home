@@ -233,27 +233,27 @@
                     </div>
                 </div>
 
-{{#each cartItems.[0].products}}
+{{#each cart}}
   <div class="row border-top border-bottom">
     <div class="row main align-items-center">
-      <div class="col-2"><img class="img-fluid" src="{{this.productData.productImage.[0]}}"></div>
+      <div class="col-2"><img class="img-fluid" src="{{this.products.[0].productData.productImage.[0]}}"></div>
       <div class="col">
-        <div class="row text-muted">{{this.productData.productCategory}}</div>
-        <div class="row">{{this.productData.productName}}</div>
+        <div class="row text-muted">{{this.products.[0].productData.productCategory}}</div>
+        <div class="row">{{this.products.[0].productData.productName}}</div>
       </div>
       <div class="qty">
         <a href="#" class="decrement">-</a>
-        <span class="quantity">{{this.quantity}}</span>
+        <span class="quantity">{{this.products.[0].quantity}}</span>
         <a href="#" class="increment">+</a>
       </div>
 
-      <div class="col">₹<span class="product-price">{{this.productData.productPrice}}</span>
+      <div class="col">₹<span class="product-price">{{this.products.[0].productData.productPrice}}</span>
         <span class="close">
-          <button class="btn-delete" data-productId="{{this.productId}}">&#10005;</button>
+          <button class="btn-delete" data-productId="{{this.products.[0].productId}}">&#10005;</button>
         </span>
       </div>
 
-      <p class="deletcart" style="display: none;">{{this.productId}}</p>
+      <p class="deletcart" style="display: none;">{{this.products.[0].productId}}</p>
     </div>
   </div>
 {{/each}}

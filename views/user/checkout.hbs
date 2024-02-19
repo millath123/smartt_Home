@@ -883,26 +883,24 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {{#each cart}}
-                                                <tr class="cart_item">
-                                                    <td class="product-name">
-                                                        {{this.productData.productName}}&nbsp; <strong
-                                                            class="product-quantity">&times;&nbsp;{{this._doc.quantity}}</strong>
-                                                    </td>
-                                                    <td class="product-total">
-                                                        <span class="woocommerce-Price-amount amount product-price">
-                                                            <bdi><span
-                                                                    class="woocommerce-Price-currencySymbol"></span>{{this.productData.productPrice}}</bdi>
-                                                        </span>
-                                                    </td>
-                                                    <td class="total">
-                                                        <span class="woocommerce-Price-amount amount product-price">
-                                                            <bdi><span
-                                                                    class="woocommerce-Price-currencySymbol"></span>{{this.total}}</bdi>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                {{/each}}
+                                              {{#each cart}}
+<tr class="cart_item">
+    <td class="product-name">
+        {{this.product.[0].productName}}&nbsp;<strong class="product-quantity">&times;&nbsp;{{this.products.[0].quantity}}</strong>
+    </td>
+    <td class="product-total">
+        <span class="woocommerce-Price-amount amount product-price">
+            <bdi><span class="woocommerce-Price-currencySymbol"></span>{{this.product.[0].productPrice}}</bdi>
+        </span>
+    </td>
+    <td class="total">
+        <span class="woocommerce-Price-amount amount product-price">
+            <bdi><span class="woocommerce-Price-currencySymbol"></span>{{this.total}}</bdi>
+        </span>
+    </td>
+</tr>
+{{/each}}
+
                                             </tbody>
 
 

@@ -142,20 +142,33 @@ const getProduct = async (req, res, next) => {
 //   cart
 const getCart = async (req, res) => {
   try {
-    const user = req.user
+    const user = req.user;
 
-    // eslint-disable-next-line no-underscore-dangle
+    // Find all cart items for the user
     const cartItems = await Cart.find({ userId: user._id });
 
-    const productIds = cartItems.map((item) => item.productId);
-    const productData = await Product.find({ _id: productIds });
+    // Extract unique product ids from the cart items
+    const productIds = cartItems.map((item) => item.products.map((product) => product.productId)).flat();
 
-    res.render(path.join('../views/user/cart'), { cart: cartItems, product: productData });
+    // Fetch product data for all unique product ids
+    const productDatas = await Product.find({ _id: { $in: productIds } });
+
+    // Map product data to cart items
+    const cartWithProductData = cartItems.map((cartItem) => {
+      const products = cartItem.products.map((productInCart) => {
+        const productData = productDatas.find((product) => product._id.equals(productInCart.productId));
+        return { ...productInCart.toObject(), productData };
+      });
+      return { ...cartItem.toObject(), products };
+    });
+    // Render the view with cart ilotems and product data
+    res.render('../views/user/cart', { cart: cartWithProductData });
   } catch (error) {
     console.error('Error occurred:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 // eslint-disable-next-line consistent-return
 const addToCart = async (req, res) => {
@@ -170,17 +183,24 @@ const addToCart = async (req, res) => {
 
     const userToken = req.cookies.user_token;
     const user = await User.findOne({ token: userToken });
-    let cart = await Cart.findOne({ userId: user._id, productId });
 
-    if (cart) {
-      cart.quantity += 1;
-    } else {
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    let cart = await Cart.findOneAndUpdate(
+      { userId: user._id, 'products.productId': productId },
+      { $inc: { 'products.$.quantity': 1 } },
+      { new: true }
+    );
+
+    if (!cart) {
       cart = new Cart({
         userId: user._id,
-        productId,
-        quantity: 1,
+        products: [{ productId, quantity: 1 }],
       });
     }
+
     await cart.save();
     res.status(200).json({ success: true, message: 'Product added to cart' });
   } catch (error) {
@@ -189,22 +209,51 @@ const addToCart = async (req, res) => {
   }
 };
 
+
 //   checkout
 const getCheckout = async (req, res) => {
   try {
-    const userToken = req.cookies.user_token;
-    const user = await User.findOne({ token: userToken });
-    const cartItems = await Cart.find({ userId: user._id });
-    const productIds = cartItems.map((item) => item.productId);
-    const productData = await Product.find({ _id: productIds });
-    //   const profile = await Profile.find({ userId: user._id });
+    const user = req.user;
 
-    res.render(path.join('../views/user/checkout'), { cart: cartItems, product: productData, user });
+    // Fetch user's cart items and corresponding product data in a single query
+    const userData = await Cart.aggregate([
+      {
+        $match: { userId: user._id }
+      },
+      {
+        $lookup: {
+          from: 'products',
+          localField: 'products.productId',
+          foreignField: '_id',
+          as: 'product'
+        }
+      }
+    ]);
+
+    if (!userData.length) {
+      return res.status(404).send('Cart is empty');
+    }
+
+    
+   userData.forEach((m)=>{
+    let a = m.products[0].quantity
+    m.product.forEach((e)=>{
+      m.total = e.productPrice * a;
+    }) 
+   })
+
+    // Calculate the grand total for all items in the cart
+    const grandTotal = userData.reduce((acc, curr) => acc + curr.total, 0);
+
+    // Render the checkout view with cart items, product data, and user details
+    res.render('../views/user/checkout', { cart: userData, user, grandTotal });
   } catch (error) {
-    console.error(error);
+    console.error('Error occurred:', error);
     res.status(500).send('Internal Server Error');
   }
 };
+
+
 const deleteProfile = async (req, res) => {
   try {
     const { profileId } = req.params;

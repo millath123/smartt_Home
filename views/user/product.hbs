@@ -996,10 +996,11 @@
                                                         class="woocommerce-Price-amount amount"><bdi>₹{{this.productPrice}}</bdi></span></del>
                                                 <ins><span
                                                         class="woocommerce-Price-amount amount"><bdi>₹{{this.productPrice}}</bdi></span></ins></span>
-                                            <a data-quantity="1" class="button wp-element-button product_type_external"
+                                            <button data-quantity="1" class="button wp-element-button product_type_external"
                                                 data-product_id="68" data-product_sku="53870"
                                                 aria-label="Buy on BestBuy" rel="nofollow"
-                                                onclick="addToCart({{this._id}})">Add to cart</a>
+                                                onclick="addToCart('{{this._id}}')">Add to cart</button>
+                                                
                                         </div>
                                     </div>
                                 </li>
