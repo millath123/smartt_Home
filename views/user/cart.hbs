@@ -233,30 +233,32 @@
                     </div>
                 </div>
 
-{{#each cart}}
-  <div class="row border-top border-bottom">
-    <div class="row main align-items-center">
-      <div class="col-2"><img class="img-fluid" src="{{this.products.[0].productData.productImage.[0]}}"></div>
-      <div class="col">
-        <div class="row text-muted">{{this.products.[0].productData.productCategory}}</div>
-        <div class="row">{{this.products.[0].productData.productName}}</div>
-      </div>
-      <div class="qty">
-        <a href="#" class="decrement">-</a>
-        <span class="quantity">{{this.products.[0].quantity}}</span>
-        <a href="#" class="increment">+</a>
-      </div>
+                {{#each cart}}
+                <div class="row border-top border-bottom">
+                    <div class="row main align-items-center">
+                        <div class="col-2"><img class="img-fluid"
+                                src="{{this.products.[0].productData.productImage.[0]}}"></div>
+                        <div class="col">
+                            <div class="row text-muted">{{this.products.[0].productData.productCategory}}</div>
+                            <div class="row">{{this.products.[0].productData.productName}}</div>
+                        </div>
+                        <div class="qty">
+                            <a href="#" class="decrement">-</a>
+                            <span class="quantity">{{this.products.[0].quantity}}</span>
+                            <a href="#" class="increment">+</a>
+                        </div>
 
-      <div class="col">₹<span class="product-price">{{this.products.[0].productData.productPrice}}</span>
-        <span class="close">
-          <button class="btn-delete" data-productId="{{this.products.[0].productId}}">&#10005;</button>
-        </span>
-      </div>
+                        <div class="col">₹<span
+                                class="product-price">{{this.products.[0].productData.productPrice}}</span>
+                            <span class="close">
+                                <button class="btn-delete" data-productId="{{this.productId}}">&#10005;</button>
+                            </span>
+                        </div>
 
-      <p class="deletcart" style="display: none;">{{this.products.[0].productId}}</p>
-    </div>
-  </div>
-{{/each}}
+                        <p class="deletcart" style="display: none;">{{this.products.[0].productId}}</p>
+                    </div>
+                </div>
+                {{/each}}
 
 
                 <div class="back-to-shop"><a href="/product">&leftarrow;</a><span class="text-muted">Back to shop</span>
@@ -270,7 +272,8 @@
                 <hr>
 
                 <div class="row">
-                    <div class="col" style="padding-left:0;" id="totalItems">ITEMS {{cartItems.[0].productData.length}}</div>
+                    <div class="col" style="padding-left:0;" id="totalItems">ITEMS {{cartItems.[0].productData.length}}
+                    </div>
                 </div>
 
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
@@ -282,6 +285,7 @@
             </div>
         </div>
     </div>
+
 
 
     <script>
@@ -298,7 +302,6 @@
                         });
 
                         if (response.ok) {
-
                             event.target.closest('.border-top').remove();
                         } else {
                             console.error('Failed to delete product from cart');
@@ -311,75 +314,75 @@
         });
     </script>
 
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const qtyContainers = document.querySelectorAll('.qty');
-        qtyContainers.forEach(container => {
-            const decrementButton = container.querySelector('.decrement');
-            const incrementButton = container.querySelector('.increment');
-            const quantityElement = container.querySelector('.quantity');
-            const productPriceElement = container.closest('.row').querySelector('.product-price');
-            const productId = container.closest('.row').querySelector('.btn-delete').getAttribute('data-productId');
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const qtyContainers = document.querySelectorAll('.qty');
+            qtyContainers.forEach(container => {
+                const decrementButton = container.querySelector('.decrement');
+                const incrementButton = container.querySelector('.increment');
+                const quantityElement = container.querySelector('.quantity');
+                const productPriceElement = container.closest('.row').querySelector('.product-price');
+                const productId = container.closest('.row').querySelector('.btn-delete').getAttribute('data-productId');
 
-            const originalPrice = parseFloat(productPriceElement.textContent);
+                const originalPrice = parseFloat(productPriceElement.textContent);
 
-            // Get the default quantity from the template
-            let defaultQuantity = parseInt(quantityElement.textContent);
+                // Get the default quantity from the template
+                let defaultQuantity = parseInt(quantityElement.textContent);
 
-            incrementButton.addEventListener('click', () => {
-                updateQuantity('increment');
-            });
+                incrementButton.addEventListener('click', () => {
+                    updateQuantity('increment');
+                });
 
-            decrementButton.addEventListener('click', () => {
-                updateQuantity('decrement');
-            });
+                decrementButton.addEventListener('click', () => {
+                    updateQuantity('decrement');
+                });
 
-            function updateQuantity(action) {
-                let quantity = parseInt(quantityElement.textContent);
+                function updateQuantity(action) {
+                    let quantity = parseInt(quantityElement.textContent);
 
-                if (action === 'increment' && quantity < 10) {
-                    quantity++;
-                } else if (action === 'decrement' && quantity > 1) {
-                    quantity--;
+                    if (action === 'increment' && quantity < 10) {
+                        quantity++;
+                    } else if (action === 'decrement' && quantity > 1) {
+                        quantity--;
+                    }
+
+                    quantityElement.textContent = quantity;
+
+                    const totalPrice = originalPrice * quantity;
+                    productPriceElement.textContent = totalPrice;
+
+                    // Send AJAX request to update quantity in the database
+                    updateQuantityInDatabase(productId, quantity);
                 }
 
-                quantityElement.textContent = quantity;
+                // Trigger the increment logic based on the default quantity
+                for (let i = 1; i < defaultQuantity; i++) {
+                    incrementButton.click();
+                    decrementButton.click()
+                }
+            });
 
-                const totalPrice = originalPrice * quantity;
-                productPriceElement.textContent = totalPrice;
-
-                // Send AJAX request to update quantity in the database
-                updateQuantityInDatabase(productId, quantity);
-            }
-
-            // Trigger the increment logic based on the default quantity
-            for (let i = 1; i < defaultQuantity; i++) {
-                incrementButton.click();
-                decrementButton.click()
+            function updateQuantityInDatabase(productId, quantity) {
+                // Send an AJAX request to update quantity in the database
+                fetch(`/cart/${productId}/${quantity}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    // You can include additional data in the body if needed
+                    // body: JSON.stringify({ quantity: quantity }),
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Failed to update quantity in the database');
+                        }
+                    })
+                    .catch(error => {
+                        console.error(error);
+                    });
             }
         });
-
-        function updateQuantityInDatabase(productId, quantity) {
-            // Send an AJAX request to update quantity in the database
-            fetch(`/cart/${productId}/${quantity}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                // You can include additional data in the body if needed
-                // body: JSON.stringify({ quantity: quantity }),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to update quantity in the database');
-                }
-            })
-            .catch(error => {
-                console.error(error);
-            });
-        }
-    });
-</script>
+    </script>
 
     {{!-- sum of the product price --}}
     <script>

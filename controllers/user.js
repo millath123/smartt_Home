@@ -218,7 +218,7 @@ const googleLoginCallback = async (req, res) => {
   }
 };
 
-// admin logout
+// user logout
 const logoutPage = (req, res) => {
   res.clearCookie('user_token');
   res.redirect('/login');

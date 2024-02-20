@@ -8,35 +8,35 @@ import cloudinary from '../helpers/cloudinary.js';
 import multer from 'multer';
 
 const storage = new CloudinaryStorage({
-    cloudinary: cloudinary,
-    params: {
-      folder: 'uploads', 
-      allowed_formats: ['jpg', 'png', 'jpeg'],
-    },});
-  
-  const upload = multer({ storage });
+  cloudinary: cloudinary,
+  params: {
+    folder: 'uploads',
+    allowed_formats: ['jpg', 'png', 'jpeg'],
+  },
+});
+
+const upload = multer({ storage });
 
 
-router.get('/register',adminController.adminSighnupPage)
+router.get('/register', adminController.adminSighnupPage)
 
-router.get('/login',adminController.adminLoginGetPage)
- router.get('/',isAuthenticated,adminController.adminLoginGetPage)
-router.post('/login',adminController.adminLoginPostPage)
-router.get('/logout',isAuthenticated,adminController.adminLogout)
-router.get('/dashboard',isAuthenticated,adminController.adminDshboard)
-router.get('/users',isAuthenticated,adminController.adminusers)
-
-router.get('/banner',isAuthenticated,adminController.adminbanner)
-
-router.put('/users/:id',adminController.updateRoute)
-router.delete('/user/:id',adminController.deleteRoute)
-router.post('/dashboard',adminController.adminLoginPostPage)
+router.get('/login', adminController.adminLoginGetPage)
+router.post('/login', adminController.adminLoginPostPage)
+router.get('/logout', isAuthenticated, adminController.adminLogout)
+router.get('/', isAuthenticated, adminController.adminLogout)
 
 
-router.get('/product',isAuthenticated,productController.adminproduct)
-router.post('/upload',upload.array('images', 5), productController.uploadImages),
-router.delete('/products/:id',productController.deleteProduct)
-router.put('/products/:id',productController.updateProduct)
+router.get('/users', isAuthenticated, adminController.adminusers)
+router.put('/users/:id', adminController.updateRoute)
+router.delete('/user/:id', adminController.deleteRoute)
+
+router.get('/dashboard', isAuthenticated, adminController.adminDshboard)
+router.post('/dashboard', adminController.adminLoginPostPage)
+
+router.get('/product', isAuthenticated, productController.adminproduct)
+router.post('/upload', upload.array('images', 5), productController.uploadImages),
+  router.delete('/products/:id', productController.deleteProduct)
+router.put('/products/:id', productController.updateProduct)
 
 
 

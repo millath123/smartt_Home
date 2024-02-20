@@ -19,21 +19,12 @@ async function adminSighnupPage() {
     await newAdmin.save();
 }
 
-
+// admin login
 const adminLoginGetPage = async (req, res) => {
     if (req.cookies.adminToken) {
-        res.redirect('/admin');
+        res.redirect('/admin/dashboard');
     }
     res.render(path.join('../views/admin/login'));
-};
-
-const adminusers = async (req, res) => {
-    const users = await User.find();
-    res.render('admin/users', { users });
-};
-
-const adminbanner = async (req, res) => {
-    res.render(path.join('../views/admin/banner'));
 };
 
 
@@ -47,7 +38,7 @@ const adminLoginPostPage = async (req, res) => {
             const matchPass = await bcrypt.compare(password, savedAdmin.password);
             if (matchPass) {
                 res.cookie('adminToken', savedAdmin._id.toString());
-                res.redirect('/admin');
+                res.redirect('/admin/dashboard');
             } else {
                 res.status(401).send('Incorrect Password');
             }
@@ -65,11 +56,8 @@ const adminLogout = (req, res) => {
     res.redirect('/admin/dashboard');
 };
 
-// admin dashboard
-const adminDshboard = async function (req, res) {
-    res.render(path.join('../views/admin/dashboard'));
-};
 
+// admin logout
 const adminLogoutPage = async (req, res) => {
     const userId = req.params.id;
 
@@ -84,6 +72,22 @@ const adminLogoutPage = async (req, res) => {
         res.status(500).send('Error deleting user');
     }
 };
+
+// admin dashboard
+const adminDshboard = async function (req, res) {
+    res.render(path.join('../views/admin/dashboard'));
+};
+
+// users list
+const adminusers = async (req, res) => {
+    const users = await User.find();
+    res.render('admin/users', { users });
+};
+
+const adminbanner = async (req, res) => {
+    res.render(path.join('../views/admin/banner'));
+};
+
 
 const deleteUserController = async (req, res) => {
     const userId = req.params.id;

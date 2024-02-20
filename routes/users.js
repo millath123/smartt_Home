@@ -20,7 +20,7 @@ router.get('/auth/google/callback', userController.googleLoginCallback);
 router.get('/profile', userController.getProfile);
 router.get('/product', authenticateUser, productController.getProduct);
 router.get('/cart', authenticateUser, productController.getCart);
-router.post('/addToCart',  productController.addToCart);
+router.post('/addToCart', authenticateUser, productController.addToCart);
 
 router.get('/checkout', authenticateUser, productController.getCheckout);
 router.delete('/checkout/:profileId',  productController.deleteProfile);

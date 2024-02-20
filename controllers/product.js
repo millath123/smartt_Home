@@ -7,8 +7,8 @@ import cloudinary from '../helpers/cloudinary.js';
 import Product from '../model/product.js';
 import User from '../model/user.js';
 import Cart from '../model/cart.js';
+import connect from '../database/connect.js';
 
-// eslint-disable-next-line func-names
 const adminproduct = async function (req, res) {
   const product = await Product.find();
   res.render('admin/product', { product });
@@ -58,7 +58,6 @@ const uploadImages = async (req, res) => {
 };
 
 //   delete product
-
 const deleteProduct = async (req, res) => {
   const productId = req.params.id;
 
@@ -170,10 +169,9 @@ const getCart = async (req, res) => {
 };
 
 
-// eslint-disable-next-line consistent-return
 const addToCart = async (req, res) => {
+  connect();
   const { productId } = req.body;
-
   try {
     const product = await Product.findById(productId);
 
@@ -181,33 +179,81 @@ const addToCart = async (req, res) => {
       return res.status(404).json({ error: 'Product not found' });
     }
 
-    const userToken = req.cookies.user_token;
-    const user = await User.findOne({ token: userToken });
+    const user = req.user;
 
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(401).json({ error: 'User not authenticated' });
     }
 
-    let cart = await Cart.findOneAndUpdate(
-      { userId: user._id, 'products.productId': productId },
-      { $inc: { 'products.$.quantity': 1 } },
-      { new: true }
-    );
+    // Find the user's cart
+    let cart = await Cart.findOne({ userId: user._id });
 
     if (!cart) {
+      // If cart doesn't exist, create a new one
       cart = new Cart({
         userId: user._id,
         products: [{ productId, quantity: 1 }],
       });
+    } else {
+      // Check if the product is already in the cart
+      const existingProduct = cart.products.find(item => item.productId === productId);
+
+      if (existingProduct) {
+        // If the product is found, update its quantity
+        existingProduct.quantity += 1;
+      } else {
+        // If the product is not found, add it to the cart
+        cart.products.push({ productId, quantity: 1 });
+      }
     }
 
+    // Save the updated cart
     await cart.save();
+
     res.status(200).json({ success: true, message: 'Product added to cart' });
   } catch (error) {
     console.error('Error adding product to cart:', error);
     res.status(500).json({ error: 'Failed to add product to cart' });
   }
 };
+
+
+// const addToCart = async (req, res) => {
+//   try {
+//     const { productId } = req.body;
+//     const user = req.user;
+
+//     if (!user) {
+//       return res.status(404).json({ error: 'User not found' });
+//     }
+
+//     let cart = await Cart.findOne({ userId: user._id });
+
+//     if (!cart) {
+//       cart = new Cart({
+//         userId: user._id,
+//         products: [{ productId, quantity: 1 }],
+//       });
+//     } else {
+//       const existingProductIndex = cart.products.findIndex(
+//         (product) => product.productId === productId
+//       );
+
+//       if (existingProductIndex !== -1) {
+//         cart.products[existingProductIndex].quantity += 1;
+//       } else {
+//         cart.products.push({ productId, quantity: 1 });
+//       }
+//     }
+
+//     await cart.save();
+//     res.status(200).json({ success: true, message: 'Product added to cart' });
+//   } catch (error) {
+//     console.error('Error adding product to cart:', error);
+//     res.status(500).json({ error: 'Failed to add product to cart' });
+//   }
+// };
+
 
 
 //   checkout
@@ -233,14 +279,13 @@ const getCheckout = async (req, res) => {
     if (!userData.length) {
       return res.status(404).send('Cart is empty');
     }
-
     
-   userData.forEach((m)=>{
-    let a = m.products[0].quantity
-    m.product.forEach((e)=>{
-      m.total = e.productPrice * a;
-    }) 
-   })
+    userData.forEach((m) => {
+      let a = m.products[0].quantity
+      m.product.forEach((e) => {
+        m.total = e.productPrice * a;
+      })
+    })
 
     // Calculate the grand total for all items in the cart
     const grandTotal = userData.reduce((acc, curr) => acc + curr.total, 0);
@@ -273,7 +318,6 @@ const placeOrder = async (req, res, next) => {
     } = req.body;
 
     // console.log('Received data:', req.body);
-
     if (paymentMethod === 'cashOnDelivery') {
 
     }
@@ -294,13 +338,11 @@ const placeOrder = async (req, res, next) => {
           contact: '1234567890',
         },
       };
-
       return res.json({ razorpayOptions });
     }
     // else {
     // }
 
-    // eslint-disable-next-line no-undef
     const newOrder = new Order({
       userId,
       profileId,

@@ -7,8 +7,8 @@ import userRoutes from './routes/users.js';
 import adminRoutes from './routes/admin.js';
 
 const app = express();
-
 connect();
+
 app.use((req, res, next) => { // cache clearing for all request and responses
   res.header(
     'Cache-Control',
