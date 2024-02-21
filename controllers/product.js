@@ -170,44 +170,43 @@ const getCart = async (req, res) => {
 
 
 const addToCart = async (req, res) => {
-  connect();
-  const { productId } = req.body;
   try {
+    const { productId } = req.body;
+
+    // Find the product
     const product = await Product.findById(productId);
 
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
 
-    const user = req.user;
-
-    if (!user) {
+    // Check if the user is authenticated
+    if (!req.user) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
 
-    // Find the user's cart
-    let cart = await Cart.findOne({ userId: user._id });
+    // Find or create the user's cart
+    let cart = await Cart.findOne({ userId: req.user._id });
 
     if (!cart) {
-      // If cart doesn't exist, create a new one
       cart = new Cart({
-        userId: user._id,
+        userId: req.user._id,
         products: [{ productId, quantity: 1 }],
       });
     } else {
       // Check if the product is already in the cart
-      const existingProductIndex = cart.products.findIndex(item => item.productId === productId);
+      const existingProduct = cart.products.find(item => item.productId.equals(productId));
 
-      if (existingProductIndex !== -1) {
+      if (existingProduct) {
         // If the product is found, update its quantity
-        cart.products[existingProductIndex].quantity += 1;
+        existingProduct.quantity += 1;
       } else {
         // If the product is not found, add it to the cart
         cart.products.push({ productId, quantity: 1 });
       }
     }
 
-    // Save the updated cart
+    // Save the cart
     await cart.save();
 
     res.status(200).json({ success: true, message: 'Product added to cart' });
