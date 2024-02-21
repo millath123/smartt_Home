@@ -56,7 +56,6 @@ const adminLogout = (req, res) => {
     res.redirect('/admin/dashboard');
 };
 
-
 // admin logout
 const adminLogoutPage = async (req, res) => {
     const userId = req.params.id;

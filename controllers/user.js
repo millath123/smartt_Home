@@ -229,7 +229,7 @@ const logoutPage = (req, res) => {
 // user profile
 export const getProfile = async (req, res) => {
   try {
-    res.render(path.join('../views/user/profile'), { profile:req.user });
+    res.render(path.join('../views/user/profile'), { profile: req.user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error fetching user profile' });
@@ -238,7 +238,7 @@ export const getProfile = async (req, res) => {
 
 export const createProfile = async (req, res) => {
   const {
-    fullName, phoneNumber, email, pinCode, userAddress, locality, city, state, 
+    fullName, phoneNumber, email, pinCode, userAddress, locality, city, state,
   } = req.body;
 
   try {
@@ -251,7 +251,7 @@ export const createProfile = async (req, res) => {
 
     const userProfile = new Profile({
       userId: user._id,
-      fullName, phoneNumber,email, pinCode,userAddress, locality, city, state,
+      fullName, phoneNumber, email, pinCode, userAddress, locality, city, state,
     });
 
     await userProfile.save();
@@ -297,5 +297,6 @@ export default {
   googleLogin,
   googleLoginCallback,
   logoutPage,
-  getProfile
+  getProfile,
+
 };
