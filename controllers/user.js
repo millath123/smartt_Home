@@ -298,5 +298,4 @@ export default {
   googleLoginCallback,
   logoutPage,
   getProfile,
-
 };

@@ -196,11 +196,11 @@ const addToCart = async (req, res) => {
       });
     } else {
       // Check if the product is already in the cart
-      const existingProduct = cart.products.find(item => item.productId === productId);
+      const existingProductIndex = cart.products.findIndex(item => item.productId === productId);
 
-      if (existingProduct) {
+      if (existingProductIndex !== -1) {
         // If the product is found, update its quantity
-        existingProduct.quantity += 1;
+        cart.products[existingProductIndex].quantity += 1;
       } else {
         // If the product is not found, add it to the cart
         cart.products.push({ productId, quantity: 1 });
@@ -253,7 +253,6 @@ const addToCart = async (req, res) => {
 //     res.status(500).json({ error: 'Failed to add product to cart' });
 //   }
 // };
-
 
 
 //   checkout
@@ -310,7 +309,7 @@ const deleteProfile = async (req, res) => {
   }
 };
 
-//   payment
+//  payment
 const placeOrder = async (req, res, next) => {
   try {
     const {
