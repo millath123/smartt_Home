@@ -143,25 +143,17 @@ const getCart = async (req, res) => {
   try {
     const user = req.user;
 
-    // Find all cart items for the user
-    const cartItems = await Cart.find({ userId: user._id });
-
-    // Extract unique product ids from the cart items
-    const productIds = cartItems.map((item) => item.products.map((product) => product.productId)).flat();
-
-    // Fetch product data for all unique product ids
-    const productDatas = await Product.find({ _id: { $in: productIds } });
-
-    // Map product data to cart items
-    const cartWithProductData = cartItems.map((cartItem) => {
-      const products = cartItem.products.map((productInCart) => {
-        const productData = productDatas.find((product) => product._id.equals(productInCart.productId));
-        return { ...productInCart.toObject(), productData };
-      });
-      return { ...cartItem.toObject(), products };
+    // Find the user's cart and populate both the product ID and product details
+    const cart = await Cart.findOne({ userId: user._id }).populate({
+      path: 'products.productId',
+      model: 'Product' // Replace 'Product' with the name of your product model
     });
-    // Render the view with cart ilotems and product data
-    res.render('../views/user/cart', { cart: cartWithProductData });
+
+    if (!cart) {
+      return res.status(404).json({ error: 'Cart not found' });
+    }
+
+    res.render(path.join( '../views/user/cart'), { cart });
   } catch (error) {
     console.error('Error occurred:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -216,43 +208,32 @@ const addToCart = async (req, res) => {
   }
 };
 
+// DELETE route for removing a product from the cart
+const deleteCart = async (req, res) => {
+  const productId = req.params.productId;
 
-// const addToCart = async (req, res) => {
-//   try {
-//     const { productId } = req.body;
-//     const user = req.user;
+  try {
+      const userToken = req.cookies.user_token;
+      const user = req.user
 
-//     if (!user) {
-//       return res.status(404).json({ error: 'User not found' });
-//     }
+      if (!user) {
+          return res.status(401).json({ error: 'User not authenticated' });
+      }
 
-//     let cart = await Cart.findOne({ userId: user._id });
+      const cart = await Cart.findOne({ userId: user._id });
 
-//     if (!cart) {
-//       cart = new Cart({
-//         userId: user._id,
-//         products: [{ productId, quantity: 1 }],
-//       });
-//     } else {
-//       const existingProductIndex = cart.products.findIndex(
-//         (product) => product.productId === productId
-//       );
+      if (!cart) {
+          return res.status(404).json({ error: 'Cart not found' });
+      }
 
-//       if (existingProductIndex !== -1) {
-//         cart.products[existingProductIndex].quantity += 1;
-//       } else {
-//         cart.products.push({ productId, quantity: 1 });
-//       }
-//     }
+      await Cart.updateOne({ userId: user._id }, { $pull: { products: { productId } } });
 
-//     await cart.save();
-//     res.status(200).json({ success: true, message: 'Product added to cart' });
-//   } catch (error) {
-//     console.error('Error adding product to cart:', error);
-//     res.status(500).json({ error: 'Failed to add product to cart' });
-//   }
-// };
-
+      res.status(200).json({ message: 'Product deleted from cart successfully' });
+  } catch (error) {
+      console.error('Error deleting product from cart:', error);
+      res.status(500).json({ error: 'Failed to delete product from cart' });
+  }
+};
 
 //   checkout
 const getCheckout = async (req, res) => {
@@ -358,13 +339,14 @@ const placeOrder = async (req, res, next) => {
   }
 };
 export default {
-  addToCart,
   getProduct,
   adminproduct,
   uploadImages,
   deleteProduct,
   updateProduct,
   getCart,
+  addToCart,
+  deleteCart,
   getCheckout,
   deleteProfile,
   placeOrder,
