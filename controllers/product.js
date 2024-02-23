@@ -235,11 +235,15 @@ const deleteCart = async (req, res) => {
   }
 };
 
+// update cart
+const updateCart =  async(req,res)=>{
+
+}
+
 //   checkout
 const getCheckout = async (req, res) => {
   try {
     const user = req.user;
-
     // Fetch user's cart items and corresponding product data in a single query
     const userData = await Cart.aggregate([
       {
@@ -265,10 +269,8 @@ const getCheckout = async (req, res) => {
         m.total = e.productPrice * a;
       })
     })
-
     // Calculate the grand total for all items in the cart
     const grandTotal = userData.reduce((acc, curr) => acc + curr.total, 0);
-
     // Render the checkout view with cart items, product data, and user details
     res.render('../views/user/checkout', { cart: userData, user, grandTotal });
   } catch (error) {

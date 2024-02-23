@@ -236,6 +236,7 @@ export const getProfile = async (req, res) => {
   }
 };
 
+
 export const createProfile = async (req, res) => {
   const {
     fullName, phoneNumber, email, pinCode, userAddress, locality, city, state,

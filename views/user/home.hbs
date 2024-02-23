@@ -858,47 +858,47 @@
                     </form>
                   </div>
                 </div>
-              
-                                <div class="thb-secondary-item thb-quick-cart">
-     {{!-- <a href="/profile">
-                  
+
+                <div class="thb-secondary-item thb-quick-cart">
+                  {{!-- <a href="/profile">
+
                     <div class="thb-quick-cart-inner" style="margin-left: 5px;">
                       <span class="thb-item-text">profile</span>
-                         <div class="thb-item-icon-wrapper">
-							</div>
+                      <div class="thb-item-icon-wrapper">
+                      </div>
                     </div>
-                 
+
                   </a> --}}
-              
+
                   <a href="/cart">
-                  
+
                     <div class="thb-quick-cart-inner">
                       <span class="thb-item-text">Cart</span>
-                         <div class="thb-item-icon-wrapper">
-									<span class="count thb-cart-count">{{product.length}}</span>
-							</div>
+                      <div class="thb-item-icon-wrapper">
+                        <span class="count thb-cart-count">{{product.length}}</span>
+                      </div>
                     </div>
-                 
+
                   </a>
-               
-                <div class="thb-secondary-item thb-quick-cart">
-                  <div class="">
-                   
-                    {{#if user}}
-        <a href="/profile">
-            <img src="{{user.Image}}" alt="tutu" width="38px" height="38px" style="border-radius: 50%;">
-        </a>
-    {{else}}
-        <a href="/userSignup">
-            <i class="bi bi-person-fill" style="color: #2a74ed; font-size: 25px;"></i>
-        </a>
-    {{/if}}
+
+                  <div class="thb-secondary-item thb-quick-cart">
+                    <div class="">
+
+                      {{#if user}}
+                      <a href="/profile">
+                        <img src="{{user.Image}}" alt="tutu" width="38px" height="38px" style="border-radius: 50%;">
+                      </a>
+                      {{else}}
+                      <a href="/userSignup">
+                        <i class="bi bi-person-fill" style="color: #2a74ed; font-size: 25px;"></i>
+                      </a>
+                      {{/if}}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
       </header>
     </div>
     <div role="main">
@@ -928,7 +928,7 @@
 
                 <h1 class="wp-block-heading">
                   See Who’s There Before The Ring
-                  </h1>
+                </h1>
 
                 <p>
                   Get instant alerts for anyone who approaches, even if they
@@ -1720,14 +1720,14 @@
     <script id="wc-cart-fragments-js-after" type="text/javascript">
       jQuery('body').bind('wc_fragments_refreshed', function () {
         var
-        jetpackLazyImagesLoadEvent; try {
-          jetpackLazyImagesLoadEvent = new
-            Event('jetpack-lazy-images-load', { bubbles: true, cancelable: true });
-        } catch (e) {
-          jetpackLazyImagesLoadEvent = document.createEvent('Event')
-          jetpackLazyImagesLoadEvent.initEvent('jetpack-lazy-images-load', true,
-            true);
-        }
+          jetpackLazyImagesLoadEvent; try {
+            jetpackLazyImagesLoadEvent = new
+              Event('jetpack-lazy-images-load', { bubbles: true, cancelable: true });
+          } catch (e) {
+            jetpackLazyImagesLoadEvent = document.createEvent('Event')
+            jetpackLazyImagesLoadEvent.initEvent('jetpack-lazy-images-load', true,
+              true);
+          }
         jQuery('body').get(0).dispatchEvent(jetpackLazyImagesLoadEvent);
       });
 

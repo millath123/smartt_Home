@@ -17,15 +17,19 @@ router.get('/logout', userController.logoutPage);
 
 router.get('/googleauth/google', userController.googleLogin);
 router.get('/auth/google/callback', userController.googleLoginCallback);
-router.get('/profile', userController.getProfile);
+
+router.get('/profile',authenticateUser, userController.getProfile);
 router.get('/product', authenticateUser, productController.getProduct);
 router.get('/cart', authenticateUser, productController.getCart);
 router.post('/addToCart', authenticateUser, productController.addToCart);
+router.delete('/cart/delete/:productId',authenticateUser,productController.deleteCart);
+
 
 router.get('/checkout', authenticateUser, productController.getCheckout);
 router.delete('/checkout/:profileId',  productController.deleteProfile);
 router.post('/placeorder', productController.placeOrder);
 
-// router.get('/orderSummary',authenticateUser,productController,getOrderSummery)
+// router.get('/orderSummary',authenticateUser,productController.getOrderSummery)
 // router.post('/ordersummery',productController.postOrdderSummery)
+
 export default router;

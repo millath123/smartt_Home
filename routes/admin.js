@@ -8,13 +8,12 @@ import cloudinary from '../helpers/cloudinary.js';
 import multer from 'multer';
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
+  cloudinary: cloudinary,                                                           
   params: {
     folder: 'uploads',
     allowed_formats: ['jpg', 'png', 'jpeg'],
   },
 });
-
 const upload = multer({ storage });
 
 router.get('/register', adminController.adminSighnupPage)
