@@ -17,9 +17,17 @@ const userSchema = new mongoose.Schema({
   googleId: String,
   name: String,
   Image: { type: String, default: 'https://cdn4.vectorstock.com/i/1000x1000/35/53/person-icon-female-user-profile-avatar-vector-18833553.jpg' },
-
   address: [
     {
+      name: {
+        type: String,
+      },
+      email: {
+        type: String,
+      },
+      mobileNo: {
+        type: String,
+      },
       street: {
         type: String,
       },
@@ -38,10 +46,12 @@ const userSchema = new mongoose.Schema({
       pincode: {
         type: Number,
       },
+      saveAddressAs: {
+        type: String,
+      }
     },
   ],
 });
 
 const User = mongoose.model('user', userSchema);
-
 export default User;

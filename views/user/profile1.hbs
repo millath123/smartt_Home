@@ -446,7 +446,6 @@
                             const editState = editStateInput.value;
                             const editHome = editHomeInput.value;
 
-
                             await axios.put(`/profile/{{profile._id}}`, { name: editedName });
 
                             editModal.hide();

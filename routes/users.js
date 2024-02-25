@@ -13,12 +13,13 @@ router.get('/passwordConformation', userController.passwordConformationPage);
 router.post('/set-password', userController.setSignupPassword);
 router.get('/login', userController.loginGetPage);
 router.post('/login', userController.loginPostPage);
-router.get('/logout', userController.logoutPage);
+router.get('/logout',authenticateUser, userController.logoutPage);
 
 router.get('/googleauth/google', userController.googleLogin);
 router.get('/auth/google/callback', userController.googleLoginCallback);
 
 router.get('/profile',authenticateUser, userController.getProfile);
+router.post('/profile', authenticateUser,userController.createProfile)
 router.get('/product', authenticateUser, productController.getProduct);
 router.get('/cart', authenticateUser, productController.getCart);
 router.post('/addToCart', authenticateUser, productController.addToCart);
@@ -29,7 +30,9 @@ router.get('/checkout', authenticateUser, productController.getCheckout);
 router.delete('/checkout/:profileId',  productController.deleteProfile);
 router.post('/placeorder', productController.placeOrder);
 
+
 // router.get('/orderSummary',authenticateUser,productController.getOrderSummery)
 // router.post('/ordersummery',productController.postOrdderSummery)
+
 
 export default router;

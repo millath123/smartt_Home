@@ -133,7 +133,8 @@ const loginPostPage = async (req, res) => {
       return res.status(200).render(path.join('../views/user/conformSignupPassword'), { notmatch: 'password not match' });
     }
 
-    const user_token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+    const user_token = jwt.sign({ userId: user._id }, 
+    process.env.JWT_SECRET);
     user.token = user_token;
     await user.save();
     res.cookie('user_token', user_token, { httpOnly: true });
@@ -202,14 +203,13 @@ const googleLoginCallback = async (req, res) => {
       });
       tempUser = await tempUser.save();
     } else {
-      // eslint-disable-next-line no-unused-expressions, no-sequences
       existingUser.fullName = userData.name,
         existingUser.email = userData.email;
       existingUser.Image = userData.picture;
       tempUser = await existingUser.save();
     }
-    // eslint-disable-next-line no-underscore-dangle
-    const user_token = jwt.sign({ userId: (tempUser || existingUser)._id }, process.env.JWT_SECRET);
+    const user_token = jwt.sign({ userId: (tempUser || existingUser)._id },
+    process.env.JWT_SECRET);
     res.cookie('user_token', user_token, { httpOnly: true });
     res.redirect('/');
   } catch (error) {
@@ -221,13 +221,11 @@ const googleLoginCallback = async (req, res) => {
 // user logout
 const logoutPage = (req, res) => {
   res.clearCookie('user_token');
-  res.redirect('/login');
+  res.redirect('/');
 };
 
-
-
 // user profile
-export const getProfile = async (req, res) => {
+const getProfile = async (req, res) => {
   try {
     res.render(path.join('../views/user/profile'), { profile: req.user });
   } catch (error) {
@@ -237,33 +235,32 @@ export const getProfile = async (req, res) => {
 };
 
 
-export const createProfile = async (req, res) => {
+const createProfile = async (req, res) => {
+  console.log(req.body);
   const {
-    fullName, phoneNumber, email, pinCode, userAddress, locality, city, state,
+    name, email, mobileNo,
+    pincode, address, locality, city, state, saveAddressAs
   } = req.body;
 
+  const  user = req.user ;
+
   try {
-    const existingUser = await User.findOne({ email });
-    const user = req.user;
+    // Assuming user.address is an array
+    user.address.push(req.body);
 
-    if (existingUser) {
-      return res.status(400).send('This mail is already used');
-    }
+    // Assuming user.save() is a function that saves the user profile
+    const profile = await user.save();
 
-    const userProfile = new Profile({
-      userId: user._id,
-      fullName, phoneNumber, email, pinCode, userAddress, locality, city, state,
-    });
-
-    await userProfile.save();
-    res.status(201).json(userProfile);
+    console.log(profile);
+    res.status(201).json(profile);
   } catch (error) {
     console.error(error);
-    res.status(500).send('Error saving user to the database');
+    res.status(500).send('Error saving user profile to the database');
   }
 };
 
-export const deleteProfile = async (req, res) => {
+
+const deleteProfile = async (req, res) => {
   try {
     const { profileId } = req.params;
     await Profile.findOneAndDelete({ _id: profileId });
@@ -274,7 +271,7 @@ export const deleteProfile = async (req, res) => {
   }
 };
 
-export const updateProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
   try {
     const { profileId } = req.params;
     const updatedData = req.body;
@@ -297,7 +294,10 @@ export default {
   loginPostPage,
   googleLogin,
   googleLoginCallback,
-  logoutPage,
+  logoutPage, 
   getProfile,
+  createProfile,
+  deleteProfile,
+  updateProfile
 
 };
