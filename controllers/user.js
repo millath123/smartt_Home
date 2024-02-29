@@ -236,10 +236,8 @@ const getProfile = async (req, res) => {
 
 
 const createProfile = async (req, res) => {
-  console.log(req.body);
-  const {
-    name, email, mobileNo,
-    pincode, address, locality, city, state, saveAddressAs
+  // console.log(req.body);
+  const {name, email, mobileNo,pincode, address, locality, city, state, saveAddressAs
   } = req.body;
 
   const  user = req.user ;
@@ -247,7 +245,6 @@ const createProfile = async (req, res) => {
   try {
     // Assuming user.address is an array
     user.address.push(req.body);
-
     // Assuming user.save() is a function that saves the user profile
     const profile = await user.save();
 

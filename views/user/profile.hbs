@@ -138,6 +138,7 @@
 </head>
 
 <body>
+
     <div class="container emp-profile">
         <form action="/logout" method="GET">
             <div class="row">
@@ -155,7 +156,7 @@
                     <div class="profile-head">
                         <button type="button" id="showAdminModalBtn" class="btn btn-primary">
                             ADD NEW ADDRESS
-                        </button>
+                        </button><br><br><br>
                         <h6>
                             Web Developer and Designer
                         </h6>
@@ -336,8 +337,9 @@
         </div>
     </div>
 
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('showAdminModalBtn').addEventListener('click', function () {
                 var myModal = new bootstrap.Modal(document.getElementById('adminModal'));
                 myModal.show();

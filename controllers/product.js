@@ -104,7 +104,6 @@ const updateProduct = async (req, res) => {
       const newImageUrls = results.map((result) => result.secure_url);
       imageUrls = newImageUrls;
     }
-
     // Update product details
     product.productImage = imageUrls;
     product.productName = productName;
@@ -124,6 +123,7 @@ const updateProduct = async (req, res) => {
   }
 };
 
+
 //   view product
 const getProduct = async (req, res, next) => {
   try {
@@ -137,6 +137,7 @@ const getProduct = async (req, res, next) => {
     res.status(500).json({ error: 'Error fetching products' });
   }
 };
+
 
 //   cart
 const getCart = async (req, res) => {
@@ -153,7 +154,7 @@ const getCart = async (req, res) => {
       return res.status(404).json({ error: 'Cart not found' });
     }
 
-    res.render(path.join( '../views/user/cart'), { cart });
+    res.render(path.join('../views/user/cart'), { cart });
   } catch (error) {
     console.error('Error occurred:', error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -208,37 +209,39 @@ const addToCart = async (req, res) => {
   }
 };
 
+
 // DELETE route for removing a product from the cart
 const deleteCart = async (req, res) => {
   const productId = req.params.productId;
 
   try {
-      const userToken = req.cookies.user_token;
-      const user = req.user
+    const userToken = req.cookies.user_token;
+    const user = req.user
 
-      if (!user) {
-          return res.status(401).json({ error: 'User not authenticated' });
-      }
+    if (!user) {
+      return res.status(401).json({ error: 'User not authenticated' });
+    }
 
-      const cart = await Cart.findOne({ userId: user._id });
+    const cart = await Cart.findOne({ userId: user._id });
 
-      if (!cart) {
-          return res.status(404).json({ error: 'Cart not found' });
-      }
+    if (!cart) {
+      return res.status(404).json({ error: 'Cart not found' });
+    }
 
-      await Cart.updateOne({ userId: user._id }, { $pull: { products: { productId } } });
+    await Cart.updateOne({ userId: user._id }, { $pull: { products: { productId } } });
 
-      res.status(200).json({ message: 'Product deleted from cart successfully' });
+    res.status(200).json({ message: 'Product deleted from cart successfully' });
   } catch (error) {
-      console.error('Error deleting product from cart:', error);
-      res.status(500).json({ error: 'Failed to delete product from cart' });
+    console.error('Error deleting product from cart:', error);
+    res.status(500).json({ error: 'Failed to delete product from cart' });
   }
 };
 
 // update cart
-const updateCart =  async(req,res)=>{
+const updateCart = async (req, res) => {
 
 }
+
 
 //   checkout
 const getCheckout = async (req, res) => {
@@ -262,7 +265,7 @@ const getCheckout = async (req, res) => {
     if (!userData.length) {
       return res.status(404).send('Cart is empty');
     }
-    
+
     userData.forEach((m) => {
       let a = m.products[0].quantity
       m.product.forEach((e) => {
@@ -290,6 +293,7 @@ const deleteProfile = async (req, res) => {
     res.status(500).send('Error deleting profile');
   }
 };
+
 
 //  payment
 const placeOrder = async (req, res, next) => {
