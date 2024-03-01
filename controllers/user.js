@@ -9,7 +9,7 @@ import generateOTP from '../helpers/generateOtp.js';
 import User from '../model/user.js';
 import Profile from '../model/user.js';
 
-// eslint-disable-next-line no-unused-vars
+
 const { OK, INTERNAL_SERVER_ERROR } = httpStatus;
 dotenv.config();
 
@@ -133,8 +133,8 @@ const loginPostPage = async (req, res) => {
       return res.status(200).render(path.join('../views/user/conformSignupPassword'), { notmatch: 'password not match' });
     }
 
-    const user_token = jwt.sign({ userId: user._id }, 
-    process.env.JWT_SECRET);
+    const user_token = jwt.sign({ userId: user._id },
+      process.env.JWT_SECRET);
     user.token = user_token;
     await user.save();
     res.cookie('user_token', user_token, { httpOnly: true });
@@ -170,7 +170,6 @@ const googleLoginCallback = async (req, res) => {
   const clientSecret = process.env.GOOGLE_CLINT_SECRET;
   const redirectUri = process.env.REDIRECT_URL
   const { callbackURL } = process.env;
-
   try {
     const tokenResponse = await axios.post(googleTokenUrl, {
       code,
@@ -187,6 +186,7 @@ const googleLoginCallback = async (req, res) => {
     const userInfoResponse = await axios.get(USERINFO_URL, {
       headers: { Authorization: `Bearer ${access_token} ` },
     });
+
     const user = userInfoResponse.data;
     const userData = userInfoResponse.data;
 
@@ -209,7 +209,7 @@ const googleLoginCallback = async (req, res) => {
       tempUser = await existingUser.save();
     }
     const user_token = jwt.sign({ userId: (tempUser || existingUser)._id },
-    process.env.JWT_SECRET);
+      process.env.JWT_SECRET);
     res.cookie('user_token', user_token, { httpOnly: true });
     res.redirect('/');
   } catch (error) {
@@ -234,16 +234,12 @@ const getProfile = async (req, res) => {
   }
 };
 
-
 const createProfile = async (req, res) => {
-  // console.log(req.body);
-  const {name, email, mobileNo,pincode, address, locality, city, state, saveAddressAs
+  const { name, email, mobileNo, pincode, address, locality, city, state, saveAddressAs
   } = req.body;
 
-  const  user = req.user ;
-
+  const user = req.user;
   try {
-    // Assuming user.address is an array
     user.address.push(req.body);
     // Assuming user.save() is a function that saves the user profile
     const profile = await user.save();
@@ -255,7 +251,6 @@ const createProfile = async (req, res) => {
     res.status(500).send('Error saving user profile to the database');
   }
 };
-
 
 const deleteProfile = async (req, res) => {
   try {
@@ -291,10 +286,9 @@ export default {
   loginPostPage,
   googleLogin,
   googleLoginCallback,
-  logoutPage, 
+  logoutPage,
   getProfile,
   createProfile,
   deleteProfile,
   updateProfile
-
 };

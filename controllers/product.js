@@ -138,7 +138,6 @@ const getProduct = async (req, res, next) => {
   }
 };
 
-
 //   cart
 const getCart = async (req, res) => {
   try {
@@ -165,19 +164,15 @@ const getCart = async (req, res) => {
 const addToCart = async (req, res) => {
   try {
     const { productId } = req.body;
-
     // Find the product
     const product = await Product.findById(productId);
-
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
-
     // Check if the user is authenticated
     if (!req.user) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
-
     // Find or create the user's cart
     let cart = await Cart.findOne({ userId: req.user._id });
 

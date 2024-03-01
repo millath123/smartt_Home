@@ -11,5 +11,6 @@ const productSchema = new mongoose.Schema({
   productPrice: String,
   productQuantity: String,
 });
+
 const Product = mongoose.model("Product", productSchema);
 export default Product;

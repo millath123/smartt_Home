@@ -136,7 +136,6 @@
 
 
 </head>
-
 <body>
 
     <div class="container emp-profile">
@@ -154,9 +153,7 @@
                 </div>
                 <div class="col-md-6">
                     <div class="profile-head">
-                        <button type="button" id="showAdminModalBtn" class="btn btn-primary">
-                            ADD NEW ADDRESS
-                        </button><br><br><br>
+
                         <h6>
                             Web Developer and Designer
                         </h6>
@@ -177,7 +174,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-4">
+                {{!-- <div class="col-md-4">
                     <div class="profile-work">
                         <p>WORK LINK</p>
                         <a href="">Website Link</a><br />
@@ -192,52 +189,86 @@
                         <a href="">WooCommerce</a><br />
                         <a href="">PHP, .Net</a><br />
                     </div>
-                </div>
+                </div> --}}
+
                 <div class="col-md-8">
+                    <button type="button" id="showAdminModalBtn" class="btn btn-primary">
+                        ADD NEW ADDRESS
+                    </button><br><br><br>
                     <div class="tab-content profile-tab" id="myTabContent">
+
+                        {{#each profile.address}}
                         <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
                             <div class="row">
-                                {{!-- <div class="col-md-6">
-                                    <label>User Id</label>
+                                <div class="col-md-6" style="color: red;">
+                                    <label for="defaultAddress{{@index}}">{{saveAddressAs}} Address</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>{{user.}}</p>
-                                </div> --}}
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <label></label>
-                                </div>
-                                <div class="col-md-6">
-                                    <p></p>
+                                    <input type="radio" id="defaultAddress{{@index}}" name="defaultAddress"
+                                        value="{{@index}}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label></label>
+                                    <label>Name</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p></p>
+                                    <p>{{this.name}}</p>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <label>Email</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{this.email}}</p>
+                                </div>
+                            </div>
+                             <div class="row">
+                                <div class="col-md-6">
+                                    <label>Address</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{this.userAddress}}</p>
+                                </div>
+                            </div> 
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Phone</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p></p>
+                                    <p>{{this.mobileNo}}</p>
                                 </div>
                             </div>
+                       
                             <div class="row">
                                 <div class="col-md-6">
-                                    <label>Profession</label>
+                                    <label>City</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <p>Web Developer and Designer</p>
+                                    <p>{{this.city}}</p>
                                 </div>
                             </div>
+                                 <div class="row">
+                                <div class="col-md-6">
+                                    <label>State</label>
+                                </div>
+                                <div class="col-md-6">
+                                    <p>{{this.state}}</p>
+                                </div>
+                            </div>
+                          
+                            <button type="button" id="showAdminModalBtn" class="btn btn-primary">
+                                Edit
+                            </button>
+                            <button type="button" id="showAdminModalBtn" class="btn btn-danger">
+                                Delete
+                            </button><br><br><br>
                         </div>
-                        <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                        <br>
+                        {{/each}}
+
+                        {{!-- <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Experience</label>
@@ -284,7 +315,8 @@
                                     <p>Your detail description</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> --}}
+
                     </div>
                 </div>
             </div>
@@ -310,14 +342,14 @@
                     <input type="text" id="city" class="form-control mb-3" placeholder="City/District*" />
                     <input type="text" id="state" class="form-control mb-3" placeholder="State*" />
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="saveAddressAs" id="home" value="home"
+                        <input class="form-check-input" type="radio" name="saveAddressAs" id="home" value="Home"
                             checked>
                         <label class="form-check-label" for="home">
                             Home
                         </label>
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="radio" name="saveAddressAs" id="work" value="work">
+                        <input class="form-check-input" type="radio" name="saveAddressAs" id="work" value="Work">
                         <label class="form-check-label" for="work">
                             Work
                         </label>
@@ -338,8 +370,9 @@
     </div>
 
 
+
     <script>
-document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('showAdminModalBtn').addEventListener('click', function () {
                 var myModal = new bootstrap.Modal(document.getElementById('adminModal'));
                 myModal.show();
@@ -352,7 +385,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     email: document.getElementById('email').value,
                     mobileNo: document.getElementById('mobileNo').value,
                     pincode: document.getElementById('pincode').value,
-                    address: document.getElementById('address').value,
+                    userAddress: document.getElementById('address').value,
                     locality: document.getElementById('locality').value,
                     city: document.getElementById('city').value,
                     state: document.getElementById('state').value,
@@ -383,7 +416,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
             });
         });
-
 
     </script>
 </body>

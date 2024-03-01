@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema({
   token: String,
   googleId: String,
   name: String,
-  Image: { type: String, default: 'https://cdn4.vectorstock.com/i/1000x1000/35/53/person-icon-female-user-profile-avatar-vector-18833553.jpg' },
+  Image: { type: String, 
+  default: 'https://cdn4.vectorstock.com/i/1000x1000/35/53/person-icon-female-user-profile-avatar-vector-18833553.jpg' },
   address: [
     {
       name: {
