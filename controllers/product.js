@@ -153,12 +153,21 @@ const getCart = async (req, res) => {
       return res.status(404).json({ error: 'Cart not found' });
     }
 
-    res.render(path.join('../views/user/cart'), { cart });
+    // Calculate total for each product
+    cart.products.forEach(product => {
+      product.productId.total = product.productId.productPrice * product.quantity;
+    });
+
+    // Calculate total cart value
+    const totalCartValue = cart.products.reduce((total, product) => total + product.productId.total, 0);
+
+    res.render(path.join('../views/user/cart'), { cart, totalCartValue });
   } catch (error) {
     console.error('Error occurred:', error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
 
 
 const addToCart = async (req, res) => {
@@ -232,10 +241,30 @@ const deleteCart = async (req, res) => {
   }
 };
 
-// update cart
 const updateCart = async (req, res) => {
+  try {
+    const user = req.user;
+    const productId = req.params.productId;
+    const quantity = parseInt(req.params.quantity); // Assuming quantity is passed as a number in the URL
 
-}
+    let cart = await Cart.findOne({ userId: user._id });
+
+    const existingProduct = cart.products.find(product => product.productId.toString() === productId);
+
+    if (existingProduct) {
+      existingProduct.quantity = quantity;
+    } else {
+      cart.products.push({ productId, quantity });
+    }
+
+    await cart.save();
+
+    res.status(200).json({ message: 'Cart updated successfully' });
+  } catch (error) {
+    console.error('Error occurred:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+};
 
 
 //   checkout
@@ -351,4 +380,5 @@ export default {
   getCheckout,
   deleteProfile,
   placeOrder,
+  updateCart
 };

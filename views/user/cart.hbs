@@ -219,7 +219,9 @@
             margin: 0 10px;
         }
     </style>
+
 </head>
+
 <body>
 
     <div class="card">
@@ -231,7 +233,7 @@
                     </div>
                 </div>
 
-              {{#each cart.products}}
+                {{#each cart.products}}
                 <div class="row border-top border-bottom">
                     <div class="row main align-items-center">
                         <div class="col-2"><img class="img-fluid"
@@ -247,16 +249,17 @@
                         </div>
 
                         <div class="col">₹<span
-                                class="product-price">{{this.productId.productPrice}}</span>
+                                class="product-price">{{this.productId.total}}</span>
                             <span class="close">
-                                <button class="btn-delete" data-productId="{{this.productId}}">&#10005;</button>
+                                <button class="btn-delete" data-productId="{{this.productId._id}}">&#10005;</button>
                             </span>
                         </div>
 
-                        <p class="deletcart" style="display: none;">{{this.products.[0].productId}}</p>
+                        <p class="deletcart" style="display: none;">{{this.productId._id}}</p>
                     </div>
                 </div>
                 {{/each}}
+
 
                 <div class="back-to-shop"><a href="/product">&leftarrow;</a><span class="text-muted">Back to shop</span>
                 </div>
@@ -275,7 +278,7 @@
 
                 <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
                     <div class="col">TOTAL PRICE</div>
-                    <div class="col text-right" id="totalSum"></div>
+                    <div class="col text-right" id="totalSum">{{totalCartValue }}</div>
                 </div>
 
                 <a href="/checkout"><button id="checkout" class="btn">CHECKOUT</button></a>
@@ -283,135 +286,114 @@
         </div>
     </div>
 
+
+
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const deleteButtons = document.querySelectorAll('.btn-delete');
+        const deleteButtons = document.querySelectorAll('.btn-delete');
 
-            deleteButtons.forEach((button, index) => {
-                button.addEventListener('click', async (event) => {
-                    const productId = document.getElementsByClassName("deletcart")[index].textContent;
+        deleteButtons.forEach((button, index) => {
+            button.addEventListener('click', async (event) => {
+                const productId = document.getElementsByClassName("deletcart")[index].textContent;
 
-                    try {
-                        const response = await fetch(`/cart/delete/${productId}`, {
-                            method: 'DELETE'
-                        });
+                // Fetch request only when the delete button is clicked
+                try {
+                    const response = await fetch(`/cart/delete/${productId}`, {
+                        method: 'DELETE'
+                    });
 
-                        if (response.ok) {
-                            event.target.closest('.border-top').remove();
-                        } else {
-                            console.error('Failed to delete product from cart');
-                        }
-                    } catch (error) {
-                        console.error('Error deleting product:', error);
+                    if (response.ok) {
+                        event.target.closest('.border-top').remove();
+                    } else {
+                        console.error('Failed to delete product from cart');
                     }
-                });
+                } catch (error) {
+                    console.error('Error deleting product:', error);
+                }
             });
         });
-    </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const qtyContainers = document.querySelectorAll('.qty');
-            qtyContainers.forEach(container => {
-                const decrementButton = container.querySelector('.decrement');
-                const incrementButton = container.querySelector('.increment');
-                const quantityElement = container.querySelector('.quantity');
-                const productPriceElement = container.closest('.row').querySelector('.product-price');
-                const productId = container.closest('.row').querySelector('.btn-delete').getAttribute('data-productId');
+        const qtyContainers = document.querySelectorAll('.qty');
+        qtyContainers.forEach(container => {
+            const decrementButton = container.querySelector('.decrement');
+            const incrementButton = container.querySelector('.increment');
+            const quantityElement = container.querySelector('.quantity');
+            const productPriceElement = container.closest('.row').querySelector('.product-price');
+            const productId = container.closest('.row').querySelector('.btn-delete').getAttribute('data-productId');
 
-                const originalPrice = parseFloat(productPriceElement.textContent);
+            const originalPrice = parseFloat(productPriceElement.textContent) / parseInt(quantityElement.textContent)
+            
 
-                // Get the default quantity from the template
-                let defaultQuantity = parseInt(quantityElement.textContent);
-
-                incrementButton.addEventListener('click', () => {
-                    updateQuantity('increment');
-                });
-
-                decrementButton.addEventListener('click', () => {
-                    updateQuantity('decrement');
-                });
-
-                function updateQuantity(action) {
-                    let quantity = parseInt(quantityElement.textContent);
-
-                    if (action === 'increment' && quantity < 10) {
-                        quantity++;
-                    } else if (action === 'decrement' && quantity > 1) {
-                        quantity--;
-                    }
-
-                    quantityElement.textContent = quantity;
-
-                    const totalPrice = originalPrice * quantity;
-                    productPriceElement.textContent = totalPrice;
-
-                    // Send AJAX request to update quantity in the database
-                    updateQuantityInDatabase(productId, quantity);
-                }
-
-                // Trigger the increment logic based on the default quantity
-                for (let i = 1; i < defaultQuantity; i++) {
-                    incrementButton.click();
-                    decrementButton.click()
-                }
+            incrementButton.addEventListener('click', () => {
+                updateQuantity('increment');
             });
 
-            function updateQuantityInDatabase(productId, quantity) {
-                // Send an AJAX request to update quantity in the database
-                fetch(`/cart/${productId}/${quantity}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    // You can include additional data in the body if needed
-                    // body: JSON.stringify({ quantity: quantity }),
-                })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Failed to update quantity in the database');
-                        }
-                    })
-                    .catch(error => {
-                        console.error(error);
-                    });
+            decrementButton.addEventListener('click', () => {
+                updateQuantity('decrement');
+            });
+
+            function updateQuantity(action) {
+                let quantity = parseInt(quantityElement.textContent);
+
+                if (action === 'increment' && quantity < 10) {
+                    quantity++;
+                } else if (action === 'decrement' && quantity > 1) {
+                    quantity--;
+                }
+
+                quantityElement.textContent = quantity;
+
+                const totalPrice = originalPrice * quantity;
+                productPriceElement.textContent = totalPrice;
+
+                // Send AJAX request to update quantity in the database
+                updateQuantityInDatabase(productId, quantity);
             }
         });
-    </script>
 
-    {{!-- sum of the product price --}}
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const updateTotalSum = () => {
-                const productPriceElements = document.querySelectorAll('.product-price');
-                let totalSum = 0;
-
-                productPriceElements.forEach((priceElement) => {
-                    const priceText = priceElement.textContent.trim();
-                    const price = parseFloat(priceText);
-                    totalSum += price;
+        function updateQuantityInDatabase(productId, quantity) {
+            // This function is only called when quantity is updated manually
+            console.log(productId)
+            fetch(`/cart/${productId}/${quantity}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Failed to update quantity in the database');
+                    }
+                })
+                .catch(error => {
+                    console.error(error);
                 });
-                const totalSumElement = document.getElementById('totalSum');
-                totalSumElement.textContent = `₹${totalSum.toFixed(2)}`;
-            };
+        }
+
+        // The following code calculates and updates total sum and total items only when a click event occurs
+        const updateTotalSum = () => {
+            const productPriceElements = document.querySelectorAll('.product-price');
+            let totalSum = 0;
+
+            productPriceElements.forEach((priceElement) => {
+                const priceText = priceElement.textContent.trim();
+                const price = parseFloat(priceText);
+                totalSum += price;
+            });
+            const totalSumElement = document.getElementById('totalSum');
+            totalSumElement.textContent = `₹${totalSum.toFixed(2)}`;
+        };
+
+        const updateTotalItems = () => {
+            const cartItems = document.querySelectorAll('.row.main');
+            const totalItemsElement = document.getElementById('totalItems');
+
+            const totalItems = cartItems.length;
+            totalItemsElement.textContent = `ITEMS ${totalItems}`;
+        };
+
+        document.addEventListener('click', (event) => {
             updateTotalSum();
-            document.addEventListener('click', updateTotalSum);
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const updateTotalItems = () => {
-                const cartItems = document.querySelectorAll('.row.main');
-                const totalItemsElement
-                + document.getElementById('totalItems');
-
-                const totalItems = cartItems.length;
-                totalItemsElement.textContent = `ITEMS ${totalItems}`;
-            };
-
             updateTotalItems();
-            document.addEventListener('click', updateTotalItems);
         });
     </script>
 

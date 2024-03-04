@@ -23,7 +23,8 @@ router.post('/profile', authenticateUser,userController.createProfile)
 router.get('/product', authenticateUser, productController.getProduct);
 router.get('/cart', authenticateUser, productController.getCart);
 router.post('/addToCart', authenticateUser, productController.addToCart);
-router.delete('/cart/delete/:productId',authenticateUser,productController.deleteCart);
+// router.delete('/cart/delete/:productId',authenticateUser,productController.deleteCart);
+router.put('/cart/:productId/:quantity', authenticateUser,productController.updateCart);
 
 
 router.get('/checkout', authenticateUser, productController.getCheckout);

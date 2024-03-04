@@ -859,7 +859,7 @@
                                                 <p>{{this.email}}</p>
                                                 <p>{{this.locality}}</p>
                                                 <p>{{this.city}}</p>
-                                                                                                <p>{{this.address}}</p>
+                                                <p>{{this.address}}</p>
                                                 <p>{{this.state}}</p>
                                                 <p>{{this.pinCode}}</p>
 
@@ -883,23 +883,26 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                              {{#each cart}}
-<tr class="cart_item">
-    <td class="product-name">
-        {{this.product.[0].productName}}&nbsp;<strong class="product-quantity">&times;&nbsp;{{this.products.[0].quantity}}</strong>
-    </td>
-    <td class="product-total">
-        <span class="woocommerce-Price-amount amount product-price">
-            <bdi><span class="woocommerce-Price-currencySymbol"></span>{{this.product.[0].productPrice}}</bdi>
-        </span>
-    </td>
-    <td class="total">
-        <span class="woocommerce-Price-amount amount product-price">
-            <bdi><span class="woocommerce-Price-currencySymbol"></span>{{this.total}}</bdi>
-        </span>
-    </td>
-</tr>
-{{/each}}
+                                                {{#each cart}}
+                                                <tr class="cart_item">
+                                                    <td class="product-name">
+                                                        {{this.product.[0].productName}}&nbsp;<strong
+ 1                                                           class="product-quantity">&times;&nbsp;{{this.products.[0].quantity}}</strong>
+                                                    </td>
+                                                    <td class="product-total">
+                                                        <span class="woocommerce-Price-amount amount product-price">
+                                                            <bdi><span
+                                                                    class="woocommerce-Price-currencySymbol"></span>{{this.product.[0].productPrice}}</bdi>
+                                                        </span>
+                                                    </td>
+                                                    <td class="total">
+                                                        <span class="woocommerce-Price-amount amount product-price">
+                                                            <bdi><span
+                                                                    class="woocommerce-Price-currencySymbol"></span>{{this.total}}</bdi>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                                {{/each}}
 
                                             </tbody>
 
@@ -1055,7 +1058,7 @@
                     .then(data => {
                         // Handle the JSON response
                         if (data.razorpayOptions) {
-                            {{!-- alert(data.razorpayOptions) --}}
+                            { { !--alert(data.razorpayOptions) --} }
                             const razorpay = new Razorpay({
                                 ...data.razorpayOptions,
                                 handler: async function (response) {
@@ -1074,7 +1077,7 @@
                                                 userId: user,
                                                 cartId: cart,
                                                 profileId: adress_method,
-                                                paymentId:response.razorpay_payment_id
+                                                paymentId: response.razorpay_payment_id
                                             };
                                             const updateResponse = await fetch('/payment/placeorder', {
                                                 method: 'POST',

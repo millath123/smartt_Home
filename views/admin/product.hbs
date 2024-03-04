@@ -114,6 +114,7 @@
 
 
 </head>
+
 <body>
 
   <div class="wrapper d-flex align-items-stretch">
@@ -439,8 +440,9 @@
 
 
     <!-- Edit Product Modal -->
-<div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel" aria-hidden="true">
-      
+    <div class="modal fade" id="editProductModal" tabindex="-1" aria-labelledby="editProductModalLabel"
+      aria-hidden="true">
+
       <div class="modal-dialog modal-dialog-scrollable">
         <div class="modal-content">
           <div class="modal-header">
@@ -529,125 +531,121 @@
       </div>
     </div>
 
-  <script>
-       function editProduct(id, productName, productCategory, productColor, productBrand, productPrice, productQuantity, productDescription, productConnectivity) {
- {
-        $('#editProductName').val(productName),
-        $('#editProductCategory').val(productCategory);
-        $('#editProductColor').val(productColor);
-        $('#editProductPrice').val(productPrice);
-        $('#editProductBrand').val(productBrand);
-        $('#editProductQuantity').val(productQuantity);
-        $('#editProductDescription').val(productDescription);
-        $('#editProductConnectivity').val(productConnectivity);
+    <script>
+      function editProduct(id, productName, productCategory, productColor, productBrand, productPrice, productQuantity, productDescription, productConnectivity) {
+        {
+          $('#editProductName').val(productName),
+            $('#editProductCategory').val(productCategory);
+          $('#editProductColor').val(productColor);
+          $('#editProductPrice').val(productPrice);
+          $('#editProductBrand').val(productBrand);
+          $('#editProductQuantity').val(productQuantity);
+          $('#editProductDescription').val(productDescription);
+          $('#editProductConnectivity').val(productConnectivity);
 
-        var editProductModal = new bootstrap.Modal(document.getElementById('editProductModal'));
-        editProductModal.show();
+          var editProductModal = new bootstrap.Modal(document.getElementById('editProductModal'));
+          editProductModal.show();
 
-        $('#editProductForm').on('submit', function (e) {
+          $('#editProductForm').on('submit', function (e) {
             e.preventDefault();
 
             const updatedData = {
-                productName: $('#editProductName').val(),
-                productCategory: $('#editProductCategory').val(),
-                productColor: $('#editProductColor').val(),
-                productPrice: $('#editProductPrice').val(),
-                productBrand: $('#editProductBrand').val(),
-                productQuantity: $('#editProductQuantity').val(),
-                productDescription: $('#editProductDescription').val(),
-                productConnectivity: $('#editProductConnectivity').val(),
+              productName: $('#editProductName').val(),
+              productCategory: $('#editProductCategory').val(),
+              productColor: $('#editProductColor').val(),
+              productPrice: $('#editProductPrice').val(),
+              productBrand: $('#editProductBrand').val(),
+              productQuantity: $('#editProductQuantity').val(),
+              productDescription: $('#editProductDescription').val(),
+              productConnectivity: $('#editProductConnectivity').val(),
             };
 
             const productId = id;
 
             updateProductDetails(productId, updatedData);
-        });
-    }
+          });
+        }
 
-    function updateProductDetails(productId, updatedData) {
-        const baseUrl = '/admin/products/';
+        function updateProductDetails(productId, updatedData) {
+          const baseUrl = '/admin/products/';
 
-        fetch(`${baseUrl}${productId}`, {
+          fetch(`${baseUrl}${productId}`, {
             method: 'PUT',
             headers: {
-                'Content-Type': 'application/json',
+              'Content-Type': 'application/json',
             },
             body: JSON.stringify(updatedData),
-        })
-        .then(response => {
-            if (!response.ok) {
+          })
+            .then(response => {
+              if (!response.ok) {
                 throw new Error(`Error updating product: ${response.status}`);
-            }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Product updated successfully:', data);
-            window.location.reload();
-        })
-        .catch(error => {
-            console.error('Error updating product:', error);
-        });
-    }
-</script>
-    
- <script>
-    function deleteProduct(productId, productRow) {
-        fetch(`/admin/products/${productId}`, {
-            method: 'DELETE'
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Product deleted');
-                if (productRow) {
-                    productRow.remove();
-                }
-            } else {
-                console.error('Error deleting product:', response.status);
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-        });
-    }
-</script>
-
-    
+              }
+              return response.json();
+            })
+            .then(data => {
+              console.log('Product updated successfully:', data);
+              window.location.reload();
+            })
+            .catch(error => {
+              console.error('Error updating product:', error);
+            });
+        }
+    </script>
 
     <script>
-      function viewProduct(
-        id,
-        productName,
-        productDescription,
-        productCategory,
-        productBrand,
-        productConnectivity,
-        productColor,
-        productPrice,
-        productQuantity
-      ) {
-        $('#editProductName').val(productName);
-        $('#editProductCategory').val(productCategory);
-        $('#editProductColor').val(productColor);
-        $('#editProductPrice').val(productPrice);
-        $('#editProductBrand').val(productBrand);
-        $('#editProductQuantity').val(productQuantity);
-        $('#editProductDescription').val(productDescription);
-        $('#editProductConnectivity').val(productConnectivity);
+        function deleteProduct(productId, productRow) {
+          fetch(`/admin/products/${productId}`, {
+            method: 'DELETE'
+          })
+            .then(response => {
+              if (response.ok) {
+                console.log('Product deleted');
+                if (productRow) {
+                  productRow.remove();
+                }
+              } else {
+                console.error('Error deleting product:', response.status);
+              }
+            })
+            .catch(error => {
+              console.error('Fetch error:', error);
+            });
+        }
+    </script>
 
-        $('#editProductModal').modal('show'); // Show the modal
-      }
+    <script>
+        function viewProduct(
+          id,
+          productName,
+          productDescription,
+          productCategory,
+          productBrand,
+          productConnectivity,
+          productColor,
+          productPrice,
+          productQuantity
+        ) {
+          $('#editProductName').val(productName);
+          $('#editProductCategory').val(productCategory);
+          $('#editProductColor').val(productColor);
+          $('#editProductPrice').val(productPrice);
+          $('#editProductBrand').val(productBrand);
+          $('#editProductQuantity').val(productQuantity);
+          $('#editProductDescription').val(productDescription);
+          $('#editProductConnectivity').val(productConnectivity);
+          $('#editProductModal').modal('show');
+        }
     </script>
 
 
-
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        var indexingElements = document.querySelectorAll(".indexing");
+        document.addEventListener("DOMContentLoaded", function () {
+          var indexingElements = document.querySelectorAll(".indexing");
 
-        indexingElements.forEach(function (element, index) {
-          element.textContent = index + 1;
+          indexingElements.forEach(function (element, index) {
+            element.textContent = index + 1;
+          });
         });
-      });
     </script>
 
     <script src="../assets/js/jquery.min.js"></script>
