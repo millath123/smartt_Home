@@ -48,7 +48,6 @@ const uploadImages = async (req, res) => {
       productQuantity,
       productImage: imageUrls,
     });
-
     await newProduct.save();
     res.redirect('../admin/product');
   } catch (error) {
@@ -115,7 +114,7 @@ const updateProduct = async (req, res) => {
     product.productDescription = productDescription;
     product.productConnectivity = productConnectivity;
 
-    await product.save();
+    await product.save();    
     res.json({ message: 'Product updated successfully' });
   } catch (error) {
     console.error('Error updating product:', error);
@@ -142,17 +141,14 @@ const getProduct = async (req, res, next) => {
 const getCart = async (req, res) => {
   try {
     const user = req.user;
-
     // Find the user's cart and populate both the product ID and product details
     const cart = await Cart.findOne({ userId: user._id }).populate({
       path: 'products.productId',
       model: 'Product' // Replace 'Product' with the name of your product model
     });
-
     if (!cart) {
       return res.status(404).json({ error: 'Cart not found' });
     }
-
     // Calculate total for each product
     cart.products.forEach(product => {
       product.productId.total = product.productId.productPrice * product.quantity;
@@ -178,11 +174,9 @@ const addToCart = async (req, res) => {
     if (!product) {
       return res.status(404).json({ error: 'Product not found' });
     }
-    // Check if the user is authenticated
     if (!req.user) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
-    // Find or create the user's cart
     let cart = await Cart.findOne({ userId: req.user._id });
 
     if (!cart) {
@@ -191,7 +185,6 @@ const addToCart = async (req, res) => {
         products: [{ productId, quantity: 1 }],
       });
     } else {
-      // Check if the product is already in the cart
       const existingProduct = cart.products.find(item => item.productId.equals(productId));
 
       if (existingProduct) {
@@ -202,7 +195,6 @@ const addToCart = async (req, res) => {
         cart.products.push({ productId, quantity: 1 });
       }
     }
-
     // Save the cart
     await cart.save();
 
@@ -212,7 +204,6 @@ const addToCart = async (req, res) => {
     res.status(500).json({ error: 'Failed to add product to cart' });
   }
 };
-
 
 // DELETE route for removing a product from the cart
 const deleteCart = async (req, res) => {
@@ -245,8 +236,8 @@ const updateCart = async (req, res) => {
   try {
     const user = req.user;
     const productId = req.params.productId;
-    const quantity = parseInt(req.params.quantity); // Assuming quantity is passed as a number in the URL
-
+    const quantity = parseInt(req.params.quantity);
+    // Assuming quantity is passed as a number in the URL
     let cart = await Cart.findOne({ userId: user._id });
 
     const existingProduct = cart.products.find(product => product.productId.toString() === productId);
@@ -256,7 +247,6 @@ const updateCart = async (req, res) => {
     } else {
       cart.products.push({ productId, quantity });
     }
-
     await cart.save();
 
     res.status(200).json({ message: 'Cart updated successfully' });
@@ -266,40 +256,40 @@ const updateCart = async (req, res) => {
   }
 };
 
-
-//   checkout
+// checkout
 const getCheckout = async (req, res) => {
   try {
     const user = req.user;
-    // Fetch user's cart items and corresponding product data in a single query
-    const userData = await Cart.aggregate([
-      {
-        $match: { userId: user._id }
-      },
-      {
-        $lookup: {
-          from: 'products',
-          localField: 'products.productId',
-          foreignField: '_id',
-          as: 'product'
-        }
-      }
-    ]);
+    // Fetch user's cart items
+    const userData = await Cart.find({ userId: user._id });
 
     if (!userData.length) {
       return res.status(404).send('Cart is empty');
     }
 
-    userData.forEach((m) => {
-      let a = m.products[0].quantity
-      m.product.forEach((e) => {
-        m.total = e.productPrice * a;
-      })
-    })
+    // Fetch product details for each item in the cart using map
+    const populatedUserData = await Promise.all(userData.map(async (item) => {
+      const products = await Promise.all(item.products.map(async (product) => {
+        const productDetails = await Product.findById(product.productId);
+        return {
+          productId: product.productId,
+          quantity: product.quantity,
+          productPrice: productDetails.productPrice,
+     };
+      }));
+      return { ...item.toJSON(), products };
+    }));
+
     // Calculate the grand total for all items in the cart
-    const grandTotal = userData.reduce((acc, curr) => acc + curr.total, 0);
+    let grandTotal = 0;
+    populatedUserData.forEach((item) => {
+      item.products.forEach((product) => {
+        grandTotal += product.productPrice * product.quantity;
+      });
+    });
+
     // Render the checkout view with cart items, product data, and user details
-    res.render('../views/user/checkout', { cart: userData, user, grandTotal });
+    res.render('../views/user/checkout', { cart: populatedUserData, user, grandTotal });
   } catch (error) {
     console.error('Error occurred:', error);
     res.status(500).send('Internal Server Error');
@@ -318,7 +308,6 @@ const deleteProfile = async (req, res) => {
   }
 };
 
-
 //  payment
 const placeOrder = async (req, res, next) => {
   try {
@@ -326,7 +315,7 @@ const placeOrder = async (req, res, next) => {
       userId, profileId, productId, cartId, paymentMethod,
     } = req.body;
 
-    // console.log('Received data:', req.body);
+    console.log('Received data:', req.body);
     if (paymentMethod === 'cashOnDelivery') {
 
     }
@@ -348,7 +337,7 @@ const placeOrder = async (req, res, next) => {
         },
       };
       return res.json({ razorpayOptions });
-    }
+    } 
     // else {
     // }
 
@@ -361,13 +350,13 @@ const placeOrder = async (req, res, next) => {
     });
 
     await newOrder.save();
-
     res.status(200).send('Order placed successfully');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 };
+
 export default {
   getProduct,
   adminproduct,

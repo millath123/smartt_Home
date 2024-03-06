@@ -236,8 +236,7 @@
                 {{#each cart.products}}
                 <div class="row border-top border-bottom">
                     <div class="row main align-items-center">
-                        <div class="col-2"><img class="img-fluid"
-                                src="{{this.productId.productImage.[0]}}"></div>
+                        <div class="col-2"><img class="img-fluid" src="{{this.productId.productImage.[0]}}"></div>
                         <div class="col">
                             <div class="row text-muted">{{this.productId.productCategory}}</div>
                             <div class="row">{{this.productId.productName}}</div>
@@ -248,8 +247,7 @@
                             <a href="#" class="increment">+</a>
                         </div>
 
-                        <div class="col">₹<span
-                                class="product-price">{{this.productId.total}}</span>
+                        <div class="col">₹<span class="product-price">{{this.productId.total}}</span>
                             <span class="close">
                                 <button class="btn-delete" data-productId="{{this.productId._id}}">&#10005;</button>
                             </span>
@@ -311,6 +309,8 @@
                 }
             });
         });
+        </script> 
+        <script> 
 
         const qtyContainers = document.querySelectorAll('.qty');
         qtyContainers.forEach(container => {
@@ -321,7 +321,7 @@
             const productId = container.closest('.row').querySelector('.btn-delete').getAttribute('data-productId');
 
             const originalPrice = parseFloat(productPriceElement.textContent) / parseInt(quantityElement.textContent)
-            
+
 
             incrementButton.addEventListener('click', () => {
                 updateQuantity('increment');

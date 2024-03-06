@@ -202,12 +202,15 @@ const googleLoginCallback = async (req, res) => {
         Image: userData.picture,
       });
       tempUser = await tempUser.save();
-    } else {
+    }
+    
+    else {
       existingUser.fullName = userData.name,
         existingUser.email = userData.email;
       existingUser.Image = userData.picture;
       tempUser = await existingUser.save();
     }
+
     const user_token = jwt.sign({ userId: (tempUser || existingUser)._id },
       process.env.JWT_SECRET);
     res.cookie('user_token', user_token, { httpOnly: true });
@@ -218,11 +221,13 @@ const googleLoginCallback = async (req, res) => {
   }
 };
 
+
 // user logout
 const logoutPage = (req, res) => {
   res.clearCookie('user_token');
   res.redirect('/');
 };
+
 
 // user profile
 const getProfile = async (req, res) => {

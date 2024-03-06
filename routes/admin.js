@@ -35,10 +35,12 @@ router.post('/upload', upload.array('images', 5), productController.uploadImages
 router.delete('/products/:id', productController.deleteProduct)
 router.put('/products/:id', productController.updateProduct)
 
+
 // router.get('/admin/passwordReset',adminController.passwordReset)
 // router.post('/admin/passwordReset',rs.passwordResetPost)
 // router.post('/admin/passwordVerify',adminController.passwordVerifyPost)
 // router.get('/admin/NewPassword',adminController.NewPassword)
 // router.post('/admin/NewPassword',adminController.NewPasswordPost)
+
 
 export default router;
