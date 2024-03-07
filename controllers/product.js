@@ -312,20 +312,29 @@ const deleteProfile = async (req, res) => {
 const placeOrder = async (req, res, next) => {
   try {
     const {
-      userId, profileId, productId, cartId, paymentMethod,
+      userId, profileId, productId, cartId, paymentMethod, amount
     } = req.body;
 
     console.log('Received data:', req.body);
-    if (paymentMethod === 'cashOnDelivery') {
 
+    if (paymentMethod === 'cashOnDelivery') {
+      const newOrder = new Order({
+        userId,
+        profileId,
+        productId,
+        cartId,
+        paymentMethod,
+        amount
+      });
+
+      await newOrder.save();
+      return res.status(200).send('Order placed successfully. Please wait for confirmation.');
     }
     else if (paymentMethod === 'razorpay') {
       // Process Razorpay
-      const { amount } = req.body; // Extract amount from the request body
-
       const razorpayOptions = {
-        key: process.env.PAY_KEY, // Update with your actual environment variable
-        amount: amount * 100,
+        key: process.env.PAY_KEY, 
+        amount: amount * 100,  
         currency: 'INR',
         name: 'Your Company Name',
         description: 'Payment for Order',
@@ -338,24 +347,14 @@ const placeOrder = async (req, res, next) => {
       };
       return res.json({ razorpayOptions });
     } 
-    // else {
-    // }
 
-    const newOrder = new Order({
-      userId,
-      profileId,
-      productId,
-      cartId,
-      paymentMethod,
-    });
 
-    await newOrder.save();
-    res.status(200).send('Order placed successfully');
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 };
+
 
 export default {
   getProduct,
