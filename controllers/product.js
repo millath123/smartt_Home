@@ -8,6 +8,7 @@ import Product from '../model/product.js';
 import User from '../model/user.js';
 import Cart from '../model/cart.js';
 import connect from '../database/connect.js';
+import { log } from 'console';
 
 const adminproduct = async function (req, res) {
   const product = await Product.find();
@@ -275,6 +276,7 @@ const getCheckout = async (req, res) => {
           productId: product.productId,
           quantity: product.quantity,
           productPrice: productDetails.productPrice,
+          productDetails:productDetails
      };
       }));
       return { ...item.toJSON(), products };
@@ -284,10 +286,10 @@ const getCheckout = async (req, res) => {
     let grandTotal = 0;
     populatedUserData.forEach((item) => {
       item.products.forEach((product) => {
+        product.total=product.quantity* product.productPrice
         grandTotal += product.productPrice * product.quantity;
       });
     });
-
     // Render the checkout view with cart items, product data, and user details
     res.render('../views/user/checkout', { cart: populatedUserData, user, grandTotal });
   } catch (error) {
