@@ -29,7 +29,7 @@ router.put('/cart/:productId/:quantity', authenticateUser,productController.upda
 
 router.get('/checkout', authenticateUser, productController.getCheckout);
 router.delete('/checkout/:profileId',  productController.deleteProfile);
-router.post('/placeorder', productController.placeOrder);
+router.post('/placeorder',authenticateUser, productController.placeOrder);
 
 // router.get('/orderSummary',authenticateUser,productController.getOrderSummery)
 // router.post('/ordersummery',productController.postOrdderSummery)
