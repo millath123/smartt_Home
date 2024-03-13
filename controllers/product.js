@@ -314,7 +314,7 @@ const deleteProfile = async (req, res) => {
 const placeOrder = async (req, res, next) => {
   try {
     const {
-      userId, profileId, productId, cartId, payment_method,selectedAddress
+      userId, profileId, productId, cartId, payment_method, selectedAddress
     } = req.body;
 
     console.log('Received data:', req.body);
@@ -341,26 +341,26 @@ const placeOrder = async (req, res, next) => {
     const amount = resolvedProducts.reduce((total, product) => {
       return total + (product.price * product.quantity);
     }, 0);
-console.log(amount)
-if (payment_method === 'cashondelivery') {
-  const newOrder = {
-      profileId: req.user.address[selectedAddress]._id, // Assuming address has an _id field
-      products: resolvedProducts,
-      paymentMethod: 'cash on delivery',
-      amount: amount
-  };
+    console.log(amount)
+    if (payment_method === 'cashondelivery') {
+      const newOrder = {
+        profileId: req.user.address[selectedAddress]._id, // Assuming address has an _id field
+        products: resolvedProducts,
+        paymentMethod: 'cash on delivery',
+        amount: amount
+      };
 
-  req.user.orders.push(newOrder); // Push the new order to the orders array
+      req.user.orders.push(newOrder); // Push the new order to the orders array
 
-  await req.user.save(); // Save the user document with the new order
+      await req.user.save(); // Save the user document with the new order
 
-  return res.status(200).send('Order placed successfully. Please wait for confirmation.');
-}
-    else if (payment_method === 'razorpay') {
+      // Redirect to order summary page
+       res.redirect('/orderSummary');
+    }else if (payment_method === 'razorpay') {
       // Process Razorpay
       const razorpayOptions = {
-        key: process.env.PAY_KEY, 
-        amount: amount * 100,  
+        key: process.env.RAZOR_PAY_SECRET_KEY,
+        amount: amount * 100,
         currency: 'INR',
         name: 'Your Company Name',
         description: 'Payment for Order',
@@ -371,17 +371,27 @@ if (payment_method === 'cashondelivery') {
           contact: '1234567890',
         },
       };
-      return res.json({ razorpayOptions });
-    } 
+      console.log(razorpayOptions)
+      res.json({ razorpayOptions });
+    } else {
+      res.status(400).json({ error: 'Invalid payment method' });
+    }
+    
 
 
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
+    res.status(500).send('Internal Server Error');
+  }
 };
 
-// const getOrderSummery=
+
+const getOrderSummery= async function (req, res) {
+  res.render(path.join('../views/user/orderSummary'));
+};
+
+
+
 export default {
   getProduct,
   adminproduct,
@@ -394,5 +404,6 @@ export default {
   getCheckout,
   deleteProfile,
   placeOrder,
-  updateCart
+  updateCart,
+  getOrderSummery
 };

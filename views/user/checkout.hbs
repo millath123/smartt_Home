@@ -769,8 +769,8 @@
 								<div class="clear"></div>
 							</form>
 							<div class="woocommerce-notices-wrapper"></div>
-							<form name="checkout" method="post" class="checkout woocommerce-checkout"
-								action="/placeorder" >
+							<form name="checkout" id="checkout_form" method="post" class="checkout woocommerce-checkout"
+								 >
 
 								<div class="row">
 									<div class="small-12 medium-7 columns thb-checkout-form-column">
@@ -986,7 +986,42 @@
 					</div>
 				</div>
 			</div>
-		</div> <!-- End Main -->
+		</div>
+		<script>
+			        document.getElementById('checkout_form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Fetch all form data
+            const formData = new FormData(document.getElementById('checkout_form'));
+
+            // Construct JSON object from form data
+            const formObject = {};
+            formData.forEach((value, key) => {
+                formObject[key] = value;
+            });
+console.log(formObject);
+            // Make a fetch request
+            fetch('/placeorder', {
+                method: 'POST',
+                body: JSON.stringify(formObject),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                // Handle response here
+                console.log('Response received');
+				console.log(response)
+            })
+            .catch(error => {
+                // Handle error here
+                console.error('Error occurred:', error);
+            });
+        });
+    </script>
+		</script>
+		
+		 <!-- End Main -->
 		<div class="thb-woocommerce-notices-wrapper"></div>
 
 		<footer id="footer" class="footer">

@@ -31,7 +31,7 @@ router.get('/checkout', authenticateUser, productController.getCheckout);
 router.delete('/checkout/:profileId',  productController.deleteProfile);
 router.post('/placeorder',authenticateUser, productController.placeOrder);
 
-// router.get('/orderSummary',authenticateUser,productController.getOrderSummery)
+router.get('/orderSummary',authenticateUser,productController.getOrderSummery)
 // router.post('/ordersummery',productController.postOrdderSummery)
 
 
