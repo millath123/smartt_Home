@@ -314,25 +314,49 @@ const deleteProfile = async (req, res) => {
 const placeOrder = async (req, res, next) => {
   try {
     const {
-      userId, profileId, productId, cartId, paymentMethod, amount
+      userId, profileId, productId, cartId, payment_method,selectedAddress
     } = req.body;
 
     console.log('Received data:', req.body);
+    const userData = await Cart.findOne({ userId: req.user._id });
 
-    if (paymentMethod === 'cashOnDelivery') {
-      const newOrder = new Order({
-        userId,
-        profileId,
-        productId,
-        cartId,
-        paymentMethod,
-        amount
-      });
-
-      await newOrder.save();
-      return res.status(200).send('Order placed successfully. Please wait for confirmation.');
+    if (!userData) {
+      return res.status(404).json({ error: 'User cart not found' });
     }
-    else if (paymentMethod === 'razorpay') {
+
+    // Extract products from user's cart
+    const products = userData.products.map(async product => {
+      const productData = await Product.findById(product.productId);
+      console.log(productData)
+      return {
+        productId: product.productId,
+        quantity: product.quantity,
+        price: productData.productPrice // Assuming there's a 'price' field in your product model
+      };
+    });
+    // Resolve all product promises to get the product details
+    const resolvedProducts = await Promise.all(products);
+    console.log(resolvedProducts)
+    // Calculate the total amount
+    const amount = resolvedProducts.reduce((total, product) => {
+      return total + (product.price * product.quantity);
+    }, 0);
+console.log(amount)
+if (payment_method === 'cashondelivery') {
+  const newOrder = {
+      profileId: req.user.address[selectedAddress]._id, // Assuming address has an _id field
+      products: resolvedProducts,
+      paymentMethod: 'cash on delivery',
+      amount: amount
+  };
+
+  req.user.orders.push(newOrder); // Push the new order to the orders array
+
+  await req.user.save(); // Save the user document with the new order
+
+  return res.status(200).send('Order placed successfully. Please wait for confirmation.');
+}
+    else if (payment_method === 'razorpay') {
       // Process Razorpay
       const razorpayOptions = {
         key: process.env.PAY_KEY, 
@@ -353,11 +377,11 @@ const placeOrder = async (req, res, next) => {
 
   } catch (error) {
     console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
+    res.status(500).send('Internal Server Error');
+  }
 };
 
-
+// const getOrderSummery=
 export default {
   getProduct,
   adminproduct,

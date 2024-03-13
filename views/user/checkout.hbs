@@ -822,7 +822,7 @@
 
 
 														</div>
-														<input type="text" id="selectedAddress">
+														<input type="text" id="selectedAddress"  style="display: none;" name="selectedAddress">
 													<script>
     function toggleAddress(addressNumber) {
         // Hide all address details --}}
@@ -833,7 +833,7 @@
         document.getElementById('address' + addressNumber + '-details').style.display = 'block';
         
         // Set the selected address ID as the value of a hidden input field --}}
-        document.getElementById('selectedAddress').value = 'address' + addressNumber;
+        document.getElementById('selectedAddress').value = addressNumber;
     }
 
     // By default, show details of the first address (address number 0) --}}
@@ -917,7 +917,7 @@
 												<ul class="wc_payment_methods payment_methods methods">
 													<li class="wc_payment_method payment_method_bacs">
 														<input id="payment_method_bacs" type="radio" class="input-radio"
-															name="payment_method" value="bacs" checked='checked'
+															name="payment_method" value="razorpay" checked='checked'
 															data-order_button_text="" />
 
 														<label for="payment_method_bacs">
@@ -931,7 +931,7 @@
 													</li>
 													<li class="wc_payment_method payment_method_cod">
 														<input id="payment_method_cod" type="radio" class="input-radio"
-															name="payment_method" value="cod"
+															name="payment_method" value="cashondelivery"
 															data-order_button_text="" />
 
 														<label for="payment_method_cod">

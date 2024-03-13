@@ -52,6 +52,28 @@ const userSchema = new mongoose.Schema({
       }
     },
   ],
+orders:[{
+  
+  profileId:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'productmodel',
+},
+  products: [
+    {
+        productId: {
+            type: mongoose.Schema.Types.ObjectId,
+        },
+        quantity: {
+            type: Number,
+            default: 1, // You can set a default quantity if needed
+        },
+    },
+],
+ 
+  paymentMethod:String,
+  amount:String,
+}]
+
 });
 
 const User = mongoose.model('user', userSchema);
