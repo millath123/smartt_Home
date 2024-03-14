@@ -249,41 +249,45 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 		</thead>
 
 		<tbody>
-		{{#each cart.[0].products}}
-			<tr class="woocommerce-table__line-item order_item">
 
+{{#each cart.[0].products}}
+			<tr class="woocommerce-table__line-item order_item">
+		
 	<td class="woocommerce-table__product-name product-name">
 		<a href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">{{this.productDetails.productName}} x </a> <strong class="product-quantity">{{this.quantity}}<strong>	</td>
 
 	<td class="woocommerce-table__product-total product-total">
-		<span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>72.40</bdi></span>	</td>
+		<span class="woocommerce-Price-amount amount"><bdi>
+			<span class="woocommerce-Price-currencySymbol">₹</span>{{this.productDetails.productPrice}}</bdi></span></td>
 
 </tr>
+{{/each}}
 
 		</tbody>
 
 		<tfoot>
 								<tr>
 						<th scope="row">Subtotal:</th>
-						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#036;</span>72.40</span></td>
+						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{this.total}}</span></td>
 					</tr>
+										
 										<tr>
-						<th scope="row">Tax:</th>
-						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#036;</span>0.00</span></td>
+						<th scope="row" >Payment method:</th>
+						<td></td>
 					</tr>
-										<tr>
-						<th scope="row">Payment method:</th>
-						<td>Direct bank transfer</td>
-					</tr>
+					
+
 										<tr>
 						<th scope="row">Total:</th>
-						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#036;</span>172.40</span></td>
+						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{grandTotal}}</span></td>
 					</tr>
+					
 												<tr>
 					<th>Note:</th>
 					<td>Laboris quas molesti</td>
 				</tr>
 					</tfoot>
+					
 	</table>
 
 	</section>
