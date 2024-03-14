@@ -355,11 +355,13 @@ const placeOrder = async (req, res, next) => {
       await req.user.save(); // Save the user document with the new order
 
       // Redirect to order summary page
-       res.redirect('/orderSummary');
+      return res.status(200).json({ placeOrder:"success" });
+
+       
     }else if (payment_method === 'razorpay') {
       // Process Razorpay
       const razorpayOptions = {
-        key: process.env.RAZOR_PAY_SECRET_KEY,
+        key: 'TCkQq8CRFK7b54Eoi8IKuly2',
         amount: amount * 100,
         currency: 'INR',
         name: 'Your Company Name',
@@ -372,25 +374,55 @@ const placeOrder = async (req, res, next) => {
         },
       };
       console.log(razorpayOptions)
-      res.json({ razorpayOptions });
+      return res.status(201).json({ razorpayOptions });
     } else {
       res.status(400).json({ error: 'Invalid payment method' });
     }
-    
-
-
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
   }
 };
 
+const getOrderSummery= async (req, res) => {
+  try {
+    const user = req.user;
+    // Fetch user's cart items
+    const userData = user.orders
 
-const getOrderSummery= async function (req, res) {
-  res.render(path.join('../views/user/orderSummary'));
+    if (!userData.length) {
+      return res.status(404).send('there is no orders');
+    }
+
+    // Fetch product details for each item in the cart using map
+    const populatedUserData = await Promise.all(userData.map(async (item) => {
+      const products = await Promise.all(item.products.map(async (product) => {
+        const productDetails = await Product.findById(product.productId);
+        return {
+          productId: product.productId,
+          quantity: product.quantity,
+          productPrice: productDetails.productPrice,
+          productDetails:productDetails
+     };
+      }));
+      return { ...item.toJSON(), products };
+    }));
+
+    // Calculate the grand total for all items in the cart
+    let grandTotal = 0;
+    populatedUserData.forEach((item) => {
+      item.products.forEach((product) => {
+        product.total=product.quantity* product.productPrice
+        grandTotal += product.productPrice * product.quantity;
+      });
+    });
+    // Render the checkout view with cart items, product data, and user details
+    res.render('../views/user/orderSummary', { cart: populatedUserData, user, grandTotal });
+  } catch (error) {
+    console.error('Error occurred:', error);
+    res.status(500).send('Internal Server Error');
+  }
 };
-
-
 
 export default {
   getProduct,

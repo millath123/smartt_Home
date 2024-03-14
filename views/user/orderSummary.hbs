@@ -202,9 +202,6 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 		<div class="small-12 columns">
 			<div class="woocommerce">
 <div class="woocommerce-order">
-
-	
-		
 			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you. Your order has been received.</p>
 
 			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
@@ -216,8 +213,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 				<li class="woocommerce-order-overview__date date">
 					Date:					<strong>March 12, 2024</strong>
 				</li>
-
-									<li class="woocommerce-order-overview__email email">
+				<li class="woocommerce-order-overview__email email">
 						Email:						<strong>dyki@mailinator.com</strong>
 					</li>
 				
@@ -238,7 +234,8 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 <li class="bank_name">Bank: <strong>Garanti</strong></li>
 <li class="account_number">Account number: <strong>TR 69 0004 6008 8288 8000 5555 90</strong></li>
 <li class="bic">BIC: <strong>TRBATRIXX</strong></li>
-</ul></section>		<section class="woocommerce-order-details">
+</ul></section>		
+<section class="woocommerce-order-details">
 	
 	<h2 class="woocommerce-order-details__title">Order details</h2>
 
@@ -252,10 +249,11 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 		</thead>
 
 		<tbody>
+		{{#each cart.[0].products}}
 			<tr class="woocommerce-table__line-item order_item">
 
 	<td class="woocommerce-table__product-name product-name">
-		<a href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">Apple - HomePod mini - Space Gray</a> <strong class="product-quantity">&times;&nbsp;2</strong>	</td>
+		<a href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">{{this.productDetails.productName}} x </a> <strong class="product-quantity">{{this.quantity}}<strong>	</td>
 
 	<td class="woocommerce-table__product-total product-total">
 		<span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>72.40</bdi></span>	</td>
@@ -268,10 +266,6 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 								<tr>
 						<th scope="row">Subtotal:</th>
 						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#036;</span>72.40</span></td>
-					</tr>
-										<tr>
-						<th scope="row">Shipping:</th>
-						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">&#036;</span>100.00</span>&nbsp;<small class="shipped_via">via Flat rate</small></td>
 					</tr>
 										<tr>
 						<th scope="row">Tax:</th>
