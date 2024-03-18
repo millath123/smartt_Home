@@ -51,26 +51,14 @@ const adminLoginPostPage = async (req, res) => {
     }
 };
 
+
+// admin logout
 const adminLogout = (req, res) => {
     res.clearCookie('adminToken');
     res.redirect('/admin/dashboard');
 };
 
-// admin logout
-const adminLogoutPage = async (req, res) => {
-    const userId = req.params.id;
 
-    try {
-        const user = await User.findByIdAndRemove(userId);
-
-        if (!user) {
-            return res.status(404).send('User not found');
-        }
-        res.status(204).send();
-    } catch (error) {
-        res.status(500).send('Error deleting user');
-    }
-};
 
 // admin dashboard
 const adminDshboard = async function (req, res) {
@@ -83,10 +71,35 @@ const adminusers = async (req, res) => {
     res.render('admin/users', { users });
 };
 
-const adminbanner = async (req, res) => {
+const bannerGet = async (req, res) => {
     res.render(path.join('../views/admin/banner'));
 };
 
+const bannerPost= async (req, res) => {
+    try {
+        // Extract banner data from the request body
+        const { bannerImage, bannerProduct, bannerAnnouncement, bannerDescription, bannerPrice } = req.body;
+
+        // Create a new Admin instance with the extracted data
+        const newBanner = new Admin({
+            bannerImage,
+            bannerProduct,
+            bannerAnnouncement,
+            bannerDescription,
+            bannerPrice,
+        });
+
+        // Save the new banner to MongoDB
+        await newBanner.save();
+
+        // Send a success response back to the client
+        res.status(201).json({ message: 'Banner added successfully' });
+    } catch (error) {
+        // Handle any errors and send an error response
+        console.error('Error adding banner:', error);
+        res.status(500).json({ error: 'Failed to add banner' });
+    }
+}
 
 const deleteUserController = async (req, res) => {
     const userId = req.params.id;
@@ -142,9 +155,10 @@ export default {
     adminLoginPostPage,
     adminLogout,
     adminDshboard,
-    adminLogoutPage,
+    // adminLogoutPage,
     adminusers,
-    adminbanner,
+    bannerGet,
+    bannerPost,
     deleteRoute,
     updateRoute,
     deleteUserController,

@@ -206,6 +206,7 @@ const addToCart = async (req, res) => {
   }
 };
 
+
 // DELETE route for removing a product from the cart
 const deleteCart = async (req, res) => {
   const productId = req.params.productId;

@@ -172,7 +172,7 @@
             <br><br><br>
             <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Banners</h1>
 
-            <button class="btn btn-primary add-banner-btn" onclick="openAddBannerModal()">Add Product</button>
+<button class="btn btn-primary add-banner-btn" onclick="openAddBannerModal()">Add Banners</button>
 
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -233,7 +233,7 @@
                             aria-label="Close"></button> --}}
                     </div>
                     <div class="modal-body">
-                        <form id="addBannerForm" action="/banner/addBanner" method="post" enctype="multipart/form-data">
+<form id="addBannerForm" action="/admin/addBanner" method="post" enctype="multipart/form-data">
 
                             <div class="custom-file">
                                 <label class="form-label" for="customFile">Image</label>
@@ -294,84 +294,56 @@
         <p></p>
 
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
         <!-- Add Banner Modal -->
         <script>
-            function openAddBannerModal() {
-                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-                modal.show();
-            }
+    function openAddBannerModal() {
+    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    modal.show();
+}
 
-            function closeAddBannerModal() {
-                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-                modal.hide();
-            }
+function closeAddBannerModal() {
+    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+    modal.hide();
+}
 
-            function addBanner() {
+function addBanner() {
+    var bannerImage = document.getElementById('bannerImage').files[0]; // Get the file object
+    var bannerProduct = document.getElementById('bannerProduct').value;
+    var bannerAnnouncement = document.getElementById('bannerAnnouncement').value;
+    var bannerDescription = document.getElementById('bannerDescription').value;
+    var bannerPrice = document.getElementById('bannerPrice').value;
 
-                var bannerImage = document.getElementById('bannerImage').value;
-                var bannerProduct = document.getElementById('bannerProduct').value;
-                var bannerAnnouncement = document.getElementById('bannerAnnouncement').value;
-                var bannerDescription = document.getElementById('bannerDescription').value;
-                var bannerPrice = document.getElementById('bannerPrice').value;
-                var isValid = true;
+    var formData = new FormData();
+    formData.append('bannerImage', bannerImage);
+    formData.append('bannerProduct', bannerProduct);
+    formData.append('bannerAnnouncement', bannerAnnouncement);
+    formData.append('bannerDescription', bannerDescription);
+    formData.append('bannerPrice', bannerPrice);
 
-
-                if (bannerProduct.trim() === '') {
-                    displayErrorMessage('bannerProductError', 'Please enter a product name');
-                    isValid = false;
-                }
-
-                if (productDescription.trim() === '') {
-                    displayErrorMessage('bannerDescriptionError', 'Please enter a  description');
-                    isValid = false;
-                }
-
-                if (bannerAnnouncement.trim() === '') {
-                    displayErrorMessage('bannerAnnouncementError', 'Please enter a Announcement');
-                    isValid = false;
-                } else if (!/^[a-zA-Z\s]+$/.test(productCategory)) {
-                    displayErrorMessage('bannerAnnouncementError', 'bannerAnnouncement must contain only letters and spaces');
-                    isValid = false;
-                }
-
-
-                if (bannerPrice.trim() === '') {
-                    displayErrorMessage('bannerPrice', 'Please enter product price');
-                    isValid = false;
-                } else if (!/^\d+$/.test(bannerPrice)) {
-                    displayErrorMessage('bannerPrice', 'Price must contain only numbers');
-                    isValid = false;
-                }
-
-
-
-                if (!isValid) {
-                    return;
-                }
-
-                axios.post('/banner/addBanner', {
-                    bannerImage,
-                    bannerProduct,
-                    bannerAnnouncement,
-                    bannerDescription,
-                    bannerPrice,
-
-                })
-                    .then(response => {
-                        console.log('Banner added successfully:', response.data);
-                        window.location.href = '/admin/banner';
-                    })
-                    .catch(error => {
-                        console.error('Error adding product:', error);
-                    });
-            }
-
-            function displayErrorMessage(id, message) {
-                document.getElementById(id).innerHTML = message;
-            }
-        </script>
+    fetch('/banner/addBanner', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Banner added successfully:', data.message);
+        // Optionally, redirect to another page or perform any additional actions
+        // For example, close the modal after successful submission
+        closeAddBannerModal();
+    })
+    .catch(error => {
+        console.error('Error adding banner:', error);
+        // Handle errors and display appropriate messages to the user
+    });
+}
+ </script>
 
 
         <!-- Edit Banner Modal -->

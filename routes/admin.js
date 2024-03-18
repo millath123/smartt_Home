@@ -32,8 +32,12 @@ router.post('/dashboard', adminController.adminLoginPostPage)
 
 router.get('/product', isAuthenticated, productController.adminproduct)
 router.post('/upload', upload.array('images', 5), productController.uploadImages),
-router.delete('/products/:id', productController.deleteProduct)
-router.put('/products/:id', productController.updateProduct)
+router.delete('/products/:id', productController.deleteProduct);
+
+
+router.get('/banner',isAuthenticated, adminController.bannerGet);
+router.post('/addBanner', adminController.bannerPost);
+
 
 
 // router.get('/admin/passwordReset',adminController.passwordReset)

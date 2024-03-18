@@ -205,43 +205,59 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you. Your order has been received.</p>
 
 			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
+{{#if user.orders}}
+    <li class="woocommerce-order-overview__order order">
+        Order number: <strong>{{user.orders.[0]._id}}</strong>
+    </li>
 
-				<li class="woocommerce-order-overview__order order">
-					Order number:					<strong>428</strong>
-				</li>
+    <li class="woocommerce-order-overview__date date">
+        Date: <strong>{{user.orders.[0].createdAt}}</strong>
+    </li>
 
-				<li class="woocommerce-order-overview__date date">
-					Date:					<strong>March 12, 2024</strong>
-				</li>
-				<li class="woocommerce-order-overview__email email">
-						Email:						<strong>dyki@mailinator.com</strong>
-					</li>
-				
-				<li class="woocommerce-order-overview__total total">
-					Total:					<strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol">&#36;</span>172.40</bdi></span></strong>
-				</li>
+    <li class="woocommerce-order-overview__email email">
+        Email: <strong>{{user.email}}</strong>
+    </li>
 
-									<li class="woocommerce-order-overview__payment-method method">
-						Payment method:						<strong>Direct bank transfer</strong>
-					</li>
-				
+    <li class="woocommerce-order-overview__total total">
+        Total: <strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol"> ₹ </span>{{user.orders.[0].amount}}</bdi></span></strong>
+    </li>
+
+    <li class="woocommerce-order-overview__payment-method method">
+        Payment method: <strong>{{user.orders.[0].paymentMethod}}</strong>
+    </li>
+{{else}}
+    <p>No orders found.</p>
+{{/if}}
+
+
 			</ul>
 
 		
-		<section class="woocommerce-bacs-bank-details"><h2 class="wc-bacs-bank-details-heading">Our bank details</h2>
+		<section class="woocommerce-bacs-bank-details">
+			
+			
+			<h2 class="wc-bacs-bank-details-heading">Our bank details</h2>
 <h3 class="wc-bacs-bank-details-account-name">Fuel Themes:</h3>
+
+{{#if user.orders}}	
 <ul class="wc-bacs-bank-details order_details bacs_details">
 <li class="bank_name">Bank: <strong>Garanti</strong></li>
 <li class="account_number">Account number: <strong>TR 69 0004 6008 8288 8000 5555 90</strong></li>
 <li class="bic">BIC: <strong>TRBATRIXX</strong></li>
-</ul></section>		
+</ul>
+
+{{/if}}
+</section>	
+
+
 <section class="woocommerce-order-details">
 	
 	<h2 class="woocommerce-order-details__title">Order details</h2>
-
+	
 	<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
 
 		<thead>
+			
 			<tr>
 				<th class="woocommerce-table__product-name product-name">Product</th>
 				<th class="woocommerce-table__product-table product-total">Total</th>
@@ -251,31 +267,34 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 		<tbody>
 
 {{#each cart.[0].products}}
+
 			<tr class="woocommerce-table__line-item order_item">
-		
 	<td class="woocommerce-table__product-name product-name">
-		<a href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">{{this.productDetails.productName}} x </a> <strong class="product-quantity">{{this.quantity}}<strong>	</td>
+		<a href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">{{this.productDetails.productName}} x </a><strong class="product-quantity">{{this.quantity}}<strong>	</td>
 
 	<td class="woocommerce-table__product-total product-total">
 		<span class="woocommerce-Price-amount amount"><bdi>
-			<span class="woocommerce-Price-currencySymbol">₹</span>{{this.productDetails.productPrice}}</bdi></span></td>
+			<span class="woocommerce-Price-currencySymbol">₹</span>{{this.productDetails.productPrice}}</bdi></span></td></tr>
 
-</tr>
 {{/each}}
-
 		</tbody>
 
 		<tfoot>
+
+			
+
 								<tr>
-						<th scope="row">Subtotal:</th>
+									<th scope="row">Subtotal:</th>
 						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{this.total}}</span></td>
 					</tr>
-										
+					
+
+						{{#if user.orders}}				
 										<tr>
 						<th scope="row" >Payment method:</th>
-						<td></td>
+						<td>{{user.orders.[0].paymentMethod}}</td>
 					</tr>
-					
+					{{/if}}
 
 										<tr>
 						<th scope="row">Total:</th>
@@ -286,8 +305,9 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 					<th>Note:</th>
 					<td>Laboris quas molesti</td>
 				</tr>
+
 					</tfoot>
-					
+			
 	</table>
 
 	</section>
@@ -300,6 +320,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
 	
 	<h2 class="woocommerce-column__title">Billing address</h2>
+
 
 	<address>
 		Carla Gordon<br />Houston and Mosley Associates<br />795 South Rocky Old Extension<br />Non corporis sed vol<br />Fugit do enim expli, WY 18767

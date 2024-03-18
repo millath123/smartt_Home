@@ -153,7 +153,7 @@ const googleLogin = async (req, res) => {
   // Redirect to Google OAuth URL
   const googleAuthUrl = process.env.GOOGLE_AUTH_URL;
   const clientId = process.env.GOOGLE_CLINT_ID;
-  const redirectUri = process.env.REDIRECT_URL;
+  const redirectUri = process.env.callbackURL;
   const scope = process.env.SCOPE;
 
   const url = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
@@ -168,7 +168,7 @@ const googleLoginCallback = async (req, res) => {
   const googleTokenUrl = process.env.GOOGLE_TOKEN_URL;
   const clientId = process.env.GOOGLE_CLINT_ID;
   const clientSecret = process.env.GOOGLE_CLINT_SECRET;
-  const redirectUri = process.env.REDIRECT_URL
+  const redirectUri = process.env.callbackURL
   const { callbackURL } = process.env;
   try {
     const tokenResponse = await axios.post(googleTokenUrl, {
