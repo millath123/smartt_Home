@@ -315,8 +315,9 @@ const deleteProfile = async (req, res) => {
 const placeOrder = async (req, res, next) => {
   try {
     const {
-      userId, profileId, productId, cartId, payment_method, selectedAddress
+      userId, profileId, productId, cartId, payment_method, selectedAddress, jsonObject
     } = req.body;
+
 
     console.log('Received data:', req.body);
     const userData = await Cart.findOne({ userId: req.user._id });
@@ -362,7 +363,7 @@ const placeOrder = async (req, res, next) => {
     }else if (payment_method === 'razorpay') {
       // Process Razorpay
       const razorpayOptions = {
-        key: 'TCkQq8CRFK7b54Eoi8IKuly2',
+        key: 'rzp_test_ISlndBIl755xkB',
         amount: amount * 100,
         currency: 'INR',
         name: 'Your Company Name',
@@ -377,7 +378,19 @@ const placeOrder = async (req, res, next) => {
       console.log(razorpayOptions)
       return res.status(201).json({ razorpayOptions });
     } else {
-      res.status(400).json({ error: 'Invalid payment method' });
+      const newOrder = {
+        profileId: req.user.address[jsonObject.selectedAddress]._id, // Assuming address has an _id field
+        products: resolvedProducts,
+        paymentMethod: 'razorpay',
+        amount: amount
+      };
+
+      req.user.orders.push(newOrder); // Push the new order to the orders array
+
+      await req.user.save(); // Save the user document with the new order
+
+      // Redirect to order summary page
+      return res.status(200).json({ placeOrder:"success" });
     }
   } catch (error) {
     console.error(error);

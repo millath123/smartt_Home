@@ -49,6 +49,7 @@ const sendOtp = async (req, res) => {
 
   transporter.sendMail(mailOptions, (error) => {
     if (error) {
+      console.log(error)
       res.status(500).send('Failed to send OTP.');
     } else {
       res.cookie('otp', hashedOtp, {
