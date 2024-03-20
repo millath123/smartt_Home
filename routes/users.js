@@ -23,12 +23,14 @@ router.post('/profile', authenticateUser,userController.createProfile)
 router.delete('/profile/:profileId', authenticateUser, userController.deleteProfile);
 
 router.get('/product', productController.getProduct);
+
 // filter products
 router.get('/product',userController.GetProductPage)
 router.get('/product/:category',userController.GetProductCategory)
+router.get('/productDetails',userController.GetProductDetails)
+
 
 router.get('/cart', authenticateUser, productController.getCart);
-
 router.post('/addToCart', authenticateUser, productController.addToCart);
 // router.delete('/cart/delete/:productId',authenticateUser,productController.deleteCart);
 router.put('/cart/:productId/:quantity', authenticateUser,productController.updateCart);
@@ -40,7 +42,6 @@ router.post('/placeorder',authenticateUser, productController.placeOrder);
 
 router.get('/orderSummary',authenticateUser,productController.getOrderSummery)
 // router.post('/ordersummery',productController.postOrdderSummery)
-
 router.get('/pageNotFound',userController.pageNotFound)
 
 

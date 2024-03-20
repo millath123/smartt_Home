@@ -16,8 +16,10 @@ const userSchema = new mongoose.Schema({
   token: String,
   googleId: String,
   name: String,
-  Image: { type: String, 
-  default: 'https://cdn4.vectorstock.com/i/1000x1000/35/53/person-icon-female-user-profile-avatar-vector-18833553.jpg' },
+  Image: {
+    type: String,
+    default: 'https://cdn4.vectorstock.com/i/1000x1000/35/53/person-icon-female-user-profile-avatar-vector-18833553.jpg'
+  },
   address: [
     {
       name: {
@@ -54,31 +56,35 @@ const userSchema = new mongoose.Schema({
   ],
   wishlist: [{
     items: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Products'
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Products'
     }
-}],
-orders:[{
-  
-  profileId:{
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'productmodel',
-},
-  products: [
-    {
+  }],
+  orders: [{
+
+    profileId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'productmodel',
+    },
+    products: [
+      {
         productId: {
-            type: mongoose.Schema.Types.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
         },
         quantity: {
-            type: Number,
-            default: 1, // You can set a default quantity if needed
+          type: Number,
+          default: 1, // You can set a default quantity if needed
         },
+      },
+    ],
+
+    paymentMethod: String,
+    amount: String,
+    orderDate: {
+      type: Date,
+      default: Date.now,
     },
-],
- 
-  paymentMethod:String,
-  amount:String,
-}]
+  }]
 
 });
 

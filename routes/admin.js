@@ -39,6 +39,9 @@ router.delete('/products/:id', productController.deleteProduct);
 router.get('/banner',isAuthenticated, adminController.bannerGet);
 router.post('/addBanner',isAuthenticated, adminController.bannerPost);
 
+router.get('/order',isAuthenticated, adminController.bannerGet);
+router.post('/order',isAuthenticated, adminController.bannerPost);
+
 
 // router.get('/admin/passwordReset',adminController.passwordReset)
 // router.post('/admin/passwordReset',rs.passwordResetPost)

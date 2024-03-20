@@ -156,6 +156,7 @@ const bannerPost = async (req, res) => {
   }
 };
 
+
 export default {
     adminSighnupPage,
     adminLoginGetPage,

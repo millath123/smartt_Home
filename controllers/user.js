@@ -293,6 +293,34 @@ const GetProductPage = async (req, res) => {
   }
 };
 
+
+
+// const GetProductDetails = async (req, res) => {
+//   try {
+//       // Assume you have a function to fetch product details from your database or API
+//       const productDetails = await fetchProductDetails(req.params.productId);
+      
+//       // Check if productDetails exist, then render the productDetails view
+//       if (productDetails) {
+//           res.render('../views/user/productDetails', { productDetails });
+//       } else {
+//           // Handle the case where productDetails are not found
+//           res.status(404).send('Product not found');
+//       }
+//   } catch (error) {
+//       // Handle any errors that occur during fetching product details
+//       console.error('Error fetching product details:', error);
+//       res.status(500).send('Internal Server Error');
+//   }
+// };
+
+// Example function to fetch product details (replace with your actual implementation)
+const   GetProductDetails= function (req, res) {
+  res.render('../views/user/productDetails');
+}
+
+
+
 const GetProductCategory = async (req, res) => {
   try {
       const category = req.params.category.toLowerCase(); // Extract the category parameter and convert to lowercase
@@ -356,5 +384,6 @@ export default {
   updateProfile,
   GetProductPage,
   GetProductCategory,
-  pageNotFound
+  pageNotFound,
+  GetProductDetails
 };
