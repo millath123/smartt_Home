@@ -8,6 +8,8 @@ import transporter from '../helpers/nodemailer.js';
 import generateOTP from '../helpers/generateOtp.js';
 import User from '../model/user.js';
 import Profile from '../model/user.js';
+import Product from '../model/product.js';
+
 
 
 const { OK, INTERNAL_SERVER_ERROR } = httpStatus;
@@ -260,12 +262,12 @@ const createProfile = async (req, res) => {
 
 const deleteProfile = async (req, res) => {
   try {
-    const { profileId } = req.params;
-    await Profile.findOneAndDelete({ _id: profileId });
-    res.status(204).send();
+      const { profileId } = req.params;
+      await Profile.findOneAndDelete({ _id: profileId });
+      res.status(204).send();
   } catch (error) {
-    console.error(error);
-    res.status(500).send('Error deleting profile');
+      console.error(error);
+      res.status(500).send('Error deleting profile');
   }
 };
 
@@ -280,6 +282,61 @@ const updateProfile = async (req, res) => {
     res.status(500).json({ success: false, error: 'Internal Server Error' });
   }
 };
+
+const GetProductPage = async (req, res) => {
+  try {
+      const filteredProducts = await Product.find().exec();
+      return res.render('../views/user/product',{ product: filteredProducts });
+  } catch (err) {
+      console.error('Error fetching products:', err);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
+const GetProductCategory = async (req, res) => {
+  try {
+      const category = req.params.category.toLowerCase(); // Extract the category parameter and convert to lowercase
+
+      let filteredProducts;
+
+      if (category === 'extension' || category === 'standalone' || category === 'starter') {
+          // Limit to 5 products for specific categories
+          filteredProducts = await Product.find().limit(5).exec();
+      }
+      else if (category === 'bestquality' || category === 'featured' || category === 'newproducts') {
+        // Limit to 5 products for specific categories
+        filteredProducts = await Products.find().limit(5).exec();
+
+      }else if (category === 'allproducts' || category === 'sortbypopularity') {
+          // Show all products for 'allproducts' category, or sort by popularity
+          filteredProducts = await Product.find().exec();
+      } else if (category === 'alphabeticallyaz') {
+          // Sort alphabetically by product name in ascending order
+          filteredProducts = await Product.find().sort({ productName: 1 }).exec();
+      } else if (category === 'sortbylowtohigh') {
+          // Sort by price (MRP) in ascending order
+          filteredProducts = await Product.find().sort({ productPrice: -1 }).exec();
+      } else if (category === 'sortbyhightolow') {
+        // Sort by price (MRP) in descending order
+        filteredProducts = await Product.find().sort({ productPrice: 1 }).exec();
+      } else {
+          // Filter by category
+          filteredProducts = await Product.find({ category: category }).exec();
+      }
+
+      res.render('../views/user/product', { category: category, product: filteredProducts, });
+  } catch (err) {
+      // Handle errors
+      console.error('Error fetching products:', err);
+      res.status(500).send('Internal Server Error');
+  }
+};
+
+const pageNotFound= async function (req, res) {
+  const { user } = req;
+  res.render('../views/user/404page');
+};
+
 
 export default {
   homePage,
@@ -296,5 +353,8 @@ export default {
   getProfile,
   createProfile,
   deleteProfile,
-  updateProfile
+  updateProfile,
+  GetProductPage,
+  GetProductCategory,
+  pageNotFound
 };

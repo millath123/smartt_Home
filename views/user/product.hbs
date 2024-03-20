@@ -796,11 +796,11 @@
                                 <form class="woocommerce-ordering" method="get">
                                     <select name="orderby" class="orderby" aria-label="Shop order">
                                         <option value="menu_order" selected='selected'>Default sorting</option>
-                                        <option value="popularity">Sort by popularity</option>
-                                        <option value="rating">Sort by average rating</option>
-                                        <option value="date">Sort by latest</option>
-                                        <option value="price">Sort by price: low to high</option>
-                                        <option value="price-desc">Sort by price: high to low</option>
+                                        <a href="/product/allproducts"><option value="popularity">Sort by popularity</option></a>
+                                        <a href=""><option value="rating">Sort by average rating</option></a>
+                                        <a href=""><option value="date">Sort by latest</option></a>
+                                        <a href="/product/sortbylowtohigh"><option value="price">Sort by price: low to high</option></a>
+                                        <a href="/product/sortbyhightolow"><option value="price-desc">Sort by price: high to low</option></a>
                                     </select>
                                     <input type="hidden" name="paged" value="1" />
                                 </form>
@@ -825,8 +825,7 @@
                                         href="https://smarthome.fuelthemes.net/product-category/category-grid/">Category
                                         Grid</a>
                                     <ul class='children'>
-                                        <li class="cat-item cat-item-46"><a
-                                                href="https://smarthome.fuelthemes.net/product-category/category-grid/assistants/">Assistants</a>
+                                        <li class="cat-item cat-item-46"><a href="https://smarthome.fuelthemes.net/product-category/category-grid/assistants/">Assistants</a>
                                         </li>
                                         <li class="cat-item cat-item-47"><a
                                                 href="https://smarthome.fuelthemes.net/product-category/category-grid/camera/">Cameras</a>
@@ -890,16 +889,16 @@
                             <ul class="woocommerce-widget-layered-nav-list">
                                 <li class="woocommerce-widget-layered-nav-list__item wc-layered-nav-term "><a
                                         rel="nofollow"
-                                        href="https://smarthome.fuelthemes.net/shop/?filter_size=ext">Extension</a>
+                                        href="/product/ExtensionProducts">Extension</a>
                                     <span class="count">(3)</span>
                                 </li>
                                 <li class="woocommerce-widget-layered-nav-list__item wc-layered-nav-term "><a
                                         rel="nofollow"
-                                        href="https://smarthome.fuelthemes.net/shop/?filter_size=standalone">Standalone
+                                        href="/product/StandaloneProducts">Standalone
                                         Product</a> <span class="count">(6)</span></li>
                                 <li class="woocommerce-widget-layered-nav-list__item wc-layered-nav-term "><a
                                         rel="nofollow"
-                                        href="https://smarthome.fuelthemes.net/shop/?filter_size=starter">Starter
+                                        href="/product/StarterProducts">Starter
                                         set</a> <span class="count">(5)</span></li>
                             </ul>
                         </div>
@@ -967,12 +966,9 @@
                                     });
                                 </script>
                                 {{/if}}
-
-
                                 {{#each product}}
 
-                                <li
-                                    class="product type-product post-68 status-publish first instock product_cat-accessories product_cat-assistants product_cat-camera product_cat-cameras product_cat-category-grid product_cat-heat product_cat-lighting-category-grid product_cat-speaker product_cat-thermostat product_tag-nest product_tag-steel product_tag-thermostat has-post-thumbnail sale taxable shipping-taxable product-type-external small-12 large-4 columns thb-listing-index-1">
+                                <li class="product type-product post-68 status-publish first instock product_cat-accessories product_cat-assistants product_cat-camera product_cat-cameras product_cat-category-grid product_cat-heat product_cat-lighting-category-grid product_cat-speaker product_cat-thermostat product_tag-nest product_tag-steel product_tag-thermostat has-post-thumbnail sale taxable shipping-taxable product-type-external small-12 large-4 columns thb-listing-index-1">
                                     <div class="thb-product-inner-wrapper">
                                         <figure class="product-thumbnail">
                                             <a href="/users/productdetail/{{this._id}}"
@@ -1095,7 +1091,7 @@
                             <ul id="menu-footer_menu_2" class="menu">
                                 <li id="menu-item-149"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-149"><a
-                                        href="https://smarthome.fuelthemes.net/contact/">Delivery and Returns</a></li>
+                                        href="https://smarthome.fuelthemes+.net/contact/">Delivery and Returns</a></li>
                                 <li id="menu-item-150"
                                     class="menu-item menu-item-type-post_type menu-item-object-page menu-item-150"><a
                                         href="https://smarthome.fuelthemes.net/contact/">Order Status</a></li>
@@ -1137,8 +1133,7 @@
                         rel="noopener">Premium WordPress Themes</a> </div>
                 <div class="small-12 medium-6 columns text-center medium-text-right">
                     <a href="https://fuelthemes.net" target="_blank" title="Premium WordPress Themes">Premium WordPress
-                        Themes</a>
-                </div>
+                        Themes</a></div>
             </div>
         </div>
         <!-- End Subfooter -->

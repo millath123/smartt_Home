@@ -21,6 +21,10 @@
 		class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"WebPage","@id":"https://smarthome.fuelthemes.net/checkout/","url":"https://smarthome.fuelthemes.net/checkout/","name":"Checkout - Smart Home","isPartOf":{"@id":"https://smarthome.fuelthemes.net/#website"},"datePublished":"2021-02-26T17:22:58+00:00","dateModified":"2021-02-26T17:22:58+00:00","breadcrumb":{"@id":"https://smarthome.fuelthemes.net/checkout/#breadcrumb"},"inLanguage":"en-US","potentialAction":[{"@type":"ReadAction","target":["https://smarthome.fuelthemes.net/checkout/"]}]},{"@type":"BreadcrumbList","@id":"https://smarthome.fuelthemes.net/checkout/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://smarthome.fuelthemes.net/"},{"@type":"ListItem","position":2,"name":"Checkout"}]},{"@type":"WebSite","@id":"https://smarthome.fuelthemes.net/#website","url":"https://smarthome.fuelthemes.net/","name":"Smart Home","description":"Gutenberg WooCommerce theme by Fuel Themes","publisher":{"@id":"https://smarthome.fuelthemes.net/#organization"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://smarthome.fuelthemes.net/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"en-US"},{"@type":"Organization","@id":"https://smarthome.fuelthemes.net/#organization","name":"Smart Home","url":"https://smarthome.fuelthemes.net/","logo":{"@type":"ImageObject","inLanguage":"en-US","@id":"https://smarthome.fuelthemes.net/#/schema/logo/image/","url":"https://i0.wp.com/smarthome.fuelthemes.net/wp-content/uploads/2021/03/smarthome-logo.png?fit=312%2C40&ssl=1","contentUrl":"https://i0.wp.com/smarthome.fuelthemes.net/wp-content/uploads/2021/03/smarthome-logo.png?fit=312%2C40&ssl=1","width":312,"height":40,"caption":"Smart Home"},"image":{"@id":"https://smarthome.fuelthemes.net/#/schema/logo/image/"}}]}</script>
 	<!-- / Yoast SEO plugin. -->
 
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+
+
 
 	<link rel='dns-prefetch' href='//stats.wp.com' />
 	<link rel='dns-prefetch' href='//fonts.googleapis.com' />
@@ -1001,6 +1005,8 @@
 			</div>
 		</div> <!-- End Main -->
 		<div class="thb-woocommerce-notices-wrapper"></div>
+
+
 		<script>
 			document.addEventListener("DOMContentLoaded", function () {
 				// Get the form element
@@ -1037,11 +1043,13 @@
 								const razorpayOptions = data.razorpayOptions;
 								const razorpay = new Razorpay({
 									...razorpayOptions,
-									handler:  (response) => razorpayHandler(response, jsonObject),
+									handler: (response) => razorpayHandler(response, jsonObject),
 								});
 
 								razorpay.open();
+
 							}
+
 						})
 						.catch(error => {
 							console.error('Fetch error:', error);
@@ -1073,9 +1081,23 @@
 					if (!updateResponse.ok) {
 						console.error('Failed to update payment status:', updateResponse.statusText);
 						return;
+
+						Toastify({
+							text: "Payment sucessfully Completed",
+							duration: 3000,
+							destination: "https://github.com/apvarun/toastify-js",
+							newWindow: true,
+							close: true,
+							gravity: "top", // `top` or `bottom`
+							position: "center", //`left`,`center` or `right`
+							stopOnFocus: true, // Prevents dismissing of toast on hover
+							style: {
+								background: "linear-gradient(to right, #00b09b, #96c93d)",
+							},
+							onClick: function () { } // Callback after click
+						}).showToast();
 					}
 
-					window.location.reload();
 				} catch (error) {
 					console.error('Failed to update payment status:', error);
 				}
@@ -1248,7 +1270,7 @@
 										</li>
 										<li
 											class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-222">
-											<a href="">On
+											<a href=""> On
 												– Sale</a>
 										</li>
 										<li
@@ -1359,6 +1381,9 @@
 
 			/* ]]> */
 		</script>
+
+		<script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 		<script type="text/javascript"
 			src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/headroom.js?ver=1.0.0"
 			id="headroom-js"></script>

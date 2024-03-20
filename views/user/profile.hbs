@@ -418,6 +418,33 @@
         });
 
     </script>
+
+    <script>
+        // Assuming your delete button has an ID like "deleteProfileBtn"
+const deleteButton = document.getElementById('deleteProfileBtn');
+
+deleteButton.addEventListener('click', async () => {
+    const profileIdToDelete = 'your-profile-id'; // Replace with actual profile ID
+    try {
+        const response = await fetch(`/profile/${profileIdToDelete}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        if (!response.ok) {
+            throw new Error('Failed to delete profile');
+        }
+        // Optionally handle success message or UI update here
+    } catch (error) {
+        console.error(error);
+        // Optionally show an error message to the user
+    }
+});
+
+    </script>
+    
+
 </body>
 
 </html>

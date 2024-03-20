@@ -18,7 +18,7 @@
         body {
             margin: 0;
             padding: 0;
-                                                  
+        }                                          
         th.border-bottom {
             border-bottom: 2px solid #000;
 
@@ -109,9 +109,8 @@
         .error-message {
             color: red;
         }
+        
     </style>
-
-
 </head>
 
 <body>
@@ -172,7 +171,7 @@
             <br><br><br>
             <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Banners</h1>
 
-<button class="btn btn-primary add-banner-btn" onclick="openAddBannerModal()">Add Banners</button>
+        <button class="btn btn-primary add-banner-btn" onclick="openAddBannerModal()">Add Banners</button>
 
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -198,7 +197,7 @@
                             <td>{{this.bannerPrice}}</td>
                             <td>
                                 <button class="btn custom-view-button" onclick="viewBanner('{{this.id}}','{{this.bannerImage}}'{{this.bannerAnnouncement}}','{{this.bannerDescription}}','{{this.bannerProduct}}',
-    '{{this.bannerPrice}}')">
+                                   '{{this.bannerPrice}}')">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                 </button>
 
@@ -223,128 +222,100 @@
             </div>
         </div>
 
-        <!-- Add Banner Modal -->
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-scrollable">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Add Banner</h5>
-                        {{!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button> --}}
+<!-- Add Banner Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add Banner</h5>
+                <!-- You can add a close button here if needed -->
+            </div>
+            <div class="modal-body">
+                  <form id="addBannerForm" action="/admin/addBanner" method="post" >
+                    <!-- Banner Image Input -->
+                    <div class="custom-file mb-3">
+                        <label class="form-label" for="bannerImage">Image</label>
+                        <input type="file" class="form-control" id="bannerImage" name="bannerImage" multiple>
                     </div>
-                    <div class="modal-body">
-<form id="addBannerForm" action="/admin/addBanner" method="post" enctype="multipart/form-data">
-
-                            <div class="custom-file">
-                                <label class="form-label" for="customFile">Image</label>
-                                <input type="file" class="form-control" id="bannerImage" name="bannerImage" multiple>
-                            </div>
-
-
-                            <div class="mb-3">
-                                <label for="bannerProduct" class="form-label">Product Name</label>
-                                <input type="text" class="form-control" id="bannerProduct" name="bannerProduct">
-                                <div id="bannerProductError" class="error-message"></div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="bannerDescription" class="form-label">Description</label>
-                                <input type="text" class="form-07aA" id="bannerDescription" name="bannerDescription">
-                                <div id="bannerDescriptionError" class="error-message"></div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="bannerAnnouncement" class="form-label">Announcement
-                                </label>
-                                <input type="text" class="form-control" id="bannerAnnouncement"
-                                    name="bannerAnnouncement">
-                                <div id="bannerAnnouncementError" class="error-message"></div>
-                            </div>
-
-
-                            <div class="mb-3">
-                                <label for="bannerPrice" class="form-label">Offer Price</label>
-                                <input type="text" class="form-control" id="bannerPrice" name="bannerPrice">
-                                <div id="bannerPriceError" class="error-message"></div>
-                            </div>
-
-
-                            <div class="modal-footer">
-                                <button type="submit" class="btn btn-primary" onclick="addBanner()">Save</button>
-                            </div>
-                            {{#if addbanner}}
-                            <p>Image Uploaded to Cloudinary</p>
-                            {{/if}}
-
-                            {{#if addbanner}}
-                            <script>
-                                Swal.fire({
-                                    icon: "error",
-                                    title: "Oops...",
-                                    text: "No files uploaded.",
-                                    footer: '<a href="#">Why do I have this issue?</a>'
-                                });
-                            </script>
-                            {{/if}}
-                        </form>
+                    <!-- Banner Product Input -->
+                    <div class="mb-3">
+                        <label for="bannerProduct" class="form-label">Product Name</label>
+                        <input type="text" class="form-control" id="bannerProduct" name="bannerProduct">
                     </div>
-                </div>
+                    <!-- Banner Announcement Input -->
+                    <div class="mb-3">
+                        <label for="bannerAnnouncement" class="form-label">Announcement</label>
+                        <input type="text" class="form-control" id="bannerAnnouncement" name="bannerAnnouncement">
+                    </div>
+                    <!-- Banner Description Input -->
+                    <div class="mb-3">
+                        <label for="bannerDescription" class="form-label">Description</label>
+                        <input type="text" class="form-control" id="bannerDescription" name="bannerDescription">
+                    </div>
+                    <!-- Banner Price Input -->
+                    <div class="mb-3">
+                        <label for="bannerPrice" class="form-label">Offer Price</label>
+                        <input type="text" class="form-control" id="bannerPrice" name="bannerPrice">
+                    </div>
+                    <!-- Add Banner Button -->
+                    <div class="modal-footer">
+                           <button type="submit" class="btn btn-primary">Add Banner</button>
+                    </div>
+                </form>
             </div>
         </div>
-        <p></p>
+    </div>
+</div>
 
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<!-- Include Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-        <!-- Add Banner Modal -->
-        <script>
+<!-- JavaScript Functions -->
+<script>
     function openAddBannerModal() {
-    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-    modal.show();
-}
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.show();
+    }
 
-function closeAddBannerModal() {
-    var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-    modal.hide();
-}
+    function closeAddBannerModal() {
+        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+        modal.hide();
+    }
 
-function addBanner() {
-    var bannerImage = document.getElementById('bannerImage').files[0]; // Get the file object
-    var bannerProduct = document.getElementById('bannerProduct').value;
-    var bannerAnnouncement = document.getElementById('bannerAnnouncement').value;
-    var bannerDescription = document.getElementById('bannerDescription').value;
-    var bannerPrice = document.getElementById('bannerPrice').value;
+    function addBanner() {
+        var bannerImage = document.getElementById('bannerImage').files[0];
+        var bannerProduct = document.getElementById('bannerProduct').value;
+        var bannerAnnouncement = document.getElementById('bannerAnnouncement').value;
+        var bannerDescription = document.getElementById('bannerDescription').value;
+        var bannerPrice = document.getElementById('bannerPrice').value;
 
-    var formData = new FormData();
-    formData.append('bannerImage', bannerImage);
-    formData.append('bannerProduct', bannerProduct);
-    formData.append('bannerAnnouncement', bannerAnnouncement);
-    formData.append('bannerDescription', bannerDescription);
-    formData.append('bannerPrice', bannerPrice);
+        var formData = new FormData();
+        formData.append('bannerImage', bannerImage);
+        formData.append('bannerProduct', bannerProduct);
+        formData.append('bannerAnnouncement', bannerAnnouncement);
+        formData.append('bannerDescription', bannerDescription);
+        formData.append('bannerPrice', bannerPrice);
 
-    fetch('/banner/addBanner', {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-    .then(data => {
-        console.log('Banner added successfully:', data.message);
-        // Optionally, redirect to another page or perform any additional actions
-        // For example, close the modal after successful submission
-        closeAddBannerModal();
-    })
-    .catch(error => {
-        console.error('Error adding banner:', error);
-        // Handle errors and display appropriate messages to the user
-    });
-}
- </script>
-
+        fetch('/admin/addBanner', {
+            method: 'POST',
+            body: formData,
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Banner added successfully:', data.message);
+            
+            closeAddBannerModal();
+        })
+        .catch(error => {
+            console.error('Error adding banner:', error);
+        });
+    }
+</script>
 
         <!-- Edit Banner Modal -->
         <div class="modal fade" id="editBannerModal" tabindex="-1" aria-labelledby="editBannerModalLabel"
@@ -479,7 +450,6 @@ function addBanner() {
             }
         </script>
 
-
         <script>
             function deleteBanner(bannerId, bannerRow) {
                 fetch(`/admin/banner/${bannerId}`, {
@@ -509,20 +479,15 @@ function addBanner() {
                 bannerAnnouncement,
                 bannerDescription,
                 bannerPrice,
-
             ) {
                 $('#editBnnerImage').val(bannerImage);
                 $('#editBannerProduct').val(bannerProduct);
                 $('#editBannerAnnouncement').val(bannerAnnouncement);
                 $('#editBannerDescription').val(bannerDescription);
                 $('#editbannerPrice').val(bannerPrice);
-
-
                 $('#editBannerModal').modal('show'); // Show the modal
             }
         </script>
-
-
 
         <script>
             document.addEventListener("DOMContentLoaded", function () {

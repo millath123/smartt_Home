@@ -52,6 +52,12 @@ const userSchema = new mongoose.Schema({
       }
     },
   ],
+  wishlist: [{
+    items: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Products'
+    }
+}],
 orders:[{
   
   profileId:{

@@ -14,6 +14,7 @@ const storage = new CloudinaryStorage({
     allowed_formats: ['jpg', 'png', 'jpeg'],
   },
 });
+
 const upload = multer({ storage });
 
 router.get('/register', adminController.adminSighnupPage)
@@ -36,8 +37,7 @@ router.delete('/products/:id', productController.deleteProduct);
 
 
 router.get('/banner',isAuthenticated, adminController.bannerGet);
-router.post('/addBanner', adminController.bannerPost);
-
+router.post('/addBanner',isAuthenticated, adminController.bannerPost);
 
 
 // router.get('/admin/passwordReset',adminController.passwordReset)
@@ -45,6 +45,5 @@ router.post('/addBanner', adminController.bannerPost);
 // router.post('/admin/passwordVerify',adminController.passwordVerifyPost)
 // router.get('/admin/NewPassword',adminController.NewPassword)
 // router.post('/admin/NewPassword',adminController.NewPasswordPost)
-
 
 export default router;

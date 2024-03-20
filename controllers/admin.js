@@ -3,6 +3,12 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv';
 import Admin from '../model/admin.js';
 import User from '../model/user.js';
+import { CloudinaryStorage } from 'multer-storage-cloudinary';
+import cloudinary from '../helpers/cloudinary.js';
+import multer from 'multer';
+
+
+
 
 dotenv.config();
 
@@ -58,8 +64,6 @@ const adminLogout = (req, res) => {
     res.redirect('/admin/dashboard');
 };
 
-
-
 // admin dashboard
 const adminDshboard = async function (req, res) {
     res.render(path.join('../views/admin/dashboard'));
@@ -70,36 +74,6 @@ const adminusers = async (req, res) => {
     const users = await User.find();
     res.render('admin/users', { users });
 };
-
-const bannerGet = async (req, res) => {
-    res.render(path.join('../views/admin/banner'));
-};
-
-const bannerPost= async (req, res) => {
-    try {
-        // Extract banner data from the request body
-        const { bannerImage, bannerProduct, bannerAnnouncement, bannerDescription, bannerPrice } = req.body;
-
-        // Create a new Admin instance with the extracted data
-        const newBanner = new Admin({
-            bannerImage,
-            bannerProduct,
-            bannerAnnouncement,
-            bannerDescription,
-            bannerPrice,
-        });
-
-        // Save the new banner to MongoDB
-        await newBanner.save();
-
-        // Send a success response back to the client
-        res.status(201).json({ message: 'Banner added successfully' });
-    } catch (error) {
-        // Handle any errors and send an error response
-        console.error('Error adding banner:', error);
-        res.status(500).json({ error: 'Failed to add banner' });
-    }
-}
 
 const deleteUserController = async (req, res) => {
     const userId = req.params.id;
@@ -147,6 +121,39 @@ const deleteRoute = async (req, res) => {
 
 const updateRoute = async (req, res) => {
     await updateUserController(req, res);
+};
+
+
+
+const bannerGet = async (req, res) => {
+    res.render(path.join('../views/admin/banner'));
+};
+
+
+const bannerPost = async (req, res) => {
+  try {
+    const { bannerProduct, bannerAnnouncement, bannerDescription, bannerPrice } = req.body;
+    const { path: bannerImagePath } = req.file; 
+
+    const parsedBannerPrice = Number(bannerPrice);
+
+    const admin = req.admin;
+
+    admin.banners.push({
+      bannerImage: req.file.path, 
+      bannerProduct,
+      bannerAnnouncement,
+      bannerDescription,
+      bannerPrice: parsedBannerPrice,
+    });
+
+    await admin.save();
+
+    res.status(200).json({ message: 'Banner added successfully' });
+  } catch (error) {
+    console.error('Error adding banner:', error);
+    res.status(500).json({ error: 'Failed to add banner' });
+  }
 };
 
 export default {

@@ -269,7 +269,7 @@ const getCheckout = async (req, res) => {
       return res.status(404).send('Cart is empty');
     }
 
-    // Fetch product details for each item in the cart using map
+    // Fetch product details for each item in the cart
     const populatedUserData = await Promise.all(userData.map(async (item) => {
       const products = await Promise.all(item.products.map(async (product) => {
         const productDetails = await Product.findById(product.productId);
@@ -333,7 +333,7 @@ const placeOrder = async (req, res, next) => {
       return {
         productId: product.productId,
         quantity: product.quantity,
-        price: productData.productPrice // Assuming there's a 'price' field in your product model
+        price: productData.productPrice 
       };
     });
     // Resolve all product promises to get the product details
