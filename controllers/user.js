@@ -262,14 +262,15 @@ const createProfile = async (req, res) => {
 
 const deleteProfile = async (req, res) => {
   try {
-      const { profileId } = req.params;
-      await Profile.findOneAndDelete({ _id: profileId });
-      res.status(204).send();
+    const { profileId } = req.params;
+    await User.findOneAndDelete({ _id: profileId });
+    res.status(204).send();
   } catch (error) {
-      console.error(error);
-      res.status(500).send('Error deleting profile');
+    console.error(error);
+    res.status(500).send('Error deleting profile');
   }
 };
+
 
 const updateProfile = async (req, res) => {
   try {

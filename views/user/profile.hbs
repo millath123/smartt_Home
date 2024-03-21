@@ -63,7 +63,6 @@
         .profile-head h6 {
             color: #0062cc;
         }
-
         .profile-logout-btn {
             border: none;
             border-radius: .3rem;
@@ -74,7 +73,6 @@
             background-color: rgb(242, 63, 63);
             cursor: pointer;
         }
-
         .proile-rating {
             font-size: 12px;
             color: #818182;
@@ -133,9 +131,10 @@
             color: #0062cc;
         }
     </style>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 
 </head>
+
 <body>
 
     <div class="container emp-profile">
@@ -155,9 +154,9 @@
                     <div class="profile-head">
 
                         <h6>
-                            Web Developer and Designer
+
                         </h6>
-                        <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        {{!-- <ul class="nav nav-tabs" id="myTab" role="tablist">
                             <li class="nav-item">
                                 <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab"
                                     aria-controls="home" aria-selected="true">About</a>
@@ -166,7 +165,7 @@
                                 <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab"
                                     aria-controls="profile" aria-selected="false">Timeline</a>
                             </li>
-                        </ul>
+                        </ul> --}}
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -190,7 +189,9 @@
                         <a href="">PHP, .Net</a><br />
                     </div>
                 </div> --}}
-               <a href="/"> <p>Home</p></a>
+                <a href="/">
+                    <p>Home</p>
+                </a>
 
                 <div class="col-md-8">
                     <button type="button" id="showAdminModalBtn" class="btn btn-primary">
@@ -225,14 +226,14 @@
                                     <p>{{this.email}}</p>
                                 </div>
                             </div>
-                             <div class="row">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <label>Address</label>
                                 </div>
                                 <div class="col-md-6">
                                     <p>{{this.userAddress}}</p>
                                 </div>
-                            </div> 
+                            </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>Phone</label>
@@ -241,7 +242,7 @@
                                     <p>{{this.mobileNo}}</p>
                                 </div>
                             </div>
-                       
+
                             <div class="row">
                                 <div class="col-md-6">
                                     <label>City</label>
@@ -250,7 +251,7 @@
                                     <p>{{this.city}}</p>
                                 </div>
                             </div>
-                                 <div class="row">
+                            <div class="row">
                                 <div class="col-md-6">
                                     <label>State</label>
                                 </div>
@@ -258,13 +259,16 @@
                                     <p>{{this.state}}</p>
                                 </div>
                             </div>
-                          
+
                             <button type="button" id="showAdminModalBtn" class="btn btn-primary">
                                 Edit
                             </button>
-                            <button type="button" id="showAdminModalBtn" class="btn btn-danger">
+                            <button type="button" id="deleteProfileBtn" class="btn btn-danger"
+                                data-profileId="your-profile-id">
                                 Delete
-                            </button><br><br><br>
+                            </button>
+
+                            <br><br><br>
                         </div>
                         <br>
                         {{/each}}
@@ -411,6 +415,21 @@
                         console.log('Profile created:', data);
                         var myModal = new bootstrap.Modal(document.getElementById('adminModal')); // Create a new Bootstrap modal instance
                         myModal.hide();
+
+                        Toastify({
+                            text: "Profile added to successfully!",
+                            duration: 3000,
+                            destination: "https://github.com/apvarun/toastify-js",
+                            newWindow: true,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            style: {
+                                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            },
+                            onClick: function () { }
+                        }).showToast();
                     })
                     .catch(error => {
                         console.error('Error creating profile:', error);
@@ -420,30 +439,32 @@
 
     </script>
 
-    <script>
-        // Assuming your delete button has an ID like "deleteProfileBtn"
-const deleteButton = document.getElementById('deleteProfileBtn');
 
-deleteButton.addEventListener('click', async () => {
-    const profileIdToDelete = 'your-profile-id'; // Replace with actual profile ID
-    try {
-        const response = await fetch(`/profile/${profileIdToDelete}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+    <script>
+        const deleteButton = document.getElementById('deleteProfileBtn');
+
+        deleteButton.addEventListener('click', async () => {
+            const profileIdToDelete = deleteButton.dataset.profileId; // Get profile ID from data attribute
+            try {
+                const response = await fetch(`/profile/${profileIdToDelete}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`Failed to delete profile: ${response.statusText}`);
+                }
+                // Optionally handle success message or UI update here
+            } catch (error) {
+                console.error('Error deleting profile:', error);
+                // Optionally show an error message to the user
+            }
         });
-        if (!response.ok) {
-            throw new Error('Failed to delete profile');
-        }
-        // Optionally handle success message or UI update here
-    } catch (error) {
-        console.error(error);
-        // Optionally show an error message to the user
-    }
-});
 
     </script>
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 
 </body>

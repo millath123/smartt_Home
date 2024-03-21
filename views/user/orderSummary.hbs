@@ -196,165 +196,92 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 		</div>
 	</header>
 </div>
-		<div role="main">
-<div class="post-8 page type-page status-publish hentry">
-	<div class="row">
-		<div class="small-12 columns">
-			<div class="woocommerce">
-<div class="woocommerce-order">
-			<p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you. Your order has been received.</p>
 
-			<ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
-{{#if user.orders}}
-    <li class="woocommerce-order-overview__order order">
-        Order number: <strong>{{user.orders.[0]._id}}</strong>
-    </li>
+<div role="main">
+    <div class="post-8 page type-page status-publish hentry">
+        <div class="row">
+            <div class="small-12 columns">
+                <div class="woocommerce">
+                    <div class="woocommerce-order">
+                        <p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you. Your order has been received.</p>
 
-    <li class="woocommerce-order-overview__date date">
-        Date: <strong>{{user.orders.[0].orderDate}}</strong>
-    </li>
+                        <ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
+                            {{#if user.orders}}
+                                {{#each user.orders as |order index|}}
 
-    <li class="woocommerce-order-overview__email email">
-        Email: <strong>{{user.email}}</strong>
-    </li>
+								<br>
+                                    <li class="woocommerce-order-overview__order order">
+                                        Order number: <strong>{{order._id}}</strong>
+                                    </li>
 
-    <li class="woocommerce-order-overview__total total">
-        Total: <strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol"> ₹ </span>{{user.orders.[0].amount}}</bdi></span></strong>
-    </li>
+                                    <li class="woocommerce-order-overview__date date">
+                                        Date: <strong>{{order.orderDate}}</strong>
+                                    </li>
 
-    <li class="woocommerce-order-overview__payment-method method">
-        Payment method: <strong>{{user.orders.[0].paymentMethod}}</strong>
-    </li>
-{{else}}
-    <p>No orders found.</p>
-{{/if}}
+                                    <li class="woocommerce-order-overview__email email">
+                                        Email: <strong>{{user.email}}</strong>
+                                    </li>
 
+                                    <li class="woocommerce-order-overview__total total">
+                                        Total: <strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol"> ₹ </span>{{order.amount}}</bdi></span></strong>
+                                    </li>
 
-			</ul>
-
-{{!-- 		
-		<section class="woocommerce-bacs-bank-details">
-			
-			
-			<h2 class="wc-bacs-bank-details-heading">Our bank details</h2>
-<h3 class="wc-bacs-bank-details-account-name">Fuel Themes:</h3>
-
-{{#if user.orders}}	
-<ul class="wc-bacs-bank-details order_details bacs_details">
-<li class="bank_name">Bank: <strong>Garanti</strong></li>
-<li class="account_number">Account number: <strong>TR 69 0004 6008 8288 8000 5555 90</strong></li>
-<li class="bic">BIC: <strong>TRBATRIXX</strong></li>
-</ul>
-
-{{/if}}
-</section>	 --}}
-
-
-<section class="woocommerce-order-details">
-	
-	<h2 class="woocommerce-order-details__title">Order details</h2>
-	
-	<table class="woocommerce-table woocommerce-table--order-details shop_table order_details">
-
-		<thead>
-			
-			<tr>
-				<th class="woocommerce-table__product-name product-name">Product</th>
-				<th class="woocommerce-table__product-table product-total">Total</th>
-			</tr>
-		</thead>
-
-		<tbody>
-
-{{#each cart.[0].products}}
-
-			<tr class="woocommerce-table__line-item order_item">
-	<td class="woocommerce-table__product-name product-name">
-		<a href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">{{this.productDetails.productName}} x </a><strong class="product-quantity">{{this.quantity}}<strong>	</td>
-
-	<td class="woocommerce-table__product-total product-total">
-		<span class="woocommerce-Price-amount amount"><bdi>
-			<span class="woocommerce-Price-currencySymbol">₹</span>{{this.productDetails.productPrice}}</bdi></span></td></tr>
-
-{{/each}}
-		</tbody>
-
-		<tfoot>
-
-			
-
-								{{!-- <tr>
-									<th scope="row">Subtotal:</th>
-						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{this.total}}</span></td>
-					</tr> --}}
-					
-
-						{{#if user.orders}}				
-										<tr>
-						<th scope="row" >Payment method:</th>
-						<td>{{user.orders.[0].paymentMethod}}</td>
-					</tr>
-					{{/if}}
-
-										<tr>
-						<th scope="row">Total:</th>
-						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{user.orders.[0].total}}</span></td>
-					</tr>
-					
-												{{!-- <tr>
-					<th>Note:</th>
-					<td>Laboris quas molesti</td>
-				</tr> --}}
-
-					</tfoot>
-			
-	</table>
-
-	</section>
-
-<section class="woocommerce-customer-details">
-
-	{{#if user.address}}
-	<section class="woocommerce-columns woocommerce-columns--2 woocommerce-columns--addresses col2-set addresses">
-		<div class="woocommerce-column woocommerce-column--1 woocommerce-column--billing-address col-1">
-
-	
-	<h2 class="woocommerce-column__title">Billing address</h2>
-
-
-	<address>
-		{{this.userAddress}}<br />Houston and Mosley Associates<br />795 South Rocky Old Extension<br />Non corporis sed vol<br />Fugit do enim expli, WY 18767
-					<p class="woocommerce-customer-details--phone">+1 (316) 461-2652</p>
-		
-					<p class="woocommerce-customer-details--email">dyki@mailinator.com</p>
-			</address>
-
-	
-		</div><!-- /.col-1 -->
-
-		<div class="woocommerce-column woocommerce-column--2 woocommerce-column--shipping-address col-2">
-			<h2 class="woocommerce-column__title">Shipping address</h2>
-			<address>
-				Meghan Barker<br />Stuart Jackson Trading<br />672 New Street<br />Quasi blanditiis dol<br />Non officiis tenetur<br />10108<br />Martinique
-									<p class="woocommerce-customer-details--phone">+1 (265) 556-5404</p>
-							</address>
-		</div>
-
-	</section>
-	{{/if}}
-	<!-- /.col2-set -->
-
-	
-	
-</section>
-
-	
+                                    <li class="woocommerce-order-overview__payment-method method">
+                                        Payment method: <strong>{{order.paymentMethod}}</strong>
+                                    </li>
+									<br>
+                                {{/each}}
+                            {{else}}
+                                <p>No orders found.</p>
+                            {{/if}}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Modal -->
+<div id="orderDetailsModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <p id="orderDetailsContent"></p>
+    </div>
 </div>
-		</div>
-	</div>
-</div>
-	</div> <!-- End Main -->
+
+<script>
+    const modal = document.getElementById('orderDetailsModal');
+    const closeBtn = document.querySelector('.close');
+    const viewButtons = document.querySelectorAll('.woocommerce-order-overview__order');
+
+    viewButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const orderIndex = this.getAttribute('data-order-index');
+            const order = user.orders[orderIndex];
+            const productsCount = order.products.length;
+
+            const modalContent = `
+                <p>Payment Method: ${order.paymentMethod}</p>
+                <p>Total Amount: ₹ ${order.amount}</p>
+                <p>Products Count: ${productsCount}</p>
+            `;
+            document.getElementById('orderDetailsContent').innerHTML = modalContent;
+            modal.style.display = 'block';
+        });
+    });
+
+    closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+</script>
+ <!-- End Main -->
 		<div class="thb-woocommerce-notices-wrapper"></div>
 	
 <footer id="footer" class="footer">

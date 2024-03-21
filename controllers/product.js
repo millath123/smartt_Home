@@ -125,13 +125,11 @@ const updateProduct = async (req, res) => {
 
 
 //   view product
-const getProduct = async (req, res, next) => {
+const getProduct = async (req, res) => {
   try {
     // Fetch all products
     const product = await Product.find();
-
-    // Render the product view with the fetched products
-    res.render(path.join('../views/user/product'), { product });
+      res.render(path.join('../views/user/product'), { product });
   } catch (error) {
     console.error('Error fetching products:', error);
     res.status(500).json({ error: 'Error fetching products' });
@@ -360,7 +358,7 @@ const placeOrder = async (req, res, next) => {
       // Clear the cart after successful order and payment
       await Cart.findOneAndDelete({ userId: req.user._id });
 
-      // Redirect to order summary page
+      
       return res.status(200).json({ placeOrder:"success" });
 
        
@@ -393,11 +391,9 @@ const placeOrder = async (req, res, next) => {
 
       req.user.orders.push(newOrder); // Push the new order to the orders array
 
-      await req.user.save(); 
-
+      
       await Cart.findOneAndDelete({ userId: req.user._id });
-
-
+      await req.user.save(); 
       // Redirect to order summary page
       return res.status(200).json({ placeOrder:"success" });
     }
@@ -439,6 +435,7 @@ const getOrderSummery= async (req, res) => {
         grandTotal += product.productPrice * product.quantity;
       });
     });
+
     // Render the checkout view with cart items, product data, and user details
     res.render('../views/user/orderSummary', { cart: populatedUserData, user, grandTotal });
   } catch (error) {

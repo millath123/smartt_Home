@@ -23,11 +23,12 @@ router.post('/profile', authenticateUser,userController.createProfile)
 router.delete('/profile/:profileId', authenticateUser, userController.deleteProfile);
 
 router.get('/product', productController.getProduct);
+router.get('/productdetail/:id',userController.GetProductDetails)
 
 // filter products
 router.get('/product',userController.GetProductPage)
 router.get('/product/:category',userController.GetProductCategory)
-router.get('/productdetail/:id',userController.GetProductDetails)
+
 
 
 router.get('/cart', authenticateUser, productController.getCart);

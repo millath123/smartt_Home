@@ -1,3 +1,4 @@
+import createError from 'http-errors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import path from 'path';
@@ -29,16 +30,12 @@ app.use('/admin', adminRoutes);
 // Set up user routes
 app.use(userRoutes);
 
-
-
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
 // error handler
 app.use(function(err, req, res, next) {
- 
-
   // render the error page
   res.status(err.status || 500);
   res.render('../views/user/404page');
@@ -46,5 +43,4 @@ app.use(function(err, req, res, next) {
 
 const port = process.env.PORT || '8080';
 app.listen(port, () => {
-  // console.log(`Server is running on port ${port}`);
 });

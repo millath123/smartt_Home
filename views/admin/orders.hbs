@@ -129,7 +129,8 @@
                     {{!-- <div><img src="/public/images/logo-only.jpg" alt="kkk"></div> --}}
 
                     <div style="font-family: Fantasy;  font-size: 37px; padding-bottom:10px; color:rgb(185, 152, 112);">
-                        SmartHome</div>
+                        SmartHome
+                    </div>
 
                     <div><img class="profimg"
                             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQx1gc6iKFF08AO-tJb3gAsQPPJP7yS27pPmg&usqp=CAU"
@@ -139,23 +140,25 @@
             </div>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="#"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
+                    <a href="/admin/dashboard"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
                 </li>
                 <li>
-                    <a href="/admin/users"><span class="fa fa-users mr-3 notif"></small></span> USERS</a>
+                    <a href="/admin/users"><span class="fa fa-users mr-3 notif"></span> USERS</a>
                 </li>
-
+                <li>
+                    <a href="/admin/category"><span class="fa fa-trophy mr-3"></span>CATEGORY</a>
+                </li>
                 <li>
                     <a href="/admin/product"><span class="fa fa-th mr-3"></span>PRODUCTS</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-trophy mr-3"></span> Top Review</a>
+                    <a href="/admin/banner"><span class="fa fa-cog mr-3"></span> BANNERS</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
+                    <a href=""><span class="fa fa-cog mr-3"></span> Settings</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
+                    <a href=""><span class="fa fa-support mr-3"></span> Support</a>
                 </li>
                 <li>
                     <a href="/admin/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
@@ -164,10 +167,8 @@
 
         </nav>
 
-        <!-- Page Content  -->
-
         <div class="container mt-5">
-            <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Users List</h1>
+            <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Orders List</h1>
             <br>
 
             <div class="row">
@@ -175,192 +176,57 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">FULL NAME</th>
-                                <th scope="col">PHONE NUMBER</th>
-                                <th scope="col">EMAIL</th>
+                                <th scope="col">ORDER ID</th>
+                                <th scope="col">USER NAME</th>
+                                <th scope="col">PRODUCT NAME</th>
+                                <th scope="col">ORDER STATUS</th>
+                                <th scope="col">QUANTITY</th>
+                                <th scope="col">PRICE</th>
+                                <th scope="col">SUB TOTAL</th>
+                                <th scope="col">GRAND TOTAL</th>
+                                <th scope="col">PAYMENT MODE</th>
+                                <th scope="col">PAYMENT ID</th>
                                 <th scope="col">ACTION</th>
                             </tr>
                         </thead>
                         <tbody id="userList">
-                            {{#each user.orders}}
+                            {{#each users.orders}}
                             <tr>
-                                <th class="indexing">{{@index}}</th>
-                                <td>{{this.fullName}}</td>
-                                <td>{{this.phoneNumber}}</td>
-                                <td>{{this.email}}</td>
+                                <td>{{this._id}}</td>
+                                <td>{{this.user.fullName}}</td>
+                                <td>{{this.products[0].productName}}</td>
+                                <td>{{this.orderStatus}}</td>
+                                <td>{{this.products[0].quantity}}</td>
+                                <td>{{this.products[0].price}}</td>
+                                <td>{{this.subTotal}}</td>
+                                <td>{{this.grandTotal}}</td>
+                                <td>{{this.paymentMethod}}</td>
+                                <td>{{this.paymentId}}</td>
                                 <td>
-                                    <button class="custom-edit-button"
-                                        onclick="editUser('{{this.id}}','{{this.fullName}}','{{this.phoneNumber}}','{{this.email}}')">
+                                    <button class="custom-edit-button" onclick="editOrder('{{this._id}}')">
+                                        <!-- Add editOrder function -->
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
-                                    <button class="custom-delete-button" onclick="deleteUser('{{user._id}}')">
+                                    <button class="custom-delete-button" onclick="deleteOrder('{{this._id}}')">
+                                        <!-- Add deleteOrder function -->
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
-
                                 </td>
                             </tr>
                             {{/each}}
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
 
-        <!-- Edit User Modal -->
-        <div id="editUserModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeEditUserModal()">&times;</span>
-                <h2>Edit User</h2>
-                <form id="editUserForm">
-                    <input type="hidden" id="editUserId">
-                    <label for="editFullName">Full Name:</label>
-                    <input type="text" id="editFullName">
-                    <label for="editPhoneNumber">Phone Number:</label>
-                    <input type="text" id="editPhoneNumber">
-                    <label for="editEmail">Email:</label>
-                    <input type="text" id="editEmail">
-                    <button type="submit">Save Changes</button>
-                </form>
-            </div>
-        </div>
-
-        <script>
-            function deleteUser(userId) {
-                fetch(`/admin/users/${userId}`, {
-                    method: 'DELETE',
-                })
-                    .then((response) => {
-                        if (response.status === 204) {
-                            const userRow = document.getElementById(userId);
-                            if (userRow) {
-                                userRow.remove();
-                            }
-                        } else if (response.status === 404) {
-                            console.error('User not found.');
-                        } else {
-                            console.error('Error deleting user:', response.status);
-                        }
-                    })
-                    .catch((error) => {
-                        console.error(error);
-                    });
-            }
-        </script>
 
 
-        <script>
-            function editUser(id, fullName, phoneNumber, email) {
-                document.getElementById('editUserId').value = id;
-                document.getElementById('editFullName').value = fullName;
-                document.getElementById('editPhoneNumber').value = phoneNumber;
-                document.getElementById('editEmail').value = email;
-
-                document.getElementById('editUserModal').style.display = 'block';
-            }
-
-            function closeEditUserModal() {
-                document.getElementById('editUserModal').style.display = 'none';
-            }
-
-            // Function to handle form submission for editing a user
-            document.getElementById('editUserForm').addEventListener('submit', function (e) {
-                e.preventDefault();
-
-                const userId = document.getElementById('editUserId').value;
-                const fullName = document.getElementById('editFullName').value;
-                const phoneNumber = document.getElementById('editPhoneNumber').value;
-                const email = document.getElementById('editEmail').value;
-
-                console.log(userId);
-
-                fetch(`/admin/users/${userId}`, {
-                    method: 'PUT',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ fullName, phoneNumber, email }),
-                })
-                    .then((response) => {
-                        if (response.status === 200) {
-
-                            window.location.reload()
-
-                        } else {
-                            console.error('Error updating user:', response.status);
-                        }
-                    })
-                    .catch((error) => {
-                        console.error('Error updating user:', error);
-                    });
-            });
-        </script>
-
-        <!-- Overlay -->
-        <div class="layout-overlay layout-menu-toggle"></div>
-    </div>
-
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            var indexingElements = document.querySelectorAll(".indexing");
-
-            indexingElements.forEach(function (element, index) {
-                element.textContent = index + 1;
-            });
-        });
-    </script>
-    <!-- / Layout wrapper -->
-
-
-    {{!-- <div class="modal fade" id="changePasswordModal" data-bs-backdrop="static" tabindex="-1">
-        <div class="modal-dialog">
-            <form class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="changePasswordModalTitle">Change Password</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col mb-3">
-                            <label for="emailChange" class="form-label">Email</label>
-                            <input type="email" id="emailChange" class="form-control" placeholder="Enter Email" />
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0">
-                            <label for="oldPassword" class="form-label">Old Password</label>
-                            <input type="password" id="oldPassword" class="form-control"
-                                placeholder="Enter Old Password" />
-                        </div>
-                        <div class="col mb-0">
-                            <label for="newPassword" class="form-label">New Password</label>
-                            <input type="password" id="newPassword" class="form-control"
-                                placeholder="Enter New Password" />
-                        </div>
-                    </div>
-                    <div class="row g-2">
-                        <div class="col mb-0">
-                            <label for="confirmPassword" class="form-label">Confirm Password</label>
-                            <input type="password" id="confirmPassword" class="form-control"
-                                placeholder="Confirm New Password" />
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
-                        Close
-                    </button>
-                    <button type="button" class="btn btn-primary">Save</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <script src="../assets/js/jquery.min.js"></script>
-    <script src="../assets/js/popper.js"></script>
-    <script src="../assets/js/bootstrap.min.js"></script>
-    <script src="../assets/js/main.js"></script>
+        <script src="../assets/js/jquery.min.js"></script>
+        <script src="../assets/js/popper.js"></script>
+        <script src="../assets/js/bootstrap.min.js"></script>
+        <script src="../assets/js/main.js"></script>
 </body>
 
 </html>

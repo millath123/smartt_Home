@@ -157,17 +157,26 @@ const bannerPost = async (req, res) => {
 };
 
 
+// order list
+const ordersGet= async (req, res)=> {
+    res.render(path.join('../views/admin/orders'));
+};
+
+
+
+
 export default {
     adminSighnupPage,
     adminLoginGetPage,
     adminLoginPostPage,
     adminLogout,
     adminDshboard,
-    // adminLogoutPage,
     adminusers,
     bannerGet,
     bannerPost,
     deleteRoute,
     updateRoute,
     deleteUserController,
+    ordersGet
+
 };

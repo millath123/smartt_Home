@@ -18,7 +18,8 @@
         body {
             margin: 0;
             padding: 0;
-        }                                          
+        }
+
         th.border-bottom {
             border-bottom: 2px solid #000;
 
@@ -109,7 +110,6 @@
         .error-message {
             color: red;
         }
-        
     </style>
 </head>
 
@@ -123,6 +123,7 @@
             </div>
             <div class="img bg-wrap text-center py-4" style="background-image: url(images/bg_1.jpg);">
                 <div class="user-logo">
+
                     {{!-- <div><img src="/public/images/logo-only.jpg" alt="kkk"></div> --}}
 
                     <div style="font-family: Fantasy;  font-size: 37px; padding-bottom:10px; color:rgb(185, 152, 112);">
@@ -137,8 +138,9 @@
             </div>
             <ul class="list-unstyled components mb-5">
                 <li class="active">
-                    <a href="#"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
+                    <a href="/"><span class="fa fa-home mr-3"></span>DASHBOARD</a>
                 </li>
+
                 <li>
                     <a href="/admin/users"><span class="fa fa-users mr-3 notif"></span> USERS</a>
                 </li>
@@ -152,26 +154,24 @@
                     <a href="/admin/banner"><span class="fa fa-cog mr-3"></span> BANNERS</a>
                 </li>
                 <li>
-                    <a href="#"><span class="fa fa-trophy mr-3"></span> Top Review</a>
+                    <a href="/admin/order"><span class="fa fa-cog mr-3"></span> ORDERS</a>
                 </li>
-                <li>
-                    <a href="#"><span class="fa fa-cog mr-3"></span> Settings</a>
-                </li>
+
                 <li>
                     <a href="#"><span class="fa fa-support mr-3"></span> Support</a>
                 </li>
                 <li>
                     <a href="/admin/logout"><span class="fa fa-sign-out mr-3"></span> Sign Out</a>
                 </li>
-            </ul>
 
+            </ul>
         </nav>
 
         <div class="container">
             <br><br><br>
             <h1 style="font-size: 30px;   text-align: center; font-weight: bold;">Banners</h1>
 
-        <button class="btn btn-primary add-banner-btn" onclick="openAddBannerModal()">Add Banners</button>
+            <button class="btn btn-primary add-banner-btn" onclick="openAddBannerModal()">Add Banners</button>
 
             <div class="table-responsive">
                 <table class="table table-striped">
@@ -222,100 +222,101 @@
             </div>
         </div>
 
-<!-- Add Banner Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Add Banner</h5>
-                <!-- You can add a close button here if needed -->
-            </div>
-            <div class="modal-body">
-                  <form id="addBannerForm" action="/admin/addBanner" method="post" >
-                    <!-- Banner Image Input -->
-                    <div class="custom-file mb-3">
-                        <label class="form-label" for="bannerImage">Image</label>
-                        <input type="file" class="form-control" id="bannerImage" name="bannerImage" multiple>
+        <!-- Add Banner Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add Banner</h5>
+                        <!-- You can add a close button here if needed -->
                     </div>
-                    <!-- Banner Product Input -->
-                    <div class="mb-3">
-                        <label for="bannerProduct" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="bannerProduct" name="bannerProduct">
+                    <div class="modal-body">
+                        <form id="addBannerForm" action="/admin/addBanner" method="post">
+                            <!-- Banner Image Input -->
+                            <div class="custom-file mb-3">
+                                <label class="form-label" for="bannerImage">Image</label>
+                                <input type="file" class="form-control" id="bannerImage" name="bannerImage" multiple>
+                            </div>
+                            <!-- Banner Product Input -->
+                            <div class="mb-3">
+                                <label for="bannerProduct" class="form-label">Product Name</label>
+                                <input type="text" class="form-control" id="bannerProduct" name="bannerProduct">
+                            </div>
+                            <!-- Banner Announcement Input -->
+                            <div class="mb-3">
+                                <label for="bannerAnnouncement" class="form-label">Announcement</label>
+                                <input type="text" class="form-control" id="bannerAnnouncement"
+                                    name="bannerAnnouncement">
+                            </div>
+                            <!-- Banner Description Input -->
+                            <div class="mb-3">
+                                <label for="bannerDescription" class="form-label">Description</label>
+                                <input type="text" class="form-control" id="bannerDescription" name="bannerDescription">
+                            </div>
+                            <!-- Banner Price Input -->
+                            <div class="mb-3">
+                                <label for="bannerPrice" class="form-label">Offer Price</label>
+                                <input type="text" class="form-control" id="bannerPrice" name="bannerPrice">
+                            </div>
+                            <!-- Add Banner Button -->
+                            <div class="modal-footer">
+                                <button type="submit" class="btn btn-primary">Add Banner</button>
+                            </div>
+                        </form>
                     </div>
-                    <!-- Banner Announcement Input -->
-                    <div class="mb-3">
-                        <label for="bannerAnnouncement" class="form-label">Announcement</label>
-                        <input type="text" class="form-control" id="bannerAnnouncement" name="bannerAnnouncement">
-                    </div>
-                    <!-- Banner Description Input -->
-                    <div class="mb-3">
-                        <label for="bannerDescription" class="form-label">Description</label>
-                        <input type="text" class="form-control" id="bannerDescription" name="bannerDescription">
-                    </div>
-                    <!-- Banner Price Input -->
-                    <div class="mb-3">
-                        <label for="bannerPrice" class="form-label">Offer Price</label>
-                        <input type="text" class="form-control" id="bannerPrice" name="bannerPrice">
-                    </div>
-                    <!-- Add Banner Button -->
-                    <div class="modal-footer">
-                           <button type="submit" class="btn btn-primary">Add Banner</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!-- Include Bootstrap JS -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Include Bootstrap JS -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- JavaScript Functions -->
-<script>
-    function openAddBannerModal() {
-        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-        modal.show();
-    }
-
-    function closeAddBannerModal() {
-        var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
-        modal.hide();
-    }
-
-    function addBanner() {
-        var bannerImage = document.getElementById('bannerImage').files[0];
-        var bannerProduct = document.getElementById('bannerProduct').value;
-        var bannerAnnouncement = document.getElementById('bannerAnnouncement').value;
-        var bannerDescription = document.getElementById('bannerDescription').value;
-        var bannerPrice = document.getElementById('bannerPrice').value;
-
-        var formData = new FormData();
-        formData.append('bannerImage', bannerImage);
-        formData.append('bannerProduct', bannerProduct);
-        formData.append('bannerAnnouncement', bannerAnnouncement);
-        formData.append('bannerDescription', bannerDescription);
-        formData.append('bannerPrice', bannerPrice);
-
-        fetch('/admin/addBanner', {
-            method: 'POST',
-            body: formData,
-        })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
+        <!-- JavaScript Functions -->
+        <script>
+            function openAddBannerModal() {
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.show();
             }
-            return response.json();
-        })
-        .then(data => {
-            console.log('Banner added successfully:', data.message);
-            
-            closeAddBannerModal();
-        })
-        .catch(error => {
-            console.error('Error adding banner:', error);
-        });
-    }
-</script>
+
+            function closeAddBannerModal() {
+                var modal = new bootstrap.Modal(document.getElementById('exampleModal'));
+                modal.hide();
+            }
+
+            function addBanner() {
+                var bannerImage = document.getElementById('bannerImage').files[0];
+                var bannerProduct = document.getElementById('bannerProduct').value;
+                var bannerAnnouncement = document.getElementById('bannerAnnouncement').value;
+                var bannerDescription = document.getElementById('bannerDescription').value;
+                var bannerPrice = document.getElementById('bannerPrice').value;
+
+                var formData = new FormData();
+                formData.append('bannerImage', bannerImage);
+                formData.append('bannerProduct', bannerProduct);
+                formData.append('bannerAnnouncement', bannerAnnouncement);
+                formData.append('bannerDescription', bannerDescription);
+                formData.append('bannerPrice', bannerPrice);
+
+                fetch('/admin/addBanner', {
+                    method: 'POST',
+                    body: formData,
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log('Banner added successfully:', data.message);
+
+                        closeAddBannerModal();
+                    })
+                    .catch(error => {
+                        console.error('Error adding banner:', error);
+                    });
+            }
+        </script>
 
         <!-- Edit Banner Modal -->
         <div class="modal fade" id="editBannerModal" tabindex="-1" aria-labelledby="editBannerModalLabel"
