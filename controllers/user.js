@@ -315,8 +315,17 @@ const GetProductPage = async (req, res) => {
 // };
 
 // Example function to fetch product details (replace with your actual implementation)
-const   GetProductDetails= function (req, res) {
-  res.render('../views/user/productDetails');
+const   GetProductDetails=  async (req, res) => {
+  try {
+
+    const productId = req.params.id.split(':')[0];
+    const product = await Product.findById(productId);
+    res.render(path.join('../views/user/productDetails'), { product });
+  }
+  catch (err) {
+    res.status(500).json({ error: 'Error fetching product details' + err });
+  }
+
 }
 
 
@@ -328,27 +337,20 @@ const GetProductCategory = async (req, res) => {
       let filteredProducts;
 
       if (category === 'extension' || category === 'standalone' || category === 'starter') {
-          // Limit to 5 products for specific categories
           filteredProducts = await Product.find().limit(5).exec();
       }
       else if (category === 'bestquality' || category === 'featured' || category === 'newproducts') {
-        // Limit to 5 products for specific categories
-        filteredProducts = await Products.find().limit(5).exec();
+        filteredProducts = await Product.find().limit(5).exec();
 
       }else if (category === 'allproducts' || category === 'sortbypopularity') {
-          // Show all products for 'allproducts' category, or sort by popularity
           filteredProducts = await Product.find().exec();
       } else if (category === 'alphabeticallyaz') {
-          // Sort alphabetically by product name in ascending order
           filteredProducts = await Product.find().sort({ productName: 1 }).exec();
       } else if (category === 'sortbylowtohigh') {
-          // Sort by price (MRP) in ascending order
           filteredProducts = await Product.find().sort({ productPrice: -1 }).exec();
       } else if (category === 'sortbyhightolow') {
-        // Sort by price (MRP) in descending order
         filteredProducts = await Product.find().sort({ productPrice: 1 }).exec();
       } else {
-          // Filter by category
           filteredProducts = await Product.find({ category: category }).exec();
       }
 

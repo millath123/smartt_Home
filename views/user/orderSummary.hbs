@@ -211,7 +211,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
     </li>
 
     <li class="woocommerce-order-overview__date date">
-        Date: <strong>{{user.orders.[0].createdAt}}</strong>
+        Date: <strong>{{user.orders.[0].orderDate}}</strong>
     </li>
 
     <li class="woocommerce-order-overview__email email">
@@ -232,7 +232,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
 			</ul>
 
-		
+{{!-- 		
 		<section class="woocommerce-bacs-bank-details">
 			
 			
@@ -247,7 +247,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 </ul>
 
 {{/if}}
-</section>	
+</section>	 --}}
 
 
 <section class="woocommerce-order-details">
@@ -298,13 +298,13 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
 										<tr>
 						<th scope="row">Total:</th>
-						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{grandTotal}}</span></td>
+						<td><span class="woocommerce-Price-amount amount"><span class="woocommerce-Price-currencySymbol">₹</span>{{user.orders.[0].total}}</span></td>
 					</tr>
 					
-												<tr>
+												{{!-- <tr>
 					<th>Note:</th>
 					<td>Laboris quas molesti</td>
-				</tr>
+				</tr> --}}
 
 					</tfoot>
 			
@@ -314,7 +314,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
 <section class="woocommerce-customer-details">
 
-	
+	{{#if user.address}}
 	<section class="woocommerce-columns woocommerce-columns--2 woocommerce-columns--addresses col2-set addresses">
 		<div class="woocommerce-column woocommerce-column--1 woocommerce-column--billing-address col-1">
 
@@ -323,7 +323,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 
 
 	<address>
-		Carla Gordon<br />Houston and Mosley Associates<br />795 South Rocky Old Extension<br />Non corporis sed vol<br />Fugit do enim expli, WY 18767
+		{{this.userAddress}}<br />Houston and Mosley Associates<br />795 South Rocky Old Extension<br />Non corporis sed vol<br />Fugit do enim expli, WY 18767
 					<p class="woocommerce-customer-details--phone">+1 (316) 461-2652</p>
 		
 					<p class="woocommerce-customer-details--email">dyki@mailinator.com</p>
@@ -338,9 +338,11 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
 				Meghan Barker<br />Stuart Jackson Trading<br />672 New Street<br />Quasi blanditiis dol<br />Non officiis tenetur<br />10108<br />Martinique
 									<p class="woocommerce-customer-details--phone">+1 (265) 556-5404</p>
 							</address>
-		</div><!-- /.col-2 -->
+		</div>
 
-	</section><!-- /.col2-set -->
+	</section>
+	{{/if}}
+	<!-- /.col2-set -->
 
 	
 	

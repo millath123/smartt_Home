@@ -27,12 +27,12 @@ router.get('/product', productController.getProduct);
 // filter products
 router.get('/product',userController.GetProductPage)
 router.get('/product/:category',userController.GetProductCategory)
-router.get('/productDetails',userController.GetProductDetails)
+router.get('/productdetail/:id',userController.GetProductDetails)
 
 
 router.get('/cart', authenticateUser, productController.getCart);
 router.post('/addToCart', authenticateUser, productController.addToCart);
-// router.delete('/cart/delete/:productId',authenticateUser,productController.deleteCart);
+router.delete('/cart/delete/:productId',authenticateUser,productController.deleteCart);
 router.put('/cart/:productId/:quantity', authenticateUser,productController.updateCart);
 
 

@@ -220,6 +220,8 @@
         }
     </style>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
 </head>
 
 <body>
@@ -301,6 +303,21 @@
 
                     if (response.ok) {
                         event.target.closest('.border-top').remove();
+                        Toastify({
+                            text: "Product deleted from the cart!",
+                            duration: 3000,
+                            destination: "https://github.com/apvarun/toastify-js",
+                            newWindow: true,
+                            close: true,
+                            gravity: "top",
+                            position: "right",
+                            stopOnFocus: true,
+                            style: {
+                                background: "linear-gradient(to right, red, red)",
+                            },
+                            onClick: function () { }
+                        }).showToast();
+
                     } else {
                         console.error('Failed to delete product from cart');
                     }
@@ -309,9 +326,9 @@
                 }
             });
         });
-        </script> 
+    </script>
 
-        <script> 
+    <script>
         const qtyContainers = document.querySelectorAll('.qty');
         qtyContainers.forEach(container => {
             const decrementButton = container.querySelector('.decrement');
@@ -396,6 +413,9 @@
             updateTotalItems();
         });
     </script>
+
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 
 </body>
 

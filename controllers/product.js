@@ -311,13 +311,14 @@ const deleteProfile = async (req, res) => {
   }
 };
 
-//  payment
+
+
+// payment
 const placeOrder = async (req, res, next) => {
   try {
     const {
       userId, profileId, productId, cartId, payment_method, selectedAddress, jsonObject
     } = req.body;
-
 
     console.log('Received data:', req.body);
     const userData = await Cart.findOne({ userId: req.user._id });
@@ -329,32 +330,35 @@ const placeOrder = async (req, res, next) => {
     // Extract products from user's cart
     const products = userData.products.map(async product => {
       const productData = await Product.findById(product.productId);
-      console.log(productData)
       return {
         productId: product.productId,
         quantity: product.quantity,
         price: productData.productPrice 
       };
     });
+    
     // Resolve all product promises to get the product details
     const resolvedProducts = await Promise.all(products);
-    console.log(resolvedProducts)
+    
     // Calculate the total amount
     const amount = resolvedProducts.reduce((total, product) => {
       return total + (product.price * product.quantity);
     }, 0);
-    console.log(amount)
+
     if (payment_method === 'cashondelivery') {
+      // Handle cash on delivery payment method
       const newOrder = {
-        profileId: req.user.address[selectedAddress]._id, // Assuming address has an _id field
+        profileId: req.user.address[selectedAddress]._id,
         products: resolvedProducts,
         paymentMethod: 'cash on delivery',
         amount: amount
       };
 
-      req.user.orders.push(newOrder); // Push the new order to the orders array
+      req.user.orders.push(newOrder);
+      await req.user.save(); 
 
-      await req.user.save(); // Save the user document with the new order
+      // Clear the cart after successful order and payment
+      await Cart.findOneAndDelete({ userId: req.user._id });
 
       // Redirect to order summary page
       return res.status(200).json({ placeOrder:"success" });
@@ -383,11 +387,16 @@ const placeOrder = async (req, res, next) => {
         products: resolvedProducts,
         paymentMethod: 'razorpay',
         amount: amount
+        
+
       };
 
       req.user.orders.push(newOrder); // Push the new order to the orders array
 
-      await req.user.save(); // Save the user document with the new order
+      await req.user.save(); 
+
+      await Cart.findOneAndDelete({ userId: req.user._id });
+
 
       // Redirect to order summary page
       return res.status(200).json({ placeOrder:"success" });

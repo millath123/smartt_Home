@@ -579,7 +579,7 @@
 	<!-- Start Wrapper -->
 	<div id="wrapper">
 		<div class="header-wrapper">
-			<header class="header thb-main-header ">
+			<header class="header thb-main-header">
 				<div class="header-logo-row">
 					<div class="row align-middle">
 						<div class="small-3 large-4 columns hide-for-large">
@@ -602,74 +602,72 @@
 								<nav class="full-menu">
 									<ul id="menu-navigation" class="thb-full-menu">
 										<li id="menu-item-14"
-											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-14">
-											<a href="https://smarthome.fuelthemes.net/">Home</a>
+											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-home current-menu-item page_item page-item-12 current_page_item menu-item-14">
+											<a href="/" aria-current="page">Home</a>
 										</li>
 										<li id="menu-item-11"
 											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children menu-item-11">
-											<a href="https://smarthome.fuelthemes.net/shop/">Shop</a>
+											<a href="">Shop</a>
 											<ul class="sub-menu">
 												<li id="menu-item-228"
 													class="menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-228">
-													<a
-														href="https://smarthome.fuelthemes.net/product-category/category-grid/">Category
-														Grid</a>
+													<a href="/category">Category Grid</a>
 												</li>
 												<li id="menu-item-217"
 													class="menu-item menu-item-type-custom menu-item-object-custom menu-item-has-children menu-item-217">
-													<a href="#">Product Types</a>
+													<a href="/product">Products</a>
 													<ul class="sub-menu">
-														<li id="menu-item-218"
+														{{!-- <li id="menu-item-218"
 															class="menu-item menu-item-type-post_type menu-item-object-product menu-item-218">
 															<a
 																href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">Simple
 																Product</a>
-														</li>
-														<li id="menu-item-219"
+														</li> --}}
+														{{!-- <li id="menu-item-219"
 															class="menu-item menu-item-type-post_type menu-item-object-product menu-item-219">
 															<a
 																href="https://smarthome.fuelthemes.net/product/nest-x-yale-lock-satin-nickel-with-google-nest-connect/">Variable
 																Product</a>
-														</li>
-														<li id="menu-item-280"
+														</li> --}}
+														{{!-- <li id="menu-item-280"
 															class="menu-item menu-item-type-post_type menu-item-object-product menu-item-280">
 															<a
 																href="https://smarthome.fuelthemes.net/product/amazon-echo-dot-3rd-gen-smart-speaker-with-alexa/">External
 																Product</a>
-														</li>
-														<li id="menu-item-216"
+														</li> --}}
+														{{!-- <li id="menu-item-216"
 															class="menu-item menu-item-type-post_type menu-item-object-product menu-item-216">
 															<a
 																href="https://smarthome.fuelthemes.net/product/google-nest-hello-smart-wi-fi-video-doorbell/">Grouped
 																Product</a>
-														</li>
-														<li id="menu-item-222"
+														</li> --}}
+														{{!-- <li id="menu-item-222"
 															class="menu-item menu-item-type-post_type menu-item-object-product menu-item-222">
-															<a href="https://smarthome.fuelthemes.net/product/
-                                                                amazon-echo-dot-3rd-gen-smart-speaker-with-alexa/">On
+															<a
+																href="https://smarthome.fuelthemes.net/product/amazon-echo-dot-3rd-gen-smart-speaker-with-alexa/">On
 																– Sale</a>
-														</li>
-														<li id="menu-item-221"
+														</li> --}}
+														{{!-- <li id="menu-item-221"
 															class="menu-item menu-item-type-post_type menu-item-object-product menu-item-221">
 															<a
 																href="https://smarthome.fuelthemes.net/product/ecobee3-lite-smart-thermostat-black/">Out
 																Of Stock</a>
-														</li>
+														</li> --}}
 													</ul>
 												</li>
 											</ul>
 										</li>
 										<li id="menu-item-15"
 											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-15">
-											<a href="https://smarthome.fuelthemes.net/blog/">Blog</a>
+											<a href="">Blog</a>
 										</li>
 										<li id="menu-item-142"
 											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-142">
-											<a href="https://smarthome.fuelthemes.net/about/">About</a>
+											<a href="">About</a>
 										</li>
 										<li id="menu-item-141"
 											class="menu-item menu-item-type-post_type menu-item-object-page menu-item-141">
-											<a href="https://smarthome.fuelthemes.net/contact/">Contact</a>
+											<a href="">Contact</a>
 										</li>
 									</ul>
 								</nav>
@@ -692,18 +690,49 @@
 										</form>
 									</div>
 								</div>
+
 								<div class="thb-secondary-item thb-quick-cart">
-									<div class="thb-quick-cart-inner">
-										<span class="thb-item-text">Cart</span>
-										<div class="thb-item-icon-wrapper">
-											<span class="count thb-cart-count">2</span>
+									{{!-- <a href="/profile">
+
+										<div class="thb-quick-cart-inner" style="margin-left: 5px;">
+											<span class="thb-item-text">profile</span>
+											<div class="thb-item-icon-wrapper">
+											</div>
+										</div>
+
+									</a> --}}
+
+									<a href="/cart">
+
+										<div class="thb-quick-cart-inner">
+											<span class="thb-item-text">Cart</span>
+											<div class="thb-item-icon-wrapper">
+												<span class="count thb-cart-count">{{cart.product.length}}</span>
+											</div>
+										</div>
+
+									</a>
+
+									<div class="thb-secondary-item thb-quick-cart">
+										<div class="">
+
+											{{#if user}}
+											<a href="/profile">
+												<img src="{{user.Image}}" alt="tutu" width="38px" height="38px"
+													style="border-radius: 50%;">
+											</a>
+											{{else}}
+											<a href="/userSignup">
+												<i class="bi bi-person-fill"
+													style="color: #2a74ed; font-size: 25px;"></i>
+											</a>
+											{{/if}}
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</div>
-				</div>
 			</header>
 		</div>
 		<div role="main">
@@ -714,9 +743,9 @@
 							<div class="woocommerce-notices-wrapper"></div>
 							<div class="woocommerce-form-login-toggle">
 
-								<div class="woocommerce-info">
+								{{!-- <div class="woocommerce-info">
 									Returning customer? <a href="#" class="showlogin">Click here to login</a> </div>
-							</div>
+							</div> --}}
 							<form class="woocommerce-form woocommerce-form-login login" method="post"
 								style="display:none;">
 
@@ -761,12 +790,12 @@
 
 
 							</form>
-							<div class="woocommerce-form-coupon-toggle">
+							{{!-- <div class="woocommerce-form-coupon-toggle">
 
 								<div class="woocommerce-info">
 									Have a coupon? <a href="#" class="showcoupon">Click here to enter your code</a>
 								</div>
-							</div>
+							</div> --}}
 
 							<form class="checkout_coupon woocommerce-form-coupon" method="post" style="display:none">
 
@@ -998,22 +1027,22 @@
 
 		<script>
 			document.addEventListener("DOMContentLoaded", function () {
-				// Get the form element
+
 				const form = document.querySelector('form[name="checkout"]');
 
-				// Add an event listener for form submission
+
 				form.addEventListener("submit", function (event) {
-					// Prevent the default form submission
+
 					event.preventDefault();
 
-					// Serialize the form data into JSON
+
 					const formData = new FormData(form);
 					const jsonObject = {};
 					formData.forEach(function (value, key) {
 						jsonObject[key] = value;
 					});
 
-					// Make an AJAX request to handle form submission using fetch
+
 					fetch('/placeorder', {
 						method: 'POST',
 						headers: {
@@ -1038,6 +1067,21 @@
 								razorpay.open();
 
 							}
+							Toastify({
+								text: "Payment sucessfully Completed",
+								duration: 3000,
+								destination: "https://github.com/apvarun/toastify-js",
+								newWindow: true,
+								close: true,
+								gravity: "top",
+								position: "center",
+								stopOnFocus: true,
+								style: {
+									background: "linear-gradient(to right, #00b09b, #96c93d)",
+								},
+								onClick: function () { }
+							}).showToast();
+							window.location.href = "/orderSummary"
 
 						})
 						.catch(error => {
@@ -1069,29 +1113,33 @@
 
 					if (!updateResponse.ok) {
 						console.error('Failed to update payment status:', updateResponse.statusText);
-						return;
 
-						Toastify({
-							text: "Payment sucessfully Completed",
-							duration: 3000,
-							destination: "https://github.com/apvarun/toastify-js",
-							newWindow: true,
-							close: true,
-							gravity: "top", // `top` or `bottom`
-							position: "center", //`left`,`center` or `right`
-							stopOnFocus: true, // Prevents dismissing of toast on hover
-							style: {
-								background: "linear-gradient(to right, #00b09b, #96c93d)",
-							},
-							onClick: function () { } // Callback after click
-						}).showToast();
 					}
+
+
+					Toastify({
+						text: "Payment sucessfully Completed",
+						duration: 3000,
+						destination: "https://github.com/apvarun/toastify-js",
+						newWindow: true,
+						close: true,
+						gravity: "top",
+						position: "center",
+						stopOnFocus: true,
+						style: {
+							background: "linear-gradient(to right, #00b09b, #96c93d)",
+						},
+						onClick: function () { }
+					}).showToast();
+					window.location.href = "/orderSummary"
 
 				} catch (error) {
 					console.error('Failed to update payment status:', error);
 				}
 			};
 		</script>
+
+
 
 
 		<footer id="footer" class="footer">
