@@ -32,14 +32,14 @@ router.get('/dashboard', isAuthenticated, adminController.adminDshboard)
 router.post('/dashboard', adminController.adminLoginPostPage)
 
 router.get('/product', isAuthenticated, productController.adminproduct)
-router.post('/upload', upload.array('images', 5), productController.uploadImages),
+router.post('/upload', upload.array('images', 5), productController.uploadProducts),
 router.delete('/products/:id', productController.deleteProduct);
 
 
 router.get('/banner',isAuthenticated, adminController.bannerGet);
 router.post('/addBanner',isAuthenticated, adminController.bannerPost);
 
-router.get('/order',isAuthenticated, adminController.ordersGet);
+router.get('/orders',isAuthenticated, adminController.ordersGet);
 // router.post('/order',isAuthenticated, adminController.ordersrPost);
 
 

@@ -158,10 +158,10 @@ const bannerPost = async (req, res) => {
 
 
 // order list
-const ordersGet= async (req, res)=> {
-    res.render(path.join('../views/admin/orders'));
-};
-
+const  ordersGet = async function (req, res) {
+    const { user } = req;
+    res.render('../views/admin/orders', { user });
+  };
 
 
 

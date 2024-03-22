@@ -206,7 +206,7 @@ const googleLoginCallback = async (req, res) => {
       });
       tempUser = await tempUser.save();
     }
-    
+
     else {
       existingUser.fullName = userData.name,
         existingUser.email = userData.email;
@@ -286,37 +286,18 @@ const updateProfile = async (req, res) => {
 
 const GetProductPage = async (req, res) => {
   try {
-      const filteredProducts = await Product.find().exec();
-      return res.render('../views/user/product',{ product: filteredProducts });
+    const filteredProducts = await Product.find().exec();
+    return res.render('../views/user/product', { product: filteredProducts });
   } catch (err) {
-      console.error('Error fetching products:', err);
-      res.status(500).send('Internal Server Error');
+    console.error('Error fetching products:', err);
+    res.status(500).send('Internal Server Error');
   }
 };
 
 
 
-// const GetProductDetails = async (req, res) => {
-//   try {
-//       // Assume you have a function to fetch product details from your database or API
-//       const productDetails = await fetchProductDetails(req.params.productId);
-      
-//       // Check if productDetails exist, then render the productDetails view
-//       if (productDetails) {
-//           res.render('../views/user/productDetails', { productDetails });
-//       } else {
-//           // Handle the case where productDetails are not found
-//           res.status(404).send('Product not found');
-//       }
-//   } catch (error) {
-//       // Handle any errors that occur during fetching product details
-//       console.error('Error fetching product details:', error);
-//       res.status(500).send('Internal Server Error');
-//   }
-// };
 
-// Example function to fetch product details (replace with your actual implementation)
-const   GetProductDetails=  async (req, res) => {
+const GetProductDetails = async (req, res) => {
   try {
 
     const productId = req.params.id.split(':')[0];
@@ -329,41 +310,38 @@ const   GetProductDetails=  async (req, res) => {
 
 }
 
-
-
 const GetProductCategory = async (req, res) => {
   try {
-      const category = req.params.category.toLowerCase(); // Extract the category parameter and convert to lowercase
+    const category = req.params.category.toLowerCase(); // Extract the category parameter and convert to lowercase
 
-      let filteredProducts;
+    let filteredProducts;
 
-      if (category === 'extension' || category === 'standalone' || category === 'starter') {
-          filteredProducts = await Product.find().limit(5).exec();
-      }
-      else if (category === 'bestquality' || category === 'featured' || category === 'newproducts') {
-        filteredProducts = await Product.find().limit(5).exec();
+    if (category === 'extension' || category === 'standalone' || category === 'starter') {
+      filteredProducts = await Product.find().limit(5).exec();
+    }
+    else if (category === 'bestquality' || category === 'featured' || category === 'newproducts') {
+      filteredProducts = await Product.find().limit(5).exec();
 
-      }else if (category === 'allproducts' || category === 'sortbypopularity') {
-          filteredProducts = await Product.find().exec();
-      } else if (category === 'alphabeticallyaz') {
-          filteredProducts = await Product.find().sort({ productName: 1 }).exec();
-      } else if (category === 'sortbylowtohigh') {
-          filteredProducts = await Product.find().sort({ productPrice: -1 }).exec();
-      } else if (category === 'sortbyhightolow') {
-        filteredProducts = await Product.find().sort({ productPrice: 1 }).exec();
-      } else {
-          filteredProducts = await Product.find({ category: category }).exec();
-      }
-
-      res.render('../views/user/product', { category: category, product: filteredProducts, });
+    } else if (category === 'allproducts' || category === 'sortbypopularity') {
+      filteredProducts = await Product.find().exec();
+    } else if (category === 'alphabeticallyaz') {
+      filteredProducts = await Product.find().sort({ productName: 1 }).exec();
+    } else if (category === 'sortbylowtohigh') {
+      filteredProducts = await Product.find().sort({ productPrice: -1 }).exec();
+    } else if (category === 'sortbyhightolow') {
+      filteredProducts = await Product.find().sort({ productPrice: 1 }).exec();
+    } else {
+      filteredProducts = await Product.find({ category: category }).exec();
+    }
+    res.render('../views/user/product', { category: category, product: filteredProducts, });
   } catch (err) {
-      // Handle errors
-      console.error('Error fetching products:', err);
-      res.status(500).send('Internal Server Error');
+    
+    console.error('Error fetching products:', err);
+    res.status(500).send('Internal Server Error');
   }
 };
 
-const pageNotFound= async function (req, res) {
+const pageNotFound = async function (req, res) {
   const { user } = req;
   res.render('../views/user/404page');
 };

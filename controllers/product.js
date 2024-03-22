@@ -14,7 +14,9 @@ const adminproduct = async function (req, res) {
   const product = await Product.find();
   res.render('admin/product', { product });
 };
-const uploadImages = async (req, res) => {
+
+
+const uploadProducts = async (req, res) => {
   try {
     const { files } = req;
 
@@ -115,7 +117,7 @@ const updateProduct = async (req, res) => {
     product.productDescription = productDescription;
     product.productConnectivity = productConnectivity;
 
-    await product.save();    
+    await product.save();
     res.json({ message: 'Product updated successfully' });
   } catch (error) {
     console.error('Error updating product:', error);
@@ -129,7 +131,7 @@ const getProduct = async (req, res) => {
   try {
     // Fetch all products
     const product = await Product.find();
-      res.render(path.join('../views/user/product'), { product });
+    res.render(path.join('../views/user/product'), { product });
   } catch (error) {
     console.error('Error fetching products:', error);
     res.status(500).json({ error: 'Error fetching products' });
@@ -205,7 +207,7 @@ const addToCart = async (req, res) => {
 };
 
 
-// DELETE route for removing a product from the cart
+// DELETE  from the cart
 const deleteCart = async (req, res) => {
   const productId = req.params.productId;
 
@@ -275,8 +277,8 @@ const getCheckout = async (req, res) => {
           productId: product.productId,
           quantity: product.quantity,
           productPrice: productDetails.productPrice,
-          productDetails:productDetails
-     };
+          productDetails: productDetails
+        };
       }));
       return { ...item.toJSON(), products };
     }));
@@ -285,7 +287,7 @@ const getCheckout = async (req, res) => {
     let grandTotal = 0;
     populatedUserData.forEach((item) => {
       item.products.forEach((product) => {
-        product.total=product.quantity* product.productPrice
+        product.total = product.quantity * product.productPrice
         grandTotal += product.productPrice * product.quantity;
       });
     });
@@ -317,8 +319,6 @@ const placeOrder = async (req, res, next) => {
     const {
       userId, profileId, productId, cartId, payment_method, selectedAddress, jsonObject
     } = req.body;
-
-    console.log('Received data:', req.body);
     const userData = await Cart.findOne({ userId: req.user._id });
 
     if (!userData) {
@@ -331,13 +331,13 @@ const placeOrder = async (req, res, next) => {
       return {
         productId: product.productId,
         quantity: product.quantity,
-        price: productData.productPrice 
+        price: productData.productPrice
       };
     });
-    
+
     // Resolve all product promises to get the product details
     const resolvedProducts = await Promise.all(products);
-    
+
     // Calculate the total amount
     const amount = resolvedProducts.reduce((total, product) => {
       return total + (product.price * product.quantity);
@@ -353,16 +353,16 @@ const placeOrder = async (req, res, next) => {
       };
 
       req.user.orders.push(newOrder);
-      await req.user.save(); 
+      await req.user.save();
 
       // Clear the cart after successful order and payment
       await Cart.findOneAndDelete({ userId: req.user._id });
 
-      
-      return res.status(200).json({ placeOrder:"success" });
 
-       
-    }else if (payment_method === 'razorpay') {
+      return res.status(200).json({ placeOrder: "success" });
+
+
+    } else if (payment_method === 'razorpay') {
       // Process Razorpay
       const razorpayOptions = {
         key: 'rzp_test_ISlndBIl755xkB',
@@ -385,17 +385,17 @@ const placeOrder = async (req, res, next) => {
         products: resolvedProducts,
         paymentMethod: 'razorpay',
         amount: amount
-        
+
 
       };
 
       req.user.orders.push(newOrder); // Push the new order to the orders array
 
-      
+
       await Cart.findOneAndDelete({ userId: req.user._id });
-      await req.user.save(); 
+      await req.user.save();
       // Redirect to order summary page
-      return res.status(200).json({ placeOrder:"success" });
+      return res.status(200).json({ placeOrder: "success" });
     }
   } catch (error) {
     console.error(error);
@@ -403,7 +403,7 @@ const placeOrder = async (req, res, next) => {
   }
 };
 
-const getOrderSummery= async (req, res) => {
+const getOrderSummery = async (req, res) => {
   try {
     const user = req.user;
     // Fetch user's cart items
@@ -421,8 +421,8 @@ const getOrderSummery= async (req, res) => {
           productId: product.productId,
           quantity: product.quantity,
           productPrice: productDetails.productPrice,
-          productDetails:productDetails
-     };
+          productDetails: productDetails
+        };
       }));
       return { ...item.toJSON(), products };
     }));
@@ -431,7 +431,7 @@ const getOrderSummery= async (req, res) => {
     let grandTotal = 0;
     populatedUserData.forEach((item) => {
       item.products.forEach((product) => {
-        product.total=product.quantity* product.productPrice
+        product.total = product.quantity * product.productPrice
         grandTotal += product.productPrice * product.quantity;
       });
     });
@@ -447,7 +447,7 @@ const getOrderSummery= async (req, res) => {
 export default {
   getProduct,
   adminproduct,
-  uploadImages,
+  uploadProducts,
   deleteProduct,
   updateProduct,
   getCart,

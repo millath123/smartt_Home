@@ -189,26 +189,25 @@
                                 <th scope="col">ACTION</th>
                             </tr>
                         </thead>
-                        <tbody id="userList">
+                        <tbody id="ordeList">
                             {{#each users.orders}}
                             <tr>
                                 <td>{{this._id}}</td>
                                 <td>{{this.user.fullName}}</td>
-                                <td>{{this.products[0].productName}}</td>
+                                <td>{{this.products.productName}}</td>
                                 <td>{{this.orderStatus}}</td>
-                                <td>{{this.products[0].quantity}}</td>
-                                <td>{{this.products[0].price}}</td>
+                                <td>{{this.products.quantity}}</td>
+                                <td>{{this.products.price}}</td>
                                 <td>{{this.subTotal}}</td>
                                 <td>{{this.grandTotal}}</td>
                                 <td>{{this.paymentMethod}}</td>
                                 <td>{{this.paymentId}}</td>
                                 <td>
                                     <button class="custom-edit-button" onclick="editOrder('{{this._id}}')">
-                                        <!-- Add editOrder function -->
+                                       
                                         <i class="fa fa-pencil" aria-hidden="true"></i>
                                     </button>
                                     <button class="custom-delete-button" onclick="deleteOrder('{{this._id}}')">
-                                        <!-- Add deleteOrder function -->
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                 </td>

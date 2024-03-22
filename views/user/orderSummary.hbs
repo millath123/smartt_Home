@@ -203,7 +203,7 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
             <div class="small-12 columns">
                 <div class="woocommerce">
                     <div class="woocommerce-order">
-                        <p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you. Your order has been received.</p>
+                        <p class="woocommerce-notice woocommerce-notice--success woocommerce-thankyou-order-received">Thank you. Your orders has been received.</p>
 
                         <ul class="woocommerce-order-overview woocommerce-thankyou-order-details order_details">
                             {{#if user.orders}}
@@ -218,9 +218,9 @@ body{--wp--preset--color--black: #000000;--wp--preset--color--cyan-bluish-gray: 
                                         Date: <strong>{{order.orderDate}}</strong>
                                     </li>
 
-                                    <li class="woocommerce-order-overview__email email">
+                                    {{!-- <li class="woocommerce-order-overview__email email">
                                         Email: <strong>{{user.email}}</strong>
-                                    </li>
+                                    </li> --}}
 
                                     <li class="woocommerce-order-overview__total total">
                                         Total: <strong><span class="woocommerce-Price-amount amount"><bdi><span class="woocommerce-Price-currencySymbol"> ₹ </span>{{order.amount}}</bdi></span></strong>
