@@ -1,57 +1,35 @@
-
-import express from 'express';
+/* eslint-disable max-len */
 import multer from 'multer';
 import path from 'path';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import cloudinary from '../helpers/cloudinary.js';
+import { log } from 'console';
+import cloudinary from '../servieces/cloudinary.js';
 import Product from '../model/product.js';
 import User from '../model/user.js';
 import Cart from '../model/cart.js';
 import connect from '../database/connect.js';
-import { log } from 'console';
+import productHelper from '../helpers/productHelpers.js'
 
-const adminproduct = async function (req, res) {
-  const product = await Product.find();
-  res.render('admin/product', { product });
+const adminproduct = async (req, res) => {
+  try {
+      const products = await productHelper.adminproductHelper();
+
+
+      const userCart = await Cart.findOne({ userId: req.user._id });
+
+      res.render('admin/product', { product: products, cartBadge: userCart });
+  } catch (error) {
+      console.error(error);
+      res.status(500).send('Internal Server Error');
+  }
 };
 
 
+// upload products
 const uploadProducts = async (req, res) => {
   try {
     const { files } = req;
-
-    if (!files || files.length === 0) {
-      return res.status(400).render(path.join(__dirname, '../views/admin/product'), { noimg: 'ok' });
-    }
-
-    const uploadPromises = files.map((file) => cloudinary.uploader.upload(file.path));
-
-    const results = await Promise.all(uploadPromises);
-    const imageUrls = results.map((result) => result.secure_url);
-
-    const {
-      productName,
-      productDescription,
-      productCategory,
-      productBrand,
-      productColor,
-      productConnectivity,
-      productPrice,
-      productQuantity,
-    } = req.body;
-
-    const newProduct = new Product({
-      productName,
-      productDescription,
-      productCategory,
-      productBrand,
-      productColor,
-      productConnectivity,
-      productPrice,
-      productQuantity,
-      productImage: imageUrls,
-    });
-    await newProduct.save();
+    await productHelper.uploadProductHelper(files, req);
     res.redirect('../admin/product');
   } catch (error) {
     console.error('Error adding product:', error);
@@ -64,12 +42,7 @@ const deleteProduct = async (req, res) => {
   const productId = req.params.id;
 
   try {
-    const deletedProduct = await Product.findByIdAndDelete(productId);
-
-    if (!deletedProduct) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
-
+    const deletedProduct = await productHelper.deleteProductHelper(productId);
     res.status(200).json({ message: 'Product deleted successfully', deletedProduct });
   } catch (error) {
     console.error(error);
@@ -106,6 +79,8 @@ const updateProduct = async (req, res) => {
       const newImageUrls = results.map((result) => result.secure_url);
       imageUrls = newImageUrls;
     }
+
+
     // Update product details
     product.productImage = imageUrls;
     product.productName = productName;
@@ -120,20 +95,17 @@ const updateProduct = async (req, res) => {
     await product.save();
     res.json({ message: 'Product updated successfully' });
   } catch (error) {
-    console.error('Error updating product:', error);
     res.status(500).json({ error: 'Error updating product' });
   }
 };
 
-
 //   view product
 const getProduct = async (req, res) => {
   try {
-    // Fetch all products
-    const product = await Product.find();
-    res.render(path.join('../views/user/product'), { product });
+    const product = await productHelper.getProductHelper();
+    res.render('../views/user/product', { product });
   } catch (error) {
-    console.error('Error fetching products:', error);
+    console.error(error);
     res.status(500).json({ error: 'Error fetching products' });
   }
 };
@@ -141,21 +113,17 @@ const getProduct = async (req, res) => {
 //   cart
 const getCart = async (req, res) => {
   try {
-    const user = req.user;
-    // Find the user's cart and populate both the product ID and product details
-    const cart = await Cart.findOne({ userId: user._id }).populate({
-      path: 'products.productId',
-      model: 'Product' // Replace 'Product' with the name of your product model
-    });
+    const { user } = req;
+    const cart = await productHelper.getCartHelper(user._id);
+
     if (!cart) {
       return res.status(404).json({ error: 'Cart not found' });
     }
-    // Calculate total for each product
-    cart.products.forEach(product => {
+
+    cart.products.forEach((product) => {
       product.productId.total = product.productId.productPrice * product.quantity;
     });
 
-    // Calculate total cart value
     const totalCartValue = cart.products.reduce((total, product) => total + product.productId.total, 0);
 
     res.render(path.join('../views/user/cart'), { cart, totalCartValue });
@@ -165,103 +133,59 @@ const getCart = async (req, res) => {
   }
 };
 
-
-
 const addToCart = async (req, res) => {
   try {
     const { productId } = req.body;
-    // Find the product
-    const product = await Product.findById(productId);
-    if (!product) {
-      return res.status(404).json({ error: 'Product not found' });
-    }
+
     if (!req.user) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
-    let cart = await Cart.findOne({ userId: req.user._id });
 
-    if (!cart) {
-      cart = new Cart({
-        userId: req.user._id,
-        products: [{ productId, quantity: 1 }],
-      });
-    } else {
-      const existingProduct = cart.products.find(item => item.productId.equals(productId));
+    const result = await productHelper.addToCartHelper(req.user._id, productId);
 
-      if (existingProduct) {
-        // If the product is found, update its quantity
-        existingProduct.quantity += 1;
-      } else {
-        // If the product is not found, add it to the cart
-        cart.products.push({ productId, quantity: 1 });
-      }
-    }
-    // Save the cart
-    await cart.save();
-
-    res.status(200).json({ success: true, message: 'Product added to cart' });
+    res.status(200).json(result);
   } catch (error) {
     console.error('Error adding product to cart:', error);
     res.status(500).json({ error: 'Failed to add product to cart' });
   }
 };
 
-
 // DELETE  from the cart
 const deleteCart = async (req, res) => {
-  const productId = req.params.productId;
-
   try {
-    const userToken = req.cookies.user_token;
-    const user = req.user
+    const { productId } = req.params;
 
-    if (!user) {
+    if (!req.user) {
       return res.status(401).json({ error: 'User not authenticated' });
     }
 
-    const cart = await Cart.findOne({ userId: user._id });
+    const result = await productHelper.deleteCartHelper(req.user._id, productId);
 
-    if (!cart) {
-      return res.status(404).json({ error: 'Cart not found' });
-    }
-
-    await Cart.updateOne({ userId: user._id }, { $pull: { products: { productId } } });
-
-    res.status(200).json({ message: 'Product deleted from cart successfully' });
+    res.status(200).json(result);
   } catch (error) {
     console.error('Error deleting product from cart:', error);
     res.status(500).json({ error: 'Failed to delete product from cart' });
   }
 };
 
+
 const updateCart = async (req, res) => {
   try {
-    const user = req.user;
-    const productId = req.params.productId;
-    const quantity = parseInt(req.params.quantity);
-    // Assuming quantity is passed as a number in the URL
-    let cart = await Cart.findOne({ userId: user._id });
+    const { userId } = req.user; // Assuming userId is available in req.user
+    const { productId, quantity } = req.params;
+    const updatedCart = await productHelper.updateCartHelper(userId, productId, parseInt(quantity));
 
-    const existingProduct = cart.products.find(product => product.productId.toString() === productId);
-
-    if (existingProduct) {
-      existingProduct.quantity = quantity;
-    } else {
-      cart.products.push({ productId, quantity });
-    }
-    await cart.save();
-
-    res.status(200).json({ message: 'Cart updated successfully' });
+    res.status(200).json(updatedCart);
   } catch (error) {
-    console.error('Error occurred:', error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: 'Failed to update cart' });
   }
 };
+
 
 // checkout
 const getCheckout = async (req, res) => {
   try {
-    const user = req.user;
+    const { user } = req;
     // Fetch user's cart items
     const userData = await Cart.find({ userId: user._id });
 
@@ -277,7 +201,7 @@ const getCheckout = async (req, res) => {
           productId: product.productId,
           quantity: product.quantity,
           productPrice: productDetails.productPrice,
-          productDetails: productDetails
+          productDetails,
         };
       }));
       return { ...item.toJSON(), products };
@@ -287,7 +211,7 @@ const getCheckout = async (req, res) => {
     let grandTotal = 0;
     populatedUserData.forEach((item) => {
       item.products.forEach((product) => {
-        product.total = product.quantity * product.productPrice
+        product.total = product.quantity * product.productPrice;
         grandTotal += product.productPrice * product.quantity;
       });
     });
@@ -298,7 +222,6 @@ const getCheckout = async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 };
-
 
 const deleteProfile = async (req, res) => {
   try {
@@ -311,13 +234,11 @@ const deleteProfile = async (req, res) => {
   }
 };
 
-
-
 // payment
 const placeOrder = async (req, res, next) => {
   try {
     const {
-      userId, profileId, productId, cartId, payment_method, selectedAddress, jsonObject
+      userId, profileId, productId, cartId, payment_method, selectedAddress, jsonObject,
     } = req.body;
     const userData = await Cart.findOne({ userId: req.user._id });
 
@@ -326,12 +247,12 @@ const placeOrder = async (req, res, next) => {
     }
 
     // Extract products from user's cart
-    const products = userData.products.map(async product => {
+    const products = userData.products.map(async (product) => {
       const productData = await Product.findById(product.productId);
       return {
         productId: product.productId,
         quantity: product.quantity,
-        price: productData.productPrice
+        price: productData.productPrice,
       };
     });
 
@@ -339,9 +260,7 @@ const placeOrder = async (req, res, next) => {
     const resolvedProducts = await Promise.all(products);
 
     // Calculate the total amount
-    const amount = resolvedProducts.reduce((total, product) => {
-      return total + (product.price * product.quantity);
-    }, 0);
+    const amount = resolvedProducts.reduce((total, product) => total + (product.price * product.quantity), 0);
 
     if (payment_method === 'cashondelivery') {
       // Handle cash on delivery payment method
@@ -349,7 +268,7 @@ const placeOrder = async (req, res, next) => {
         profileId: req.user.address[selectedAddress]._id,
         products: resolvedProducts,
         paymentMethod: 'cash on delivery',
-        amount: amount
+        amount,
       };
 
       req.user.orders.push(newOrder);
@@ -358,11 +277,8 @@ const placeOrder = async (req, res, next) => {
       // Clear the cart after successful order and payment
       await Cart.findOneAndDelete({ userId: req.user._id });
 
-
-      return res.status(200).json({ placeOrder: "success" });
-
-
-    } else if (payment_method === 'razorpay') {
+      return res.status(200).json({ placeOrder: 'success' });
+    } if (payment_method === 'razorpay') {
       // Process Razorpay
       const razorpayOptions = {
         key: 'rzp_test_ISlndBIl755xkB',
@@ -377,26 +293,23 @@ const placeOrder = async (req, res, next) => {
           contact: '1234567890',
         },
       };
-      console.log(razorpayOptions)
+      console.log(razorpayOptions);
       return res.status(201).json({ razorpayOptions });
-    } else {
-      const newOrder = {
-        profileId: req.user.address[jsonObject.selectedAddress]._id, // Assuming address has an _id field
-        products: resolvedProducts,
-        paymentMethod: 'razorpay',
-        amount: amount
-
-
-      };
-
-      req.user.orders.push(newOrder); // Push the new order to the orders array
-
-
-      await Cart.findOneAndDelete({ userId: req.user._id });
-      await req.user.save();
-      // Redirect to order summary page
-      return res.status(200).json({ placeOrder: "success" });
     }
+    const newOrder = {
+      profileId: req.user.address[jsonObject.selectedAddress]._id, // Assuming address has an _id field
+      products: resolvedProducts,
+      paymentMethod: 'razorpay',
+      amount,
+
+    };
+
+    req.user.orders.push(newOrder); // Push the new order to the orders array
+
+    await Cart.findOneAndDelete({ userId: req.user._id });
+    await req.user.save();
+    // Redirect to order summary page
+    return res.status(200).json({ placeOrder: 'success' });
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
@@ -405,9 +318,9 @@ const placeOrder = async (req, res, next) => {
 
 const getOrderSummery = async (req, res) => {
   try {
-    const user = req.user;
+    const { user } = req;
     // Fetch user's cart items
-    const userData = user.orders
+    const userData = user.orders;
 
     if (!userData.length) {
       return res.status(404).send('there is no orders');
@@ -421,7 +334,7 @@ const getOrderSummery = async (req, res) => {
           productId: product.productId,
           quantity: product.quantity,
           productPrice: productDetails.productPrice,
-          productDetails: productDetails
+          productDetails,
         };
       }));
       return { ...item.toJSON(), products };
@@ -431,10 +344,11 @@ const getOrderSummery = async (req, res) => {
     let grandTotal = 0;
     populatedUserData.forEach((item) => {
       item.products.forEach((product) => {
-        product.total = product.quantity * product.productPrice
+        product.total = product.quantity * product.productPrice;
         grandTotal += product.productPrice * product.quantity;
       });
     });
+
 
     // Render the checkout view with cart items, product data, and user details
     res.render('../views/user/orderSummary', { cart: populatedUserData, user, grandTotal });
@@ -457,5 +371,5 @@ export default {
   deleteProfile,
   placeOrder,
   updateCart,
-  getOrderSummery
+  getOrderSummery,
 };

@@ -30,13 +30,13 @@ app.use('/admin', adminRoutes);
 // Set up user routes
 app.use(userRoutes);
 
-app.use(function(req, res, next) {
+app.use((req, res, next) => {
   next(createError(404));
 });
 
 // error handler
-app.use(function(err, req, res, next) {
-  // render the error page
+app.use((err, req, res, next) => {
+ console.log(err)
   res.status(err.status || 500);
   res.render('../views/user/404page');
 });

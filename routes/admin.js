@@ -4,7 +4,7 @@ import adminController from '../controllers/admin.js';
 import productController from '../controllers/product.js';
 import isAuthenticated from '../middleware/adminAuthentication.js';
 import { CloudinaryStorage } from 'multer-storage-cloudinary';
-import cloudinary from '../helpers/cloudinary.js';
+import cloudinary from '../servieces/cloudinary.js';
 import multer from 'multer';
 
 const storage = new CloudinaryStorage({
@@ -26,7 +26,7 @@ router.get('/', isAuthenticated, adminController.adminLogout)
 
 router.get('/users', isAuthenticated, adminController.adminusers)
 router.put('/users/:id', adminController.updateRoute)
-router.delete('/user/:id', adminController.deleteRoute)
+router.delete('/users/:id', adminController.deleteRoute)
 
 router.get('/dashboard', isAuthenticated, adminController.adminDshboard)
 router.post('/dashboard', adminController.adminLoginPostPage)

@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   Image: {
     type: String,
-    default: 'https://cdn4.vectorstock.com/i/1000x1000/35/53/person-icon-female-user-profile-avatar-vector-18833553.jpg'
+    default: 'https://www.sengineering.it/wp-content/uploads/2020/02/user-icon-png-pnglogocom.png'
   },
   address: [
     {
@@ -54,14 +54,30 @@ const userSchema = new mongoose.Schema({
       }
     },
   ],
+
   wishlist: [{
     items: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Products'
     }
   }],
-  orders: [{
 
+  cart: [{
+    products: [
+      {
+        productId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'productmodel',
+        },
+        quantity: {
+          type: Number,
+          default: 1, 
+        },
+      },
+    ],
+  }],
+  
+  orders: [{
     profileId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'productmodel',
@@ -73,7 +89,7 @@ const userSchema = new mongoose.Schema({
         },
         quantity: {
           type: Number,
-          default: 1, // You can set a default quantity if needed
+          default: 1,
         },
       },
     ],

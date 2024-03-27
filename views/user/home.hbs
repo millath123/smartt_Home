@@ -848,14 +848,13 @@
               <div class="thb-secondary-area">
                 <div class="thb-secondary-item thb-quick-search">
                   <div class="thb-header-inline-search">
-                    <form role="search" method="get" class="woocommerce-product-search"
-                      action="https://smarthome.fuelthemes.net/">
-                      <label class="screen-reader-text" for="woocommerce-product-search-field-0">Search for:</label>
-                      <input type="search" id="woocommerce-product-search-field-0" class="search-field"
-                        placeholder="Search products&hellip;" value="" name="s" />
-                      <button type="submit" value="Search" class="wp-element-button">Search</button>
-                      <input type="hidden" name="post_type" value="product" />
+                    <form role="search" method="post" action="/SearchProducts" class="woocommerce-product-search">
+                      <label class="screen-reader-text" for="searchQuery">Search for:</label>
+                      <input type="search" id="searchQuery" class="search-field" placeholder="Search products..."
+                        name="valuename" />
+                      <button type="submit" class="wp-element-button">Search</button>
                     </form>
+
                   </div>
                 </div>
 
@@ -875,9 +874,10 @@
                     <div class="thb-quick-cart-inner">
                       <span class="thb-item-text">Cart</span>
                       <div class="thb-item-icon-wrapper">
-                        <span class="count thb-cart-count">{{cart.product.length}}</span>
+                        <span class="count thb-cart-count">{{cartBadge.products.length}}</span>
                       </div>
                     </div>
+
 
                   </a>
 
@@ -943,9 +943,6 @@
                 </div>
               </div>
             </div>
-
-
-
 
             <div class="wp-block-columns is-layout-flex wp-container-10 wp-block-columns-is-layout-flex">
 

@@ -4,21 +4,36 @@ import path from 'path';
 import bcrypt from 'bcrypt';
 import axios from 'axios';
 import dotenv from 'dotenv';
-import transporter from '../helpers/nodemailer.js';
-import generateOTP from '../helpers/generateOtp.js';
+import transporter from '../servieces/nodemailer.js';
+import generateOTP from '../servieces/generateOtp.js';
 import User from '../model/user.js';
 import Profile from '../model/user.js';
 import Product from '../model/product.js';
-
+import userHelpers from '../helpers/userHelpers.js'
+import Cart from '../model/cart.js';
 
 
 const { OK, INTERNAL_SERVER_ERROR } = httpStatus;
 dotenv.config();
 
 const homePage = async function (req, res) {
-  const { user } = req;
-  res.render('../views/user/home', { user });
-};
+  try {
+    // Find the logged-in user's cart using the userId from req.user
+    if(req.user){ 
+      const userCart = await Cart.findOne({ userId: req.user._id });
+
+      res.render('../views/user/home', { user: req.user, cartBadge: userCart });
+    } else{
+      res.render('../views/user/home');
+    }
+
+  
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
+}
+
 const signUpGetPage = async (req, res, next) => {
   res.render(path.join('../views/user/signup'));
 };
@@ -51,7 +66,7 @@ const sendOtp = async (req, res) => {
 
   transporter.sendMail(mailOptions, (error) => {
     if (error) {
-      console.log(error)
+
       res.status(500).send('Failed to send OTP.');
     } else {
       res.cookie('otp', hashedOtp, {
@@ -66,16 +81,18 @@ const activeOtp = async (req, res) => {
   const urlOtp = req.params.otp;
   const storedOtpHash = req.cookies.otp;
 
-  bcrypt.compare(urlOtp, storedOtpHash, (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send('Internal Server Error');
-    } else if (result) {
+  try {
+    const result = await userHelpers.activeOtpHelper(urlOtp, storedOtpHash);
+
+    if (result) {
       res.render('user/conformSignupPassword');
     } else {
       res.send('Activation failed');
     }
-  });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
 //  set password and conform for registration
@@ -85,35 +102,14 @@ const passwordConformationPage = async (req, res) => {
 
 const setSignupPassword = async (req, res) => {
   const { email } = req.cookies;
-  const { fullName } = req.body;
-  const { phoneNumber } = req.body;
-  const { newPassword } = req.body;
-  const { confirmNewPassword } = req.body;
-  const hashedPassword = await bcrypt.hash(newPassword, 10);
-
-  if (newPassword !== confirmNewPassword) {
-    return res.status(400).send('Passwords do not match.');
-  }
+  const { fullName, phoneNumber, newPassword, confirmNewPassword } = req.body;
 
   try {
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-      return res.status(400).send('Email is already in use. Please use a different email.');
-    }
-    const newUser = new User({
-      fullName,
-      phoneNumber,
-      email,
-      password: hashedPassword,
-    });
-
-    await newUser.save();
-
-    // res.redirect('/users/login');
-  } catch (err) {
-    console.error(err);
-    res.status(500).send('Error saving user to the database');
+    await userHelpers.setSignupPasswordHelper(email, fullName, phoneNumber, newPassword, confirmNewPassword);
+    res.redirect('/users/login');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error setting signup password');
   }
 };
 
@@ -124,23 +120,15 @@ const loginGetPage = (req, res) => {
 
 const loginPostPage = async (req, res) => {
   const { email, password } = req.body;
+
   try {
-    const user = await User.findOne({ email });
+    const result = await userHelpers.loginPostHelper(email, password);
 
-    if (!user) {
-      return res.status(401).render(path.join('../views/user/conformSignupPassword'), { invalidmail: 'Invalid Email Address' });
-    }
-    const passwordMatch = await bcrypt.compare(password, user.password);
-
-    if (!passwordMatch) {
-      return res.status(200).render(path.join('../views/user/conformSignupPassword'), { notmatch: 'password not match' });
+    if (result.error) {
+      return res.status(401).render('../views/user/conformSignupPassword', { invalidmail: result.error });
     }
 
-    const user_token = jwt.sign({ userId: user._id },
-      process.env.JWT_SECRET);
-    user.token = user_token;
-    await user.save();
-    res.cookie('user_token', user_token, { httpOnly: true });
+    res.cookie('user_token', result.token, { httpOnly: true });
     return res.redirect('/');
   } catch (error) {
     console.error(error);
@@ -153,69 +141,19 @@ const loginPostPage = async (req, res) => {
 // };
 
 const googleLogin = async (req, res) => {
-  // Redirect to Google OAuth URL
-  const googleAuthUrl = process.env.GOOGLE_AUTH_URL;
-  const clientId = process.env.GOOGLE_CLINT_ID;
-  const redirectUri = process.env.callbackURL;
-  const scope = process.env.SCOPE;
+  const googleAuthUrl = userHelpers.googleLoginHelper();
 
-  const url = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
-
-  res.redirect(url);
+  res.redirect(googleAuthUrl);
 };
+
 
 // Google login callback endpoint
 const googleLoginCallback = async (req, res) => {
   const { code } = req.query;
 
-  const googleTokenUrl = process.env.GOOGLE_TOKEN_URL;
-  const clientId = process.env.GOOGLE_CLINT_ID;
-  const clientSecret = process.env.GOOGLE_CLINT_SECRET;
-  const redirectUri = process.env.callbackURL
-  const { callbackURL } = process.env;
   try {
-    const tokenResponse = await axios.post(googleTokenUrl, {
-      code,
-      client_id: clientId,
-      client_secret: clientSecret,
-      redirect_uri: redirectUri,
-      grant_type: 'authorization_code',
-    });
+    const { user_token } = await userHelpers.googleLoginCallbackHelper(code);
 
-    const { access_token, id_token } = tokenResponse.data;
-
-    // Fetch user information using the access token
-    const USERINFO_URL = 'https://www.googleapis.com/oauth2/v3/userinfo';
-    const userInfoResponse = await axios.get(USERINFO_URL, {
-      headers: { Authorization: `Bearer ${access_token} ` },
-    });
-
-    const user = userInfoResponse.data;
-    const userData = userInfoResponse.data;
-
-    const existingUser = await User.findOne({ googleId: userData.id });
-
-    let tempUser;
-
-    if (!existingUser) {
-      tempUser = new User({
-        fullName: userData.name,
-        googleId: userData.id,
-        email: userData.email,
-        Image: userData.picture,
-      });
-      tempUser = await tempUser.save();
-    }
-
-    else {
-      existingUser.fullName = userData.name,
-        existingUser.email = userData.email;
-      existingUser.Image = userData.picture;
-      tempUser = await existingUser.save();
-    }
-
-    const user_token = jwt.sign({ userId: (tempUser || existingUser)._id },
-      process.env.JWT_SECRET);
     res.cookie('user_token', user_token, { httpOnly: true });
     res.redirect('/');
   } catch (error) {
@@ -227,15 +165,13 @@ const googleLoginCallback = async (req, res) => {
 
 // user logout
 const logoutPage = (req, res) => {
-  res.clearCookie('user_token');
-  res.redirect('/');
+  userHelpers.logoutHelper(res);
 };
-
 
 // user profile
 const getProfile = async (req, res) => {
   try {
-    res.render(path.join('../views/user/profile'), { profile: req.user });
+    userHelpers.getProfileHelper(res, req.user);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error fetching user profile' });
@@ -243,17 +179,26 @@ const getProfile = async (req, res) => {
 };
 
 const createProfile = async (req, res) => {
-  const { name, email, mobileNo, pincode, address, locality, city, state, saveAddressAs
-  } = req.body;
-
+  const { name, email, mobileNo, pincode, address, locality, city, state, saveAddressAs } = req.body;
   const user = req.user;
-  try {
-    user.address.push(req.body);
-    // Assuming user.save() is a function that saves the user profile
-    const profile = await user.save();
 
-    console.log(profile);
-    res.status(201).json(profile);
+  try {
+    const profileData = {
+      name,
+      email,
+      mobileNo,
+      pincode,
+      address,
+      locality,
+      city,
+      state,
+      saveAddressAs,
+    };
+
+    const updatedUser = await userHelpers.createProfileHelper(user, profileData);
+
+    console.log(updatedUser);
+    res.status(201).json(updatedUser);
   } catch (error) {
     console.error(error);
     res.status(500).send('Error saving user profile to the database');
@@ -263,7 +208,7 @@ const createProfile = async (req, res) => {
 const deleteProfile = async (req, res) => {
   try {
     const { profileId } = req.params;
-    await User.findOneAndDelete({ _id: profileId });
+    await userHelpers.deleteProfileHelper(profileId);
     res.status(204).send();
   } catch (error) {
     console.error(error);
@@ -276,7 +221,7 @@ const updateProfile = async (req, res) => {
   try {
     const { profileId } = req.params;
     const updatedData = req.body;
-    const updatedProfile = await Profile.findByIdAndUpdate(profileId, updatedData, { new: true });
+    const updatedProfile = await userHelpers.updateProfileHelper(profileId, updatedData);
     res.json({ success: true, profile: updatedProfile });
   } catch (error) {
     console.error('Error updating profile:', error);
@@ -286,66 +231,62 @@ const updateProfile = async (req, res) => {
 
 const GetProductPage = async (req, res) => {
   try {
-    const filteredProducts = await Product.find().exec();
+    const filteredProducts = await userHelpers.GetProductPageHelper();
     return res.render('../views/user/product', { product: filteredProducts });
-  } catch (err) {
-    console.error('Error fetching products:', err);
+  } catch (error) {
+    console.error('Error fetching products:', error);
     res.status(500).send('Internal Server Error');
   }
 };
-
-
 
 
 const GetProductDetails = async (req, res) => {
   try {
-
     const productId = req.params.id.split(':')[0];
-    const product = await Product.findById(productId);
-    res.render(path.join('../views/user/productDetails'), { product });
+    const product = await userHelpers.getProductDetailsHelper(productId);
+    res.render('../views/user/productDetails', { product });
+  } catch (error) {
+    console.error('Error fetching product details:', error);
+    res.status(500).json({ error: 'Error fetching product details' });
   }
-  catch (err) {
-    res.status(500).json({ error: 'Error fetching product details' + err });
-  }
+};
 
-}
 
+// filter and sort products
 const GetProductCategory = async (req, res) => {
   try {
-    const category = req.params.category.toLowerCase(); // Extract the category parameter and convert to lowercase
+    const category = req.params.category.toLowerCase();
+    const filteredProducts = await userHelpers.GetProductCategoryHelper(category);
 
-    let filteredProducts;
-
-    if (category === 'extension' || category === 'standalone' || category === 'starter') {
-      filteredProducts = await Product.find().limit(5).exec();
-    }
-    else if (category === 'bestquality' || category === 'featured' || category === 'newproducts') {
-      filteredProducts = await Product.find().limit(5).exec();
-
-    } else if (category === 'allproducts' || category === 'sortbypopularity') {
-      filteredProducts = await Product.find().exec();
-    } else if (category === 'alphabeticallyaz') {
-      filteredProducts = await Product.find().sort({ productName: 1 }).exec();
-    } else if (category === 'sortbylowtohigh') {
-      filteredProducts = await Product.find().sort({ productPrice: -1 }).exec();
-    } else if (category === 'sortbyhightolow') {
-      filteredProducts = await Product.find().sort({ productPrice: 1 }).exec();
-    } else {
-      filteredProducts = await Product.find({ category: category }).exec();
-    }
-    res.render('../views/user/product', { category: category, product: filteredProducts, });
-  } catch (err) {
-    
-    console.error('Error fetching products:', err);
+    res.render('../views/user/product', { category, product: filteredProducts });
+  } catch (error) {
+    console.error('Error fetching products:', error);
     res.status(500).send('Internal Server Error');
   }
 };
 
-const pageNotFound = async function (req, res) {
-  const { user } = req;
-  res.render('../views/user/404page');
-};
 
+const SearchProducts = async (req, res) => {
+  const query = req.body.valuename // Get the search query from the request URL query parameters
+  console.log(query);
+  
+  try {
+      const filteredProducts = await userHelpers.searchProductsHelper(query);
+      console.log(filteredProducts);
+
+      // Render the shop page with the search results
+      res.render('../views/user/product', { category: 'Search Results', product: filteredProducts });
+  } catch (err) {
+      // Handle errors
+      console.error('Error searching for products:', err);
+      res.status(500).send('Internal Server Error');
+  }
+}
+
+
+const pageNotFound = async (req, res) => {
+  render404Page(req, res);
+};
 
 export default {
   homePage,
@@ -365,6 +306,7 @@ export default {
   updateProfile,
   GetProductPage,
   GetProductCategory,
+  SearchProducts,
   pageNotFound,
   GetProductDetails
 };

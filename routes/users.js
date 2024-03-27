@@ -28,8 +28,7 @@ router.get('/productdetail/:id',userController.GetProductDetails)
 // filter products
 router.get('/product',userController.GetProductPage)
 router.get('/product/:category',userController.GetProductCategory)
-
-
+router.post('/SearchProducts',userController.SearchProducts)
 
 router.get('/cart', authenticateUser, productController.getCart);
 router.post('/addToCart', authenticateUser, productController.addToCart);

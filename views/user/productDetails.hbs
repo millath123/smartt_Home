@@ -612,7 +612,7 @@
     <!-- Start Wrapper -->
     <div id="wrapper">
         <div class="header-wrapper">
-            < <header class="header thb-main-header">
+            <header class="header thb-main-header">
                 <div class="header-logo-row">
                     <div class="row align-middle">
                         <div class="small-3 large-4 columns hide-for-large">
@@ -740,7 +740,7 @@
                                         <div class="thb-quick-cart-inner">
                                             <span class="thb-item-text">Cart</span>
                                             <div class="thb-item-icon-wrapper">
-                                                <span class="count thb-cart-count">{{cart.product.length}}</span>
+                                                <span class="count thb-cart-count">{{cartBadge.products.length}}</span>
                                             </div>
                                         </div>
 
@@ -766,278 +766,270 @@
                             </div>
                         </div>
                     </div>
-                    </header>
-                </div>
-                <div role="main">
+            </header>
+        </div>
+        <div role="main">
 
-                    <div class="thb-woocommerce-header">
-                        <div class="row">
-                            <div class="small-12 columns">
-                                <div class="thb-breadcrumb-bar">
-                                    <nav class="woocommerce-breadcrumb"><a
-                                            href="https://smarthome.fuelthemes.net">Home</a>
-                                        <i>/</i> <a
-                                            href="https://smarthome.fuelthemes.net/product-category/accessories/">Accessories</a>
-                                        <i>/</i> Apple &#8211; HomePod mini &#8211; Space Gray
-                                    </nav>
-                                    <ul class="thb-product-nav">
-                                        <li class="thb-product-nav-button product-nav-prev">
-                                            <a href="https://smarthome.fuelthemes.net/product/nest-mini-smart-speaker-with-google-assistant/"
-                                                rel="prev" class="product-nav-link">
-                                                <i class="thb-icon-left-open-mini"></i>
-                                                <div class="thb-product-nav-text">
-                                                    Previous Product </div>
-                                            </a>
-                                        </li>
-                                        <li class="thb-product-nav-button product-nav-next">
-                                            <a href="https://smarthome.fuelthemes.net/product/nest-x-yale-lock-satin-nickel-with-google-nest-connect/"
-                                                rel="next" class="product-nav-link">
-                                                <div class="thb-product-nav-text">
-                                                    Next Product </div>
-                                                <i class="thb-icon-right-open-mini"></i>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+            <div class="thb-woocommerce-header">
+                <div class="row">
+                    <div class="small-12 columns">
+                        <div class="thb-breadcrumb-bar">
+                            <nav class="woocommerce-breadcrumb"><a href="https://smarthome.fuelthemes.net">Home</a>
+                                <i>/</i> <a
+                                    href="https://smarthome.fuelthemes.net/product-category/accessories/">Accessories</a>
+                                <i>/</i> Apple &#8211; HomePod mini &#8211; Space Gray
+                            </nav>
+                            <ul class="thb-product-nav">
+                                <li class="thb-product-nav-button product-nav-prev">
+                                    <a href="https://smarthome.fuelthemes.net/product/nest-mini-smart-speaker-with-google-assistant/"
+                                        rel="prev" class="product-nav-link">
+                                        <i class="thb-icon-left-open-mini"></i>
+                                        <div class="thb-product-nav-text">
+                                            Previous Product </div>
+                                    </a>
+                                </li>
+                                <li class="thb-product-nav-button product-nav-next">
+                                    <a href="https://smarthome.fuelthemes.net/product/nest-x-yale-lock-satin-nickel-with-google-nest-connect/"
+                                        rel="next" class="product-nav-link">
+                                        <div class="thb-product-nav-text">
+                                            Next Product </div>
+                                        <i class="thb-icon-right-open-mini"></i>
+                                    </a>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-                    <div id="primary" class="content-area">
-                        <main id="main" class="site-main" role="main">
+                </div>
+            </div>
+            <div id="primary" class="content-area">
+                <main id="main" class="site-main" role="main">
 
-                            <div class="row">
-                                <div class="small-12 columns">
-                                    <div class="woocommerce-notices-wrapper"></div>
-                                    <div id="product-86"
-                                        class="product type-product post-86 status-publish first instock product_cat-accessories product_tag-nest product_tag-steel product_tag-thermostat has-post-thumbnail taxable shipping-taxable purchasable product-type-simple thb-product-detail">
-                                        {{#if product}}
+                    <div class="row">
+                        <div class="small-12 columns">
+                            <div class="woocommerce-notices-wrapper"></div>
+                            <div id="product-86"
+                                class="product type-product post-86 status-publish first instock product_cat-accessories product_tag-nest product_tag-steel product_tag-thermostat has-post-thumbnail taxable shipping-taxable purchasable product-type-simple thb-product-detail">
+                                {{#if product}}
 
-                                        <div class="row thb-product-main-row">
-                                            <div class="small-12 medium-6 large-7 columns product-gallery-column">
-                                                <div class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-4 images"
-                                                    data-columns="4"
-                                                    style="opacity: 0; transition: opacity .25s ease-in-out;">
-                                                    <figure class="woocommerce-product-gallery__wrapper">
-                                                        <div data-thumb="{{product.productImage.[0]}}" data-thumb-alt=""
-                                                            class="woocommerce-product-gallery__image"><a
-                                                                href="{{product.productImage.[0]}}"><img width="550"
-                                                                    height="550" src="{{product.productImage.[0]}}"
-                                                                    class="wp-post-image jetpack-lazy-image" alt=""
-                                                                    title="h9" data-caption=""
-                                                                    data-src="{{product.productImage.[0]}}"
-                                                                    data-large_image="{{product.productImage.[0]}}"
-                                                                    data-large_image_width="1100"
-                                                                    data-large_image_height="1100" decoding="async"
-                                                                    fetchpriority="high"
-                                                                    data-lazy-srcset="{{product.productImage.[0]}} 1100w, {{product.productImage.[0]}} 500w, {{product.productImage.[0]}} 150w, {{product.productImage.[0]}} 550w,{{product.productImage.[0]}}  124w"
-                                                                    data-lazy-sizes="(max-width: 550px) 100vw, 550px"
-                                                                    data-lazy-src="{{product.productImage.[0]}}"
-                                                                    srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" /></a>
-                                                        </div>
-                                                        <div data-thumb="{{product.productImage.[1]}}" data-thumb-alt=""
-                                                            class="woocommerce-product-gallery__image"><a
-                                                                href="{{product.productImage.[1]}}"><img width="550"
-                                                                    height="550" src="{{product.productImage.[1]}}"
-                                                                    class=" jetpack-lazy-image" alt="" title="h9-1"
-                                                                    data-caption=""
-                                                                    data-src="{{product.productImage.[1]}}"
-                                                                    data-large_image="{{product.productImage.[1]}}"
-                                                                    data-large_image_width="1100"
-                                                                    data-large_image_height="1100" decoding="async"
-                                                                    data-lazy-srcset="{{product.productImage.[1]}}, {{product.productImage.[1]}}, {{product.productImage.[1]}} 150w,{{product.productImage.[1]}} 550w, {{product.productImage.[1]}} 124w"
-                                                                    data-lazy-sizes="(max-width: 550px) 100vw, 550px"
-                                                                    data-lazy-src="{{product.productImage.[1]}}"
-                                                                    srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" /></a>
-                                                        </div>
-                                                        <div data-thumb="{{product.productImage.[2]}}" data-thumb-alt=""
-                                                            class="woocommerce-product-gallery__image"><a
-                                                                href="{{product.productImage.[2]}}"><img width="550"
-                                                                    height="550" src="{{product.productImage.[2]}}"
-                                                                    class=" jetpack-lazy-image" alt="" title="h9-1"
-                                                                    data-caption=""
-                                                                    data-src="{{product.productImage.[2]}}"
-                                                                    data-large_image="{{product.productImage.[2]}}"
-                                                                    data-large_image_width="1100"
-                                                                    data-large_image_height="1100" decoding="async"
-                                                                    data-lazy-srcset="{{product.productImage.[2]}}, {{product.productImage.[2]}}, {{product.productImage.[2]}} 150w,{{product.productImage.[2]}} 550w, {{product.productImage.[2]}} 124w"
-                                                                    data-lazy-sizes="(max-width: 550px) 100vw, 550px"
-                                                                    data-lazy-src="{{product.productImage.[2]}}"
-                                                                    srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" /></a>
-                                                        </div>
-                                                    </figure>
+                                <div class="row thb-product-main-row">
+                                    <div class="small-12 medium-6 large-7 columns product-gallery-column">
+                                        <div class="woocommerce-product-gallery woocommerce-product-gallery--with-images woocommerce-product-gallery--columns-4 images"
+                                            data-columns="4" style="opacity: 0; transition: opacity .25s ease-in-out;">
+                                            <figure class="woocommerce-product-gallery__wrapper">
+                                                <div data-thumb="{{product.productImage.[0]}}" data-thumb-alt=""
+                                                    class="woocommerce-product-gallery__image"><a
+                                                        href="{{product.productImage.[0]}}"><img width="550"
+                                                            height="550" src="{{product.productImage.[0]}}"
+                                                            class="wp-post-image jetpack-lazy-image" alt="" title="h9"
+                                                            data-caption="" data-src="{{product.productImage.[0]}}"
+                                                            data-large_image="{{product.productImage.[0]}}"
+                                                            data-large_image_width="1100" data-large_image_height="1100"
+                                                            decoding="async" fetchpriority="high"
+                                                            data-lazy-srcset="{{product.productImage.[0]}} 1100w, {{product.productImage.[0]}} 500w, {{product.productImage.[0]}} 150w, {{product.productImage.[0]}} 550w,{{product.productImage.[0]}}  124w"
+                                                            data-lazy-sizes="(max-width: 550px) 100vw, 550px"
+                                                            data-lazy-src="{{product.productImage.[0]}}"
+                                                            srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" /></a>
                                                 </div>
+                                                <div data-thumb="{{product.productImage.[1]}}" data-thumb-alt=""
+                                                    class="woocommerce-product-gallery__image"><a
+                                                        href="{{product.productImage.[1]}}"><img width="550"
+                                                            height="550" src="{{product.productImage.[1]}}"
+                                                            class=" jetpack-lazy-image" alt="" title="h9-1"
+                                                            data-caption="" data-src="{{product.productImage.[1]}}"
+                                                            data-large_image="{{product.productImage.[1]}}"
+                                                            data-large_image_width="1100" data-large_image_height="1100"
+                                                            decoding="async"
+                                                            data-lazy-srcset="{{product.productImage.[1]}}, {{product.productImage.[1]}}, {{product.productImage.[1]}} 150w,{{product.productImage.[1]}} 550w, {{product.productImage.[1]}} 124w"
+                                                            data-lazy-sizes="(max-width: 550px) 100vw, 550px"
+                                                            data-lazy-src="{{product.productImage.[1]}}"
+                                                            srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" /></a>
+                                                </div>
+                                                <div data-thumb="{{product.productImage.[2]}}" data-thumb-alt=""
+                                                    class="woocommerce-product-gallery__image"><a
+                                                        href="{{product.productImage.[2]}}"><img width="550"
+                                                            height="550" src="{{product.productImage.[2]}}"
+                                                            class=" jetpack-lazy-image" alt="" title="h9-1"
+                                                            data-caption="" data-src="{{product.productImage.[2]}}"
+                                                            data-large_image="{{product.productImage.[2]}}"
+                                                            data-large_image_width="1100" data-large_image_height="1100"
+                                                            decoding="async"
+                                                            data-lazy-srcset="{{product.productImage.[2]}}, {{product.productImage.[2]}}, {{product.productImage.[2]}} 150w,{{product.productImage.[2]}} 550w, {{product.productImage.[2]}} 124w"
+                                                            data-lazy-sizes="(max-width: 550px) 100vw, 550px"
+                                                            data-lazy-src="{{product.productImage.[2]}}"
+                                                            srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" /></a>
+                                                </div>
+                                            </figure>
+                                        </div>
+                                    </div>
+                                    <div class="small-12 medium-6 large-5 columns product-information">
+
+                                        <div class="summary entry-summary">
+                                            <h1 class="product_title entry-title">{{product.productName}} </h1>
+                                            <p class="price"><span class="woocommerce-Price-amount amount"><bdi><span
+                                                            class="woocommerce-Price-currencySymbol">Rs.</span>
+                                                        {{product.productPrice}}</bdi></span>
+                                            </p>
+                                            <div class="woocommerce-product-details__short-description">
+                                                {{product.productDescription}}.</p>
                                             </div>
-                                            <div class="small-12 medium-6 large-5 columns product-information">
-
-                                                <div class="summary entry-summary">
-                                                    <h1 class="product_title entry-title">{{product.productName}} </h1>
-                                                    <p class="price"><span
-                                                            class="woocommerce-Price-amount amount"><bdi><span
-                                                                    class="woocommerce-Price-currencySymbol">Rs.</span>
-                                                                {{product.productPrice}}</bdi></span>
-                                                    </p>
-                                                    <div class="woocommerce-product-details__short-description">
-                                                        {{product.productDescription}}.</p>
-                                                    </div>
 
 
 
 
 
 
-                                                    {{!-- <div class="quantity">
-                                                        <label class="screen-reader-text"
-                                                            for="quantity_65fad0c57c5e7">Apple
-                                                            - HomePod mini - Space Gray quantity</label>
-                                                        <input type="number" id="quantity_65fad0c57c5e7"
-                                                            class="input-text qty text" name="quantity" value="1"
-                                                            title="Qty" size="4" min="1" max="" step="1" placeholder=""
-                                                            inputmode="numeric" autocomplete="off" />
-                                                    </div> --}}
+                                            {{!-- <div class="quantity">
+                                                <label class="screen-reader-text" for="quantity_65fad0c57c5e7">Apple
+                                                    - HomePod mini - Space Gray quantity</label>
+                                                <input type="number" id="quantity_65fad0c57c5e7"
+                                                    class="input-text qty text" name="quantity" value="1" title="Qty"
+                                                    size="4" min="1" max="" step="1" placeholder="" inputmode="numeric"
+                                                    autocomplete="off" />
+                                            </div> --}}
 
-                                                    <button type="button" name="add-to-cart" value="86"
-                                                        class="single_add_to_cart_button button alt wp-element-button"
-                                                        onclick="addToCart('{{product._id}}')">Add
-                                                        to cart</button>
-
-
-                                                    <script>
-                                                        function addToCart(productId) {
-                                                            fetch('/addToCart', {
-                                                                method: 'POST',
-                                                                headers: {
-                                                                    'Content-Type': 'application/json',
-                                                                },
-                                                                body: JSON.stringify({ productId: productId }),
-                                                            })
-                                                                .then(response => {
-                                                                    if (response.ok) {
-                                                                        Toastify({
-                                                                            text: "Product added to cart!",
-                                                                            duration: 3000,
-                                                                            destination: "https://github.com/apvarun/toastify-js",
-                                                                            newWindow: true,
-                                                                            close: true,
-                                                                            gravity: "top",
-                                                                            position: "right",
-                                                                            stopOnFocus: true,
-                                                                            style: {
-                                                                                background: "linear-gradient(to right, #00b09b, #96c93d)",
-                                                                            },
-                                                                            onClick: function () { }
-                                                                        }).showToast();
-                                                                    } else {
-                                                                        console.error('Failed to add product to cart.');
-                                                                    }
-                                                                })
-                                                                .catch(error => {
-                                                                    console.error('Error adding product to cart:', error);
-                                                                });
-                                                        }
-                                                    </script>
+                                            <button type="button" name="add-to-cart" value="86"
+                                                class="single_add_to_cart_button button alt wp-element-button"
+                                                onclick="addToCart('{{product._id}}')">Add
+                                                to cart</button>
 
 
-                                                    <script type="text/javascript"
-                                                        src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+                                            <script>
+                                                function addToCart(productId) {
+                                                    fetch('/addToCart', {
+                                                        method: 'POST',
+                                                        headers: {
+                                                            'Content-Type': 'application/json',
+                                                        },
+                                                        body: JSON.stringify({ productId: productId }),
+                                                    })
+                                                        .then(response => {
+                                                            if (response.ok) {
+                                                                Toastify({
+                                                                    text: "Product added to cart!",
+                                                                    duration: 3000,
+                                                                    destination: "https://github.com/apvarun/toastify-js",
+                                                                    newWindow: true,
+                                                                    close: true,
+                                                                    gravity: "top",
+                                                                    position: "right",
+                                                                    stopOnFocus: true,
+                                                                    style: {
+                                                                        background: "linear-gradient(to right, #00b09b, #96c93d)",
+                                                                    },
+                                                                    onClick: function () { }
+                                                                }).showToast();
+                                                            } else {
+                                                                console.error('Failed to add product to cart.');
+                                                            }
+                                                        })
+                                                        .catch(error => {
+                                                            console.error('Error adding product to cart:', error);
+                                                        });
+                                                }
+                                            </script>
 
-                                                    <div class="product_meta">
+
+                                            <script type="text/javascript"
+                                                src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+                                            <div class="product_meta">
 
 
 
-                                                        {{!-- <span class="sku_wrapper">SKU: <span
-                                                                class="sku">34589</span></span> --}}
+                                                {{!-- <span class="sku_wrapper">SKU: <span
+                                                        class="sku">34589</span></span> --}}
 
 
-                                                        <span class="posted_in">Category: <a
-                                                                href="https://smarthome.fuelthemes.net/product-category/accessories/"
-                                                                rel="tag"> {{product.productCategory}} </a></span>
-                                                        {{!-- <span class="tagged_as">Tags: <a
-                                                                href="https://smarthome.fuelthemes.net/product-tag/nest/"
-                                                                rel="tag">Nest</a>, <a
-                                                                href="https://smarthome.fuelthemes.net/product-tag/steel/"
-                                                                rel="tag">Steel</a>, <a
-                                                                href="https://smarthome.fuelthemes.net/product-tag/thermostat/"
-                                                                rel="tag">Thermostat</a></span> --}}
+                                                <span class="posted_in">Category: <a
+                                                        href="https://smarthome.fuelthemes.net/product-category/accessories/"
+                                                        rel="tag"> {{product.productCategory}} </a></span>
+                                                {{!-- <span class="tagged_as">Tags: <a
+                                                        href="https://smarthome.fuelthemes.net/product-tag/nest/"
+                                                        rel="tag">Nest</a>, <a
+                                                        href="https://smarthome.fuelthemes.net/product-tag/steel/"
+                                                        rel="tag">Steel</a>, <a
+                                                        href="https://smarthome.fuelthemes.net/product-tag/thermostat/"
+                                                        rel="tag">Thermostat</a></span> --}}
 
-                                                    </div>
-                                                    <div class="thb-product-meta-before">
-                                                        <div class="thb-share-product">
-                                                            <div class="sharedaddy sd-sharing-enabled">
-                                                                <div
-                                                                    class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing">
-                                                                    <h3 class="sd-title">Share this:</h3>
-                                                                    <div class="sd-content">
-                                                                        <ul>
-                                                                            <li class="share-twitter"><a
-                                                                                    rel="nofollow noopener noreferrer"
-                                                                                    data-shared="sharing-twitter-86"
-                                                                                    class="share-twitter sd-button share-icon"
-                                                                                    href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=twitter"
-                                                                                    target="_blank"
-                                                                                    title="Click to share on Twitter"><span>Twitter</span></a>
-                                                                            </li>
-                                                                            <li class="share-facebook"><a
-                                                                                    rel="nofollow noopener noreferrer"
-                                                                                    data-shared="sharing-facebook-86"
-                                                                                    class="share-facebook sd-button share-icon"
-                                                                                    href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=facebook"
-                                                                                    target="_blank"
-                                                                                    title="Click to share on Facebook"><span>Facebook</span></a>
-                                                                            </li>
-                                                                            <li class="share-tumblr"><a
-                                                                                    rel="nofollow noopener noreferrer"
-                                                                                    data-shared=""
-                                                                                    class="share-tumblr sd-button share-icon"
-                                                                                    href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=tumblr"
-                                                                                    target="_blank"
-                                                                                    title="Click to share on Tumblr"><span>Tumblr</span></a>
-                                                                            </li>
-                                                                            <li class="share-pinterest"><a
-                                                                                    rel="nofollow noopener noreferrer"
-                                                                                    data-shared="sharing-pinterest-86"
-                                                                                    class="share-pinterest sd-button share-icon"
-                                                                                    href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=pinterest"
-                                                                                    target="_blank"
-                                                                                    title="Click to share on Pinterest"><span>Pinterest</span></a>
-                                                                            </li>
-                                                                            <li class="share-telegram"><a
-                                                                                    rel="nofollow noopener noreferrer"
-                                                                                    data-shared=""
-                                                                                    class="share-telegram sd-button share-icon"
-                                                                                    href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=telegram"
-                                                                                    target="_blank"
-                                                                                    title="Click to share on Telegram"><span>Telegram</span></a>
-                                                                            </li>
-                                                                            <li class="share-jetpack-whatsapp"><a
-                                                                                    rel="nofollow noopener noreferrer"
-                                                                                    data-shared=""
-                                                                                    class="share-jetpack-whatsapp sd-button share-icon"
-                                                                                    href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=jetpack-whatsapp"
-                                                                                    target="_blank"
-                                                                                    title="Click to share on WhatsApp"><span>WhatsApp</span></a>
-                                                                            </li>
-                                                                            <li class="share-skype"><a
-                                                                                    rel="nofollow noopener noreferrer"
-                                                                                    data-shared="sharing-skype-86"
-                                                                                    class="share-skype sd-button share-icon"
-                                                                                    href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=skype"
-                                                                                    target="_blank"
-                                                                                    title="Click to share on Skype"><span>Skype</span></a>
-                                                                            </li>
-                                                                            <li class="share-end"></li>
-                                                                        </ul>
-                                                                    </div>
-                                                                </div>
+                                            </div>
+                                            <div class="thb-product-meta-before">
+                                                <div class="thb-share-product">
+                                                    <div class="sharedaddy sd-sharing-enabled">
+                                                        <div
+                                                            class="robots-nocontent sd-block sd-social sd-social-icon-text sd-sharing">
+                                                            <h3 class="sd-title">Share this:</h3>
+                                                            <div class="sd-content">
+                                                                <ul>
+                                                                    <li class="share-twitter"><a
+                                                                            rel="nofollow noopener noreferrer"
+                                                                            data-shared="sharing-twitter-86"
+                                                                            class="share-twitter sd-button share-icon"
+                                                                            href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=twitter"
+                                                                            target="_blank"
+                                                                            title="Click to share on Twitter"><span>Twitter</span></a>
+                                                                    </li>
+                                                                    <li class="share-facebook"><a
+                                                                            rel="nofollow noopener noreferrer"
+                                                                            data-shared="sharing-facebook-86"
+                                                                            class="share-facebook sd-button share-icon"
+                                                                            href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=facebook"
+                                                                            target="_blank"
+                                                                            title="Click to share on Facebook"><span>Facebook</span></a>
+                                                                    </li>
+                                                                    <li class="share-tumblr"><a
+                                                                            rel="nofollow noopener noreferrer"
+                                                                            data-shared=""
+                                                                            class="share-tumblr sd-button share-icon"
+                                                                            href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=tumblr"
+                                                                            target="_blank"
+                                                                            title="Click to share on Tumblr"><span>Tumblr</span></a>
+                                                                    </li>
+                                                                    <li class="share-pinterest"><a
+                                                                            rel="nofollow noopener noreferrer"
+                                                                            data-shared="sharing-pinterest-86"
+                                                                            class="share-pinterest sd-button share-icon"
+                                                                            href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=pinterest"
+                                                                            target="_blank"
+                                                                            title="Click to share on Pinterest"><span>Pinterest</span></a>
+                                                                    </li>
+                                                                    <li class="share-telegram"><a
+                                                                            rel="nofollow noopener noreferrer"
+                                                                            data-shared=""
+                                                                            class="share-telegram sd-button share-icon"
+                                                                            href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=telegram"
+                                                                            target="_blank"
+                                                                            title="Click to share on Telegram"><span>Telegram</span></a>
+                                                                    </li>
+                                                                    <li class="share-jetpack-whatsapp"><a
+                                                                            rel="nofollow noopener noreferrer"
+                                                                            data-shared=""
+                                                                            class="share-jetpack-whatsapp sd-button share-icon"
+                                                                            href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=jetpack-whatsapp"
+                                                                            target="_blank"
+                                                                            title="Click to share on WhatsApp"><span>WhatsApp</span></a>
+                                                                    </li>
+                                                                    <li class="share-skype"><a
+                                                                            rel="nofollow noopener noreferrer"
+                                                                            data-shared="sharing-skype-86"
+                                                                            class="share-skype sd-button share-icon"
+                                                                            href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/?share=skype"
+                                                                            target="_blank"
+                                                                            title="Click to share on Skype"><span>Skype</span></a>
+                                                                    </li>
+                                                                    <li class="share-end"></li>
+                                                                </ul>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-
-
                                             </div>
                                         </div>
-                                        {{/if}}
-                                        <!-- <div class="woocommerce-tabs wc-tabs-wrapper">
+
+
+                                    </div>
+                                </div>
+                                {{/if}}
+                                <!-- <div class="woocommerce-tabs wc-tabs-wrapper">
 		<ul class="tabs wc-tabs" role="tablist">
 							<li class="description_tab" id="tab-title-description" role="tab" aria-controls="tab-description">
 					<a href="#tab-description">
@@ -1199,7 +1191,7 @@
 					</select></div><p class="comment-form-comment"><label for="comment">Your review&nbsp;<span class="required">*</span></label><textarea id="comment" name="comment" cols="45" rows="8" required></textarea></p><p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Submit" /> <input type='hidden' name='comment_post_ID' value='86' id='comment_post_ID' />
 <input type='hidden' name='comment_parent' id='comment_parent' value='0' />
 </p></form>	</div><!-- #respond -->
-                                        <!-- </div>
+                                <!-- </div>
 		</div>
 	
 	<div class="clear"></div>
@@ -1282,646 +1274,633 @@
 	</main></div>
 	
 	</div> End Main -->
-                                        <div class="thb-woocommerce-notices-wrapper"></div>
+                                <div class="thb-woocommerce-notices-wrapper"></div>
 
-                                        <footer id="footer" class="footer">
-                                            <div class="row footer-row">
-                                                <div class="small-12 medium-3 large-5 columns footer-large-left-column">
-                                                    <div id="text-2" class="widget widget_text">
-                                                        <div class="textwidget">
-                                                            <p style="color: #292929; font-size: 20px;"><img
-                                                                    decoding="async"
-                                                                    class="wp-image-258 size-full alignleft jetpack-lazy-image"
-                                                                    src="https://i0.wp.com/smarthome.fuelthemes.net/wp-content/uploads/2021/03/footer-logo-1.jpg?resize=76%2C220&#038;ssl=1"
-                                                                    alt width="76" height="220" data-recalc-dims="1"
-                                                                    data-lazy-src="https://i0.wp.com/smarthome.fuelthemes.net/wp-content/uploads/2021/03/footer-logo-1.jpg?resize=76%2C220&amp;is-pending-load=1#038;ssl=1"
-                                                                    srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><noscript><img
-                                                                        loading="lazy" decoding="async"
-                                                                        data-lazy-fallback="1"
-                                                                        class="wp-image-258 size-full alignleft"
-                                                                        src="https://i0.wp.com/smarthome.fuelthemes.net/wp-content/uploads/2021/03/footer-logo-1.jpg?resize=76%2C220&#038;ssl=1"
-                                                                        alt="" width="76" height="220"
-                                                                        data-recalc-dims="1" /></noscript><strong>Smart
-                                                                    home
-                                                                    solutions for your home</strong></p>
-                                                            <p>You can easily listen to your favorite music from
-                                                                anywhere in
-                                                                your home with a touch of a button, or you can create
-                                                                the
-                                                                perfect entertaining ambiance by setting the shades and
-                                                                lights
-                                                                in your living area and kitchen.</p>
-                                                            <p><strong>6100 Wilshire Blvd 2nd Floor Los Angeles CA 90048
-                                                                </strong><br />
-                                                                <strong>+1 310 499 7700 / hello@fuelthemes.net</strong>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="small-6 medium-3 large-2 columns">
-                                                    <div id="nav_menu-2" class="widget widget_nav_menu">
-                                                        <div class="thb-widget-title">Company</div>
-                                                        <div class="menu-footer_menu_1-container">
-                                                            <ul id="menu-footer_menu_1" class="menu">
-                                                                <li id="menu-item-145"
-                                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-145">
-                                                                    <a
-                                                                        href="https://smarthome.fuelthemes.net/about/">About</a>
-                                                                </li>
-                                                                <li id="menu-item-146"
-                                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-146">
-                                                                    <a
-                                                                        href="https://smarthome.fuelthemes.net/blog/">Blog</a>
-                                                                </li>
-                                                                <li id="menu-item-147"
-                                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-147">
-                                                                    <a
-                                                                        href="https://smarthome.fuelthemes.net/about/">Press</a>
-                                                                </li>
-                                                                <li id="menu-item-148"
-                                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-148">
-                                                                    <a href="https://smarthome.fuelthemes.net/about/">Media
-                                                                        Kit</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="small-6 medium-3 large-2 columns">
-                                                    <div id="nav_menu-3" class="widget widget_nav_menu">
-                                                        <div class="thb-widget-title">Support</div>
-                                                        <div class="menu-footer_menu_2-container">
-                                                            <ul id="menu-footer_menu_2" class="menu">
-                                                                <li id="menu-item-149"
-                                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-149">
-                                                                    <a href="https://smarthome.fuelthemes.net/contact/">Delivery
-                                                                        and Returns</a>
-                                                                </li>
-                                                                <li id="menu-item-150"
-                                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-150">
-                                                                    <a href="https://smarthome.fuelthemes.net/contact/">Order
-                                                                        Status</a>
-                                                                </li>
-                                                                <li id="menu-item-151"
-                                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-151">
-                                                                    <a
-                                                                        href="https://smarthome.fuelthemes.net/contact/">Warranty</a>
-                                                                </li>
-                                                                <li id="menu-item-152"
-                                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-152">
-                                                                    <a
-                                                                        href="https://smarthome.fuelthemes.net/contact/">Returns</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="small-6 medium-3 large-2 columns">
-                                                    <div id="nav_menu-4" class="widget widget_nav_menu">
-                                                        <div class="thb-widget-title">Contact Us</div>
-                                                        <div class="menu-footer_menu_3-container">
-                                                            <ul id="menu-footer_menu_3" class="menu">
-                                                                <li id="menu-item-153"
-                                                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-153">
-                                                                    <a
-                                                                        href="https://www.facebook.com/FuelThemes/">Facebook</a>
-                                                                </li>
-                                                                <li id="menu-item-154"
-                                                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-154">
-                                                                    <a
-                                                                        href="https://twitter.com/fuel_themes">Twitter</a>
-                                                                </li>
-                                                                <li id="menu-item-155"
-                                                                    class="menu-item menu-item-type-custom menu-item-object-custom menu-item-155">
-                                                                    <a
-                                                                        href="https://www.linkedin.com/company/fuel-themes/">Linkedin</a>
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </footer>
-                                        <!-- Start subfooter -->
-                                        <div class="subfooter style1">
-                                            <div class="row subfooter-row align-middle">
-                                                <div class="small-12 medium-6 columns text-center medium-text-left">
-                                                    © 2021 <a title="Premium WordPress Themes"
-                                                        href="https://fuelthemes.net" target="_blank"
-                                                        rel="noopener">Premium WordPress Themes</a> </div>
-                                                <div class="small-12 medium-6 columns text-center medium-text-right">
-                                                    <a href="https://fuelthemes.net" target="_blank"
-                                                        title="Premium WordPress Themes">Premium WordPress Themes</a>
+                                <footer id="footer" class="footer">
+                                    <div class="row footer-row">
+                                        <div class="small-12 medium-3 large-5 columns footer-large-left-column">
+                                            <div id="text-2" class="widget widget_text">
+                                                <div class="textwidget">
+                                                    <p style="color: #292929; font-size: 20px;"><img decoding="async"
+                                                            class="wp-image-258 size-full alignleft jetpack-lazy-image"
+                                                            src="https://i0.wp.com/smarthome.fuelthemes.net/wp-content/uploads/2021/03/footer-logo-1.jpg?resize=76%2C220&#038;ssl=1"
+                                                            alt width="76" height="220" data-recalc-dims="1"
+                                                            data-lazy-src="https://i0.wp.com/smarthome.fuelthemes.net/wp-content/uploads/2021/03/footer-logo-1.jpg?resize=76%2C220&amp;is-pending-load=1#038;ssl=1"
+                                                            srcset="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"><noscript><img
+                                                                loading="lazy" decoding="async" data-lazy-fallback="1"
+                                                                class="wp-image-258 size-full alignleft"
+                                                                src="https://i0.wp.com/smarthome.fuelthemes.net/wp-content/uploads/2021/03/footer-logo-1.jpg?resize=76%2C220&#038;ssl=1"
+                                                                alt="" width="76" height="220"
+                                                                data-recalc-dims="1" /></noscript><strong>Smart
+                                                            home
+                                                            solutions for your home</strong></p>
+                                                    <p>You can easily listen to your favorite music from
+                                                        anywhere in
+                                                        your home with a touch of a button, or you can create
+                                                        the
+                                                        perfect entertaining ambiance by setting the shades and
+                                                        lights
+                                                        in your living area and kitchen.</p>
+                                                    <p><strong>6100 Wilshire Blvd 2nd Floor Los Angeles CA 90048
+                                                        </strong><br />
+                                                        <strong>+1 310 499 7700 / hello@fuelthemes.net</strong>
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- End Subfooter -->
-                                        <a id="scroll_to_top">
-                                            <i class="thb-icon-up-open-mini"></i>
-                                        </a>
-                                        <div class="click-capture"></div>
-                                        <!-- End Content Click Capture -->
-                                        <!-- Start Mobile Menu -->
-                                        <nav id="mobile-menu" class="style1 side-panel" data-behaviour="thb-default">
-                                            <header class="side-panel-header">
-                                                <a href="#" class="thb-close" title="Close"><span><svg
-                                                            xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0"
-                                                            width="12" height="12" viewBox="1.1 1.1 12 12"
-                                                            enable-background="new 1.1 1.1 12 12" xml:space="preserve">
-                                                            <path
-                                                                d="M8.3 7.1l4.6-4.6c0.3-0.3 0.3-0.8 0-1.2 -0.3-0.3-0.8-0.3-1.2 0L7.1 5.9 2.5 1.3c-0.3-0.3-0.8-0.3-1.2 0 -0.3 0.3-0.3 0.8 0 1.2L5.9 7.1l-4.6 4.6c-0.3 0.3-0.3 0.8 0 1.2s0.8 0.3 1.2 0L7.1 8.3l4.6 4.6c0.3 0.3 0.8 0.3 1.2 0 0.3-0.3 0.3-0.8 0-1.2L8.3 7.1z" />
-                                                        </svg></span> Close</a>
-                                            </header>
-                                            <div class="side-panel-inner">
-                                                <div class="mobile-menu-top">
-                                                    <form role="search" method="get" class="woocommerce-product-search"
-                                                        action="https://smarthome.fuelthemes.net/">
-                                                        <label class="screen-reader-text"
-                                                            for="woocommerce-product-search-field-999">Search
-                                                            for:</label>
-                                                        <input type="search" id="woocommerce-product-search-field-999"
-                                                            class="search-field" placeholder="Search products&hellip;"
-                                                            value="" name="s" />
-                                                        <button type="submit" value="Search"
-                                                            class="wp-element-button">Search</button>
-                                                        <input type="hidden" name="post_type" value="product" />
-                                                    </form>
-                                                    <ul id="menu-navigation-1" class="thb-mobile-menu">
-                                                        <li
-                                                            class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-14">
-                                                            <a href="https://smarthome.fuelthemes.net/">Home</a>
-                                                        </li>
-                                                        <li
-                                                            class=" menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current_page_ancestor menu-item-has-children current_page_parent menu-item-11">
-                                                            <a
-                                                                href="https://smarthome.fuelthemes.net/shop/"><span></span>Shop</a>
-                                                            <ul class="sub-menu">
-                                                                <li
-                                                                    class=" menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-228">
-                                                                    <a
-                                                                        href="https://smarthome.fuelthemes.net/product-category/category-grid/">Category
-                                                                        Grid</a>
-                                                                </li>
-                                                                <li
-                                                                    class=" menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-217">
-                                                                    <a href="#"><span></span>Product Types</a>
-                                                                    <ul class="sub-menu">
-                                                                        <li
-                                                                            class=" menu-item menu-item-type-post_type menu-item-object-product current-menu-item menu-item-218">
-                                                                            <a
-                                                                                href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">Simple
-                                                                                Product</a>
-                                                                        </li>
-                                                                        <li
-                                                                            class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-219">
-                                                                            <a
-                                                                                href="https://smarthome.fuelthemes.net/product/nest-x-yale-lock-satin-nickel-with-google-nest-connect/">Variable
-                                                                                Product</a>
-                                                                        </li>
-                                                                        <li
-                                                                            class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-280">
-                                                                            <a
-                                                                                href="https://smarthome.fuelthemes.net/product/amazon-echo-dot-3rd-gen-smart-speaker-with-alexa/">External
-                                                                                Product</a>
-                                                                        </li>
-                                                                        <li
-                                                                            class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-216">
-                                                                            <a
-                                                                                href="https://smarthome.fuelthemes.net/product/google-nest-hello-smart-wi-fi-video-doorbell/">Grouped
-                                                                                Product</a>
-                                                                        </li>
-                                                                        <li
-                                                                            class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-222">
-                                                                            <a
-                                                                                href="https://smarthome.fuelthemes.net/product/amazon-echo-dot-3rd-gen-smart-speaker-with-alexa/">On
-                                                                                – Sale</a>
-                                                                        </li>
-                                                                        <li
-                                                                            class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-221">
-                                                                            <a
-                                                                                href="https://smarthome.fuelthemes.net/product/ecobee3-lite-smart-thermostat-black/">Out
-                                                                                Of Stock</a>
-                                                                        </li>
-                                                                    </ul>
-                                                                </li>
-                                                            </ul>
-                                                        </li>
-                                                        <li
-                                                            class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-15">
-                                                            <a href="https://smarthome.fuelthemes.net/blog/">Blog</a>
-                                                        </li>
-                                                        <li
-                                                            class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-142">
+                                        <div class="small-6 medium-3 large-2 columns">
+                                            <div id="nav_menu-2" class="widget widget_nav_menu">
+                                                <div class="thb-widget-title">Company</div>
+                                                <div class="menu-footer_menu_1-container">
+                                                    <ul id="menu-footer_menu_1" class="menu">
+                                                        <li id="menu-item-145"
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-145">
                                                             <a href="https://smarthome.fuelthemes.net/about/">About</a>
                                                         </li>
-                                                        <li
-                                                            class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-141">
-                                                            <a
-                                                                href="https://smarthome.fuelthemes.net/contact/">Contact</a>
+                                                        <li id="menu-item-146"
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-146">
+                                                            <a href="https://smarthome.fuelthemes.net/blog/">Blog</a>
+                                                        </li>
+                                                        <li id="menu-item-147"
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-147">
+                                                            <a href="https://smarthome.fuelthemes.net/about/">Press</a>
+                                                        </li>
+                                                        <li id="menu-item-148"
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-148">
+                                                            <a href="https://smarthome.fuelthemes.net/about/">Media
+                                                                Kit</a>
                                                         </li>
                                                     </ul>
-                                                    <ul id="menu-secondary"
-                                                        class="thb-secondary-menu thb-secondary-item">
-                                                        <li id="menu-item-203"
-                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-203">
-                                                            <a
-                                                                href="https://smarthome.fuelthemes.net/my-account/">Login</a>
-                                                        </li>
-                                                        <li id="menu-item-204"
-                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204">
-                                                            <a
-                                                                href="https://smarthome.fuelthemes.net/my-account/">Register</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-                                                <div class="mobile-menu-bottom">
-                                                    <div class="menu-footer">
-                                                        © 2021 <a href="https://fuelthemes.net/" target="_blank"
-                                                            rel="noopener">Premium WordPress Themes</a>. All rights
-                                                        reserved.
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </nav>
-                                        <!-- End Mobile Menu -->
-                                        <script
-                                            type="application/ld+json">{"@context":"https:\/\/schema.org\/","@graph":[{"@context":"https:\/\/schema.org\/","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"name":"Home","@id":"https:\/\/smarthome.fuelthemes.net"}},{"@type":"ListItem","position":2,"item":{"name":"Accessories","@id":"https:\/\/smarthome.fuelthemes.net\/product-category\/accessories\/"}},{"@type":"ListItem","position":3,"item":{"name":"Apple &amp;#8211; HomePod mini &amp;#8211; Space Gray","@id":"https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/"}}]},{"@context":"https:\/\/schema.org\/","@type":"Product","@id":"https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/#product","name":"Apple - HomePod mini - Space Gray","url":"https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/","description":"The Nest Learning Thermostat is a smart thermostat that learns your schedule and programs itself to help save energy. You can control it from anywhere with the Nest app, and it works with Alexa and Google Assistant so you can adjust the temperature with your voice. And it\u2019s beautifully designed, with a big, bright display.","image":"https:\/\/smarthome.fuelthemes.net\/wp-content\/uploads\/2021\/03\/h9.png","sku":"34589","offers":[{"@type":"Offer","price":"36.20","priceValidUntil":"2025-12-31","priceSpecification":{"price":"36.20","priceCurrency":"USD","valueAddedTaxIncluded":"false"},"priceCurrency":"USD","availability":"http:\/\/schema.org\/InStock","url":"https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/","seller":{"@type":"Organization","name":"Smart Home","url":"https:\/\/smarthome.fuelthemes.net"}}]}]}</script>
-                                        <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
-                                            <div class="pswp__bg"></div>
-                                            <div class="pswp__scroll-wrap">
-                                                <div class="pswp__container">
-                                                    <div class="pswp__item"></div>
-                                                    <div class="pswp__item"></div>
-                                                    <div class="pswp__item"></div>
-                                                </div>
-                                                <div class="pswp__ui pswp__ui--hidden">
-                                                    <div class="pswp__top-bar">
-                                                        <div class="pswp__counter"></div>
-                                                        <button class="pswp__button pswp__button--close"
-                                                            aria-label="Close (Esc)"></button>
-                                                        <button class="pswp__button pswp__button--share"
-                                                            aria-label="Share"></button>
-                                                        <button class="pswp__button pswp__button--fs"
-                                                            aria-label="Toggle fullscreen"></button>
-                                                        <button class="pswp__button pswp__button--zoom"
-                                                            aria-label="Zoom in/out"></button>
-                                                        <div class="pswp__preloader">
-                                                            <div class="pswp__preloader__icn">
-                                                                <div class="pswp__preloader__cut">
-                                                                    <div class="pswp__preloader__donut"></div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div
-                                                        class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
-                                                        <div class="pswp__share-tooltip"></div>
-                                                    </div>
-                                                    <button class="pswp__button pswp__button--arrow--left"
-                                                        aria-label="Previous (arrow left)"></button>
-                                                    <button class="pswp__button pswp__button--arrow--right"
-                                                        aria-label="Next (arrow right)"></button>
-                                                    <div class="pswp__caption">
-                                                        <div class="pswp__caption__center"></div>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <script type="text/javascript">
-                                            (function () {
-                                                var c = document.body.className;
-                                                c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
-                                                document.body.className = c;
-                                            })();
-                                        </script>
+                                        <div class="small-6 medium-3 large-2 columns">
+                                            <div id="nav_menu-3" class="widget widget_nav_menu">
+                                                <div class="thb-widget-title">Support</div>
+                                                <div class="menu-footer_menu_2-container">
+                                                    <ul id="menu-footer_menu_2" class="menu">
+                                                        <li id="menu-item-149"
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-149">
+                                                            <a href="https://smarthome.fuelthemes.net/contact/">Delivery
+                                                                and Returns</a>
+                                                        </li>
+                                                        <li id="menu-item-150"
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-150">
+                                                            <a href="https://smarthome.fuelthemes.net/contact/">Order
+                                                                Status</a>
+                                                        </li>
+                                                        <li id="menu-item-151"
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-151">
+                                                            <a
+                                                                href="https://smarthome.fuelthemes.net/contact/">Warranty</a>
+                                                        </li>
+                                                        <li id="menu-item-152"
+                                                            class="menu-item menu-item-type-post_type menu-item-object-page menu-item-152">
+                                                            <a
+                                                                href="https://smarthome.fuelthemes.net/contact/">Returns</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="small-6 medium-3 large-2 columns">
+                                            <div id="nav_menu-4" class="widget widget_nav_menu">
+                                                <div class="thb-widget-title">Contact Us</div>
+                                                <div class="menu-footer_menu_3-container">
+                                                    <ul id="menu-footer_menu_3" class="menu">
+                                                        <li id="menu-item-153"
+                                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-153">
+                                                            <a href="https://www.facebook.com/FuelThemes/">Facebook</a>
+                                                        </li>
+                                                        <li id="menu-item-154"
+                                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-154">
+                                                            <a href="https://twitter.com/fuel_themes">Twitter</a>
+                                                        </li>
+                                                        <li id="menu-item-155"
+                                                            class="menu-item menu-item-type-custom menu-item-object-custom menu-item-155">
+                                                            <a
+                                                                href="https://www.linkedin.com/company/fuel-themes/">Linkedin</a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </footer>
+                                <!-- Start subfooter -->
+                                <div class="subfooter style1">
+                                    <div class="row subfooter-row align-middle">
+                                        <div class="small-12 medium-6 columns text-center medium-text-left">
+                                            © 2021 <a title="Premium WordPress Themes" href="https://fuelthemes.net"
+                                                target="_blank" rel="noopener">Premium WordPress Themes</a> </div>
+                                        <div class="small-12 medium-6 columns text-center medium-text-right">
+                                            <a href="https://fuelthemes.net" target="_blank"
+                                                title="Premium WordPress Themes">Premium WordPress Themes</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- End Subfooter -->
+                                <a id="scroll_to_top">
+                                    <i class="thb-icon-up-open-mini"></i>
+                                </a>
+                                <div class="click-capture"></div>
+                                <!-- End Content Click Capture -->
+                                <!-- Start Mobile Menu -->
+                                <nav id="mobile-menu" class="style1 side-panel" data-behaviour="thb-default">
+                                    <header class="side-panel-header">
+                                        <a href="#" class="thb-close" title="Close"><span><svg
+                                                    xmlns="http://www.w3.org/2000/svg" version="1.1" x="0" y="0"
+                                                    width="12" height="12" viewBox="1.1 1.1 12 12"
+                                                    enable-background="new 1.1 1.1 12 12" xml:space="preserve">
+                                                    <path
+                                                        d="M8.3 7.1l4.6-4.6c0.3-0.3 0.3-0.8 0-1.2 -0.3-0.3-0.8-0.3-1.2 0L7.1 5.9 2.5 1.3c-0.3-0.3-0.8-0.3-1.2 0 -0.3 0.3-0.3 0.8 0 1.2L5.9 7.1l-4.6 4.6c-0.3 0.3-0.3 0.8 0 1.2s0.8 0.3 1.2 0L7.1 8.3l4.6 4.6c0.3 0.3 0.8 0.3 1.2 0 0.3-0.3 0.3-0.8 0-1.2L8.3 7.1z" />
+                                                </svg></span> Close</a>
+                                    </header>
+                                    <div class="side-panel-inner">
+                                        <div class="mobile-menu-top">
+                                            <form role="search" method="get" class="woocommerce-product-search"
+                                                action="https://smarthome.fuelthemes.net/">
+                                                <label class="screen-reader-text"
+                                                    for="woocommerce-product-search-field-999">Search
+                                                    for:</label>
+                                                <input type="search" id="woocommerce-product-search-field-999"
+                                                    class="search-field" placeholder="Search products&hellip;" value=""
+                                                    name="s" />
+                                                <button type="submit" value="Search"
+                                                    class="wp-element-button">Search</button>
+                                                <input type="hidden" name="post_type" value="product" />
+                                            </form>
+                                            <ul id="menu-navigation-1" class="thb-mobile-menu">
+                                                <li
+                                                    class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-home menu-item-14">
+                                                    <a href="https://smarthome.fuelthemes.net/">Home</a>
+                                                </li>
+                                                <li
+                                                    class=" menu-item menu-item-type-post_type menu-item-object-page current-menu-ancestor current_page_ancestor menu-item-has-children current_page_parent menu-item-11">
+                                                    <a
+                                                        href="https://smarthome.fuelthemes.net/shop/"><span></span>Shop</a>
+                                                    <ul class="sub-menu">
+                                                        <li
+                                                            class=" menu-item menu-item-type-taxonomy menu-item-object-product_cat menu-item-228">
+                                                            <a
+                                                                href="https://smarthome.fuelthemes.net/product-category/category-grid/">Category
+                                                                Grid</a>
+                                                        </li>
+                                                        <li
+                                                            class=" menu-item menu-item-type-custom menu-item-object-custom current-menu-ancestor current-menu-parent menu-item-has-children menu-item-217">
+                                                            <a href="#"><span></span>Product Types</a>
+                                                            <ul class="sub-menu">
+                                                                <li
+                                                                    class=" menu-item menu-item-type-post_type menu-item-object-product current-menu-item menu-item-218">
+                                                                    <a
+                                                                        href="https://smarthome.fuelthemes.net/product/apple-homepod-mini-space-gray/">Simple
+                                                                        Product</a>
+                                                                </li>
+                                                                <li
+                                                                    class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-219">
+                                                                    <a
+                                                                        href="https://smarthome.fuelthemes.net/product/nest-x-yale-lock-satin-nickel-with-google-nest-connect/">Variable
+                                                                        Product</a>
+                                                                </li>
+                                                                <li
+                                                                    class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-280">
+                                                                    <a
+                                                                        href="https://smarthome.fuelthemes.net/product/amazon-echo-dot-3rd-gen-smart-speaker-with-alexa/">External
+                                                                        Product</a>
+                                                                </li>
+                                                                <li
+                                                                    class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-216">
+                                                                    <a
+                                                                        href="https://smarthome.fuelthemes.net/product/google-nest-hello-smart-wi-fi-video-doorbell/">Grouped
+                                                                        Product</a>
+                                                                </li>
+                                                                <li
+                                                                    class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-222">
+                                                                    <a
+                                                                        href="https://smarthome.fuelthemes.net/product/amazon-echo-dot-3rd-gen-smart-speaker-with-alexa/">On
+                                                                        – Sale</a>
+                                                                </li>
+                                                                <li
+                                                                    class=" menu-item menu-item-type-post_type menu-item-object-product menu-item-221">
+                                                                    <a
+                                                                        href="https://smarthome.fuelthemes.net/product/ecobee3-lite-smart-thermostat-black/">Out
+                                                                        Of Stock</a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                                <li
+                                                    class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-15">
+                                                    <a href="https://smarthome.fuelthemes.net/blog/">Blog</a>
+                                                </li>
+                                                <li
+                                                    class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-142">
+                                                    <a href="https://smarthome.fuelthemes.net/about/">About</a>
+                                                </li>
+                                                <li
+                                                    class=" menu-item menu-item-type-post_type menu-item-object-page menu-item-141">
+                                                    <a href="https://smarthome.fuelthemes.net/contact/">Contact</a>
+                                                </li>
+                                            </ul>
+                                            <ul id="menu-secondary" class="thb-secondary-menu thb-secondary-item">
+                                                <li id="menu-item-203"
+                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-203">
+                                                    <a href="https://smarthome.fuelthemes.net/my-account/">Login</a>
+                                                </li>
+                                                <li id="menu-item-204"
+                                                    class="menu-item menu-item-type-post_type menu-item-object-page menu-item-204">
+                                                    <a href="https://smarthome.fuelthemes.net/my-account/">Register</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="mobile-menu-bottom">
+                                            <div class="menu-footer">
+                                                © 2021 <a href="https://fuelthemes.net/" target="_blank"
+                                                    rel="noopener">Premium WordPress Themes</a>. All rights
+                                                reserved.
+                                            </div>
+                                        </div>
+                                    </div>
+                                </nav>
+                                <!-- End Mobile Menu -->
+                                <script
+                                    type="application/ld+json">{"@context":"https:\/\/schema.org\/","@graph":[{"@context":"https:\/\/schema.org\/","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"name":"Home","@id":"https:\/\/smarthome.fuelthemes.net"}},{"@type":"ListItem","position":2,"item":{"name":"Accessories","@id":"https:\/\/smarthome.fuelthemes.net\/product-category\/accessories\/"}},{"@type":"ListItem","position":3,"item":{"name":"Apple &amp;#8211; HomePod mini &amp;#8211; Space Gray","@id":"https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/"}}]},{"@context":"https:\/\/schema.org\/","@type":"Product","@id":"https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/#product","name":"Apple - HomePod mini - Space Gray","url":"https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/","description":"The Nest Learning Thermostat is a smart thermostat that learns your schedule and programs itself to help save energy. You can control it from anywhere with the Nest app, and it works with Alexa and Google Assistant so you can adjust the temperature with your voice. And it\u2019s beautifully designed, with a big, bright display.","image":"https:\/\/smarthome.fuelthemes.net\/wp-content\/uploads\/2021\/03\/h9.png","sku":"34589","offers":[{"@type":"Offer","price":"36.20","priceValidUntil":"2025-12-31","priceSpecification":{"price":"36.20","priceCurrency":"USD","valueAddedTaxIncluded":"false"},"priceCurrency":"USD","availability":"http:\/\/schema.org\/InStock","url":"https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/","seller":{"@type":"Organization","name":"Smart Home","url":"https:\/\/smarthome.fuelthemes.net"}}]}]}</script>
+                                <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="pswp__bg"></div>
+                                    <div class="pswp__scroll-wrap">
+                                        <div class="pswp__container">
+                                            <div class="pswp__item"></div>
+                                            <div class="pswp__item"></div>
+                                            <div class="pswp__item"></div>
+                                        </div>
+                                        <div class="pswp__ui pswp__ui--hidden">
+                                            <div class="pswp__top-bar">
+                                                <div class="pswp__counter"></div>
+                                                <button class="pswp__button pswp__button--close"
+                                                    aria-label="Close (Esc)"></button>
+                                                <button class="pswp__button pswp__button--share"
+                                                    aria-label="Share"></button>
+                                                <button class="pswp__button pswp__button--fs"
+                                                    aria-label="Toggle fullscreen"></button>
+                                                <button class="pswp__button pswp__button--zoom"
+                                                    aria-label="Zoom in/out"></button>
+                                                <div class="pswp__preloader">
+                                                    <div class="pswp__preloader__icn">
+                                                        <div class="pswp__preloader__cut">
+                                                            <div class="pswp__preloader__donut"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                                                <div class="pswp__share-tooltip"></div>
+                                            </div>
+                                            <button class="pswp__button pswp__button--arrow--left"
+                                                aria-label="Previous (arrow left)"></button>
+                                            <button class="pswp__button pswp__button--arrow--right"
+                                                aria-label="Next (arrow right)"></button>
+                                            <div class="pswp__caption">
+                                                <div class="pswp__caption__center"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <script type="text/javascript">
+                                    (function () {
+                                        var c = document.body.className;
+                                        c = c.replace(/woocommerce-no-js/, 'woocommerce-js');
+                                        document.body.className = c;
+                                    })();
+                                </script>
 
-                                        <script type="text/javascript">
-                                            window.WPCOM_sharing_counts = { "https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/": 86 };
-                                        </script>
-                                        <link rel='stylesheet' id='dashicons-css'
-                                            href='https://c0.wp.com/c/6.4.3/wp-includes/css/dashicons.min.css'
-                                            type='text/css' media='all' />
-                                        <link rel='stylesheet' id='admin-bar-css'
-                                            href='https://c0.wp.com/c/6.4.3/wp-includes/css/admin-bar.min.css'
-                                            type='text/css' media='all' />
-                                        <link rel='stylesheet' id='wpcom-notes-admin-bar-css'
-                                            href='https://s0.wp.com/wp-content/mu-plugins/notes/admin-bar-v2.css?ver=12.1.1-202412-lite'
-                                            type='text/css' media='all' />
-                                        <link rel='stylesheet' id='noticons-css'
-                                            href='https://s0.wp.com/i/noticons/noticons.css?ver=12.1.1-202412-lite'
-                                            type='text/css' media='all' />
-                                        <style id='core-block-supports-inline-css' type='text/css'>
-                                            .wp-container-core-columns-layout-1.wp-container-core-columns-layout-1 {
-                                                flex-wrap: nowrap;
-                                            }
+                                <script type="text/javascript">
+                                    window.WPCOM_sharing_counts = { "https:\/\/smarthome.fuelthemes.net\/product\/apple-homepod-mini-space-gray\/": 86 };
+                                </script>
+                                <link rel='stylesheet' id='dashicons-css'
+                                    href='https://c0.wp.com/c/6.4.3/wp-includes/css/dashicons.min.css' type='text/css'
+                                    media='all' />
+                                <link rel='stylesheet' id='admin-bar-css'
+                                    href='https://c0.wp.com/c/6.4.3/wp-includes/css/admin-bar.min.css' type='text/css'
+                                    media='all' />
+                                <link rel='stylesheet' id='wpcom-notes-admin-bar-css'
+                                    href='https://s0.wp.com/wp-content/mu-plugins/notes/admin-bar-v2.css?ver=12.1.1-202412-lite'
+                                    type='text/css' media='all' />
+                                <link rel='stylesheet' id='noticons-css'
+                                    href='https://s0.wp.com/i/noticons/noticons.css?ver=12.1.1-202412-lite'
+                                    type='text/css' media='all' />
+                                <style id='core-block-supports-inline-css' type='text/css'>
+                                    .wp-container-core-columns-layout-1.wp-container-core-columns-layout-1 {
+                                        flex-wrap: nowrap;
+                                    }
 
-                                            .wp-container-core-columns-layout-2.wp-container-core-columns-layout-2 {
-                                                flex-wrap: nowrap;
-                                            }
+                                    .wp-container-core-columns-layout-2.wp-container-core-columns-layout-2 {
+                                        flex-wrap: nowrap;
+                                    }
 
-                                            .wp-container-core-columns-layout-3.wp-container-core-columns-layout-3 {
-                                                flex-wrap: nowrap;
-                                            }
-                                        </style>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/jetpack/12.1.1/_inc/build/photon/photon.min.js"
-                                            id="jetpack-photon-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/jquery-blockui/jquery.blockUI.min.js"
-                                            id="jquery-blockui-js"></script>
-                                        <script type="text/javascript" id="wc-add-to-cart-js-extra">
-                                            /* <![CDATA[ */
-                                            var wc_add_to_cart_params = { "ajax_url": "\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/?wc-ajax=%%endpoint%%", "i18n_view_cart": "View cart", "cart_url": "https:\/\/smarthome.fuelthemes.net\/cart\/", "is_cart": "", "cart_redirect_after_add": "no" };
-                                            /* ]]> */
-                                        </script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/frontend/add-to-cart.min.js"
-                                            id="wc-add-to-cart-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/zoom/jquery.zoom.min.js"
-                                            id="zoom-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/photoswipe/photoswipe.min.js"
-                                            id="photoswipe-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/photoswipe/photoswipe-ui-default.min.js"
-                                            id="photoswipe-ui-default-js"></script>
-                                        <script type="text/javascript" id="wc-single-product-js-extra">
-                                            /* <![CDATA[ */
-                                            var wc_single_product_params = { "i18n_required_rating_text": "Please select a rating", "review_rating_required": "yes", "flexslider": { "rtl": false, "animation": "slide", "smoothHeight": true, "directionNav": false, "controlNav": "thumbnails", "slideshow": false, "animationSpeed": 500, "animationLoop": false, "allowOneSlide": false }, "zoom_enabled": "1", "zoom_options": [], "photoswipe_enabled": "1", "photoswipe_options": { "shareEl": false, "closeOnScroll": false, "history": false, "hideAnimationDuration": 0, "showAnimationDuration": 0 }, "flexslider_enabled": "1" };
-                                            /* ]]> */
-                                        </script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/frontend/single-product.min.js"
-                                            id="wc-single-product-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/js-cookie/js.cookie.min.js"
-                                            id="js-cookie-js"></script>
-                                        <script type="text/javascript" id="woocommerce-js-extra">
-                                            /* <![CDATA[ */
-                                            var woocommerce_params = { "ajax_url": "\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/?wc-ajax=%%endpoint%%" };
-                                            /* ]]> */
-                                        </script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/frontend/woocommerce.min.js"
-                                            id="woocommerce-js"></script>
-                                        <script type="text/javascript" id="wc-cart-fragments-js-extra">
-                                            /* <![CDATA[ */
-                                            var wc_cart_fragments_params = { "ajax_url": "\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/?wc-ajax=%%endpoint%%", "cart_hash_key": "wc_cart_hash_95ed86c957f4bfe26630312417b24237", "fragment_name": "wc_fragments_95ed86c957f4bfe26630312417b24237", "request_timeout": "5000" };
-                                            /* ]]> */
-                                        </script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/frontend/cart-fragments.min.js"
-                                            id="wc-cart-fragments-js"></script>
-                                        <script type="text/javascript" id="wc-cart-fragments-js-after">
-                                            /* <![CDATA[ */
-                                            jQuery('body').bind('wc_fragments_refreshed', function () {
-                                                var jetpackLazyImagesLoadEvent;
-                                                try {
-                                                    jetpackLazyImagesLoadEvent = new Event('jetpack-lazy-images-load', {
-                                                        bubbles: true,
-                                                        cancelable: true
-                                                    });
-                                                } catch (e) {
-                                                    jetpackLazyImagesLoadEvent = document.createEvent('Event')
-                                                    jetpackLazyImagesLoadEvent.initEvent('jetpack-lazy-images-load', true, true);
-                                                }
-                                                jQuery('body').get(0).dispatchEvent(jetpackLazyImagesLoadEvent);
+                                    .wp-container-core-columns-layout-3.wp-container-core-columns-layout-3 {
+                                        flex-wrap: nowrap;
+                                    }
+                                </style>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/jetpack/12.1.1/_inc/build/photon/photon.min.js"
+                                    id="jetpack-photon-js"></script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/jquery-blockui/jquery.blockUI.min.js"
+                                    id="jquery-blockui-js"></script>
+                                <script type="text/javascript" id="wc-add-to-cart-js-extra">
+                                    /* <![CDATA[ */
+                                    var wc_add_to_cart_params = { "ajax_url": "\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/?wc-ajax=%%endpoint%%", "i18n_view_cart": "View cart", "cart_url": "https:\/\/smarthome.fuelthemes.net\/cart\/", "is_cart": "", "cart_redirect_after_add": "no" };
+                                    /* ]]> */
+                                </script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/frontend/add-to-cart.min.js"
+                                    id="wc-add-to-cart-js"></script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/zoom/jquery.zoom.min.js"
+                                    id="zoom-js"></script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/photoswipe/photoswipe.min.js"
+                                    id="photoswipe-js"></script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/photoswipe/photoswipe-ui-default.min.js"
+                                    id="photoswipe-ui-default-js"></script>
+                                <script type="text/javascript" id="wc-single-product-js-extra">
+                                    /* <![CDATA[ */
+                                    var wc_single_product_params = { "i18n_required_rating_text": "Please select a rating", "review_rating_required": "yes", "flexslider": { "rtl": false, "animation": "slide", "smoothHeight": true, "directionNav": false, "controlNav": "thumbnails", "slideshow": false, "animationSpeed": 500, "animationLoop": false, "allowOneSlide": false }, "zoom_enabled": "1", "zoom_options": [], "photoswipe_enabled": "1", "photoswipe_options": { "shareEl": false, "closeOnScroll": false, "history": false, "hideAnimationDuration": 0, "showAnimationDuration": 0 }, "flexslider_enabled": "1" };
+                                    /* ]]> */
+                                </script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/frontend/single-product.min.js"
+                                    id="wc-single-product-js"></script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/js-cookie/js.cookie.min.js"
+                                    id="js-cookie-js"></script>
+                                <script type="text/javascript" id="woocommerce-js-extra">
+                                    /* <![CDATA[ */
+                                    var woocommerce_params = { "ajax_url": "\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/?wc-ajax=%%endpoint%%" };
+                                    /* ]]> */
+                                </script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/frontend/woocommerce.min.js"
+                                    id="woocommerce-js"></script>
+                                <script type="text/javascript" id="wc-cart-fragments-js-extra">
+                                    /* <![CDATA[ */
+                                    var wc_cart_fragments_params = { "ajax_url": "\/wp-admin\/admin-ajax.php", "wc_ajax_url": "\/?wc-ajax=%%endpoint%%", "cart_hash_key": "wc_cart_hash_95ed86c957f4bfe26630312417b24237", "fragment_name": "wc_fragments_95ed86c957f4bfe26630312417b24237", "request_timeout": "5000" };
+                                    /* ]]> */
+                                </script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/woocommerce/7.7.0/assets/js/frontend/cart-fragments.min.js"
+                                    id="wc-cart-fragments-js"></script>
+                                <script type="text/javascript" id="wc-cart-fragments-js-after">
+                                    /* <![CDATA[ */
+                                    jQuery('body').bind('wc_fragments_refreshed', function () {
+                                        var jetpackLazyImagesLoadEvent;
+                                        try {
+                                            jetpackLazyImagesLoadEvent = new Event('jetpack-lazy-images-load', {
+                                                bubbles: true,
+                                                cancelable: true
                                             });
+                                        } catch (e) {
+                                            jetpackLazyImagesLoadEvent = document.createEvent('Event')
+                                            jetpackLazyImagesLoadEvent.initEvent('jetpack-lazy-images-load', true, true);
+                                        }
+                                        jQuery('body').get(0).dispatchEvent(jetpackLazyImagesLoadEvent);
+                                    });
 
-                                            /* ]]> */
-                                        </script>
-                                        <script type="text/javascript"
-                                            src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/headroom.js?ver=1.0.0"
-                                            id="headroom-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/jquery.headroom.js?ver=1.0.0"
-                                            id="jquery-headroom-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/jquery.hoverIntent.js?ver=1.0.0"
-                                            id="jquery-hoverIntent-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/slick.js?ver=1.0.0"
-                                            id="slick-js"></script>
-                                        <script type="text/javascript" id="thb-app-js-extra">
-                                            /* <![CDATA[ */
-                                            var themeajax = { "url": "https:\/\/smarthome.fuelthemes.net\/wp-admin\/admin-ajax.php", "l10n": { "adding_to_cart": "Adding to Cart", "added_to_cart": "Added To Cart", "has_been_added": "has been added to your cart.", "prev": "Prev", "next": "Next", "qty": "QTY" }, "settings": { "cart_url": "https:\/\/smarthome.fuelthemes.net\/cart\/", "is_cart": false, "is_checkout": false } };
-                                            /* ]]> */
-                                        </script>
-                                        <script type="text/javascript"
-                                            src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/app.min.js?ver=1.0.0"
-                                            id="thb-app-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/c/6.4.3/wp-includes/js/comment-reply.min.js"
-                                            id="comment-reply-js" async="async" data-wp-strategy="async"></script>
-                                        <script type="text/javascript"
-                                            src="https://smarthome.fuelthemes.net/wp-content/plugins/jetpack/jetpack_vendor/automattic/jetpack-lazy-images/dist/intersection-observer.js?minify=false&amp;ver=83ec8aa758f883d6da14"
-                                            id="jetpack-lazy-images-polyfill-intersectionobserver-js"></script>
-                                        <script type="text/javascript" id="jetpack-lazy-images-js-extra">
-                                            /* <![CDATA[ */
-                                            var jetpackLazyImagesL10n = { "loading_warning": "Images are still loading. Please cancel your print and try again." };
-                                            /* ]]> */
-                                        </script>
-                                        <script type="text/javascript"
-                                            src="https://smarthome.fuelthemes.net/wp-content/plugins/jetpack/jetpack_vendor/automattic/jetpack-lazy-images/dist/lazy-images.js?minify=false&amp;ver=2e29137590434abf5fbe"
-                                            id="jetpack-lazy-images-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://s0.wp.com/wp-content/mu-plugins/notes/notes-common-lite.min.js?ver=12.1.1-202412-lite"
-                                            id="wpcom-notes-common-js"></script>
-                                        <script type="text/javascript"
-                                            src="https://s0.wp.com/wp-content/mu-plugins/notes/admin-bar-v2.js?ver=12.1.1-202412-lite"
-                                            id="wpcom-notes-admin-bar-js"></script>
-                                        <script type="text/javascript" id="sharing-js-js-extra">
-                                            /* <![CDATA[ */
-                                            var sharing_js_options = { "lang": "en", "counts": "1", "is_stats_active": "1" };
-                                            /* ]]> */
-                                        </script>
-                                        <script type="text/javascript"
-                                            src="https://c0.wp.com/p/jetpack/12.1.1/_inc/build/sharedaddy/sharing.min.js"
-                                            id="sharing-js-js"></script>
-                                        <script type="text/javascript" id="sharing-js-js-after">
-                                            /* <![CDATA[ */
-                                            var windowOpen;
-                                            (function () {
-                                                function matches(el, sel) {
-                                                    return !!(
-                                                        el.matches && el.matches(sel) ||
-                                                        el.msMatchesSelector && el.msMatchesSelector(sel)
-                                                    );
+                                    /* ]]> */
+                                </script>
+                                <script type="text/javascript"
+                                    src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/headroom.js?ver=1.0.0"
+                                    id="headroom-js"></script>
+                                <script type="text/javascript"
+                                    src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/jquery.headroom.js?ver=1.0.0"
+                                    id="jquery-headroom-js"></script>
+                                <script type="text/javascript"
+                                    src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/jquery.hoverIntent.js?ver=1.0.0"
+                                    id="jquery-hoverIntent-js"></script>
+                                <script type="text/javascript"
+                                    src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/vendor/slick.js?ver=1.0.0"
+                                    id="slick-js"></script>
+                                <script type="text/javascript" id="thb-app-js-extra">
+                                    /* <![CDATA[ */
+                                    var themeajax = { "url": "https:\/\/smarthome.fuelthemes.net\/wp-admin\/admin-ajax.php", "l10n": { "adding_to_cart": "Adding to Cart", "added_to_cart": "Added To Cart", "has_been_added": "has been added to your cart.", "prev": "Prev", "next": "Next", "qty": "QTY" }, "settings": { "cart_url": "https:\/\/smarthome.fuelthemes.net\/cart\/", "is_cart": false, "is_checkout": false } };
+                                    /* ]]> */
+                                </script>
+                                <script type="text/javascript"
+                                    src="https://smarthome.fuelthemes.net/wp-content/themes/smart-home/assets/js/app.min.js?ver=1.0.0"
+                                    id="thb-app-js"></script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/c/6.4.3/wp-includes/js/comment-reply.min.js"
+                                    id="comment-reply-js" async="async" data-wp-strategy="async"></script>
+                                <script type="text/javascript"
+                                    src="https://smarthome.fuelthemes.net/wp-content/plugins/jetpack/jetpack_vendor/automattic/jetpack-lazy-images/dist/intersection-observer.js?minify=false&amp;ver=83ec8aa758f883d6da14"
+                                    id="jetpack-lazy-images-polyfill-intersectionobserver-js"></script>
+                                <script type="text/javascript" id="jetpack-lazy-images-js-extra">
+                                    /* <![CDATA[ */
+                                    var jetpackLazyImagesL10n = { "loading_warning": "Images are still loading. Please cancel your print and try again." };
+                                    /* ]]> */
+                                </script>
+                                <script type="text/javascript"
+                                    src="https://smarthome.fuelthemes.net/wp-content/plugins/jetpack/jetpack_vendor/automattic/jetpack-lazy-images/dist/lazy-images.js?minify=false&amp;ver=2e29137590434abf5fbe"
+                                    id="jetpack-lazy-images-js"></script>
+                                <script type="text/javascript"
+                                    src="https://s0.wp.com/wp-content/mu-plugins/notes/notes-common-lite.min.js?ver=12.1.1-202412-lite"
+                                    id="wpcom-notes-common-js"></script>
+                                <script type="text/javascript"
+                                    src="https://s0.wp.com/wp-content/mu-plugins/notes/admin-bar-v2.js?ver=12.1.1-202412-lite"
+                                    id="wpcom-notes-admin-bar-js"></script>
+                                <script type="text/javascript" id="sharing-js-js-extra">
+                                    /* <![CDATA[ */
+                                    var sharing_js_options = { "lang": "en", "counts": "1", "is_stats_active": "1" };
+                                    /* ]]> */
+                                </script>
+                                <script type="text/javascript"
+                                    src="https://c0.wp.com/p/jetpack/12.1.1/_inc/build/sharedaddy/sharing.min.js"
+                                    id="sharing-js-js"></script>
+                                <script type="text/javascript" id="sharing-js-js-after">
+                                    /* <![CDATA[ */
+                                    var windowOpen;
+                                    (function () {
+                                        function matches(el, sel) {
+                                            return !!(
+                                                el.matches && el.matches(sel) ||
+                                                el.msMatchesSelector && el.msMatchesSelector(sel)
+                                            );
+                                        }
+
+                                        document.body.addEventListener('click', function (event) {
+                                            if (!event.target) {
+                                                return;
+                                            }
+
+                                            var el;
+                                            if (matches(event.target, 'a.share-twitter')) {
+                                                el = event.target;
+                                            } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-twitter')) {
+                                                el = event.target.parentNode;
+                                            }
+
+                                            if (el) {
+                                                event.preventDefault();
+
+                                                // If there's another sharing window open, close it.
+                                                if (typeof windowOpen !== 'undefined') {
+                                                    windowOpen.close();
                                                 }
+                                                windowOpen = window.open(el.getAttribute('href'), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350');
+                                                return false;
+                                            }
+                                        });
+                                    })();
+                                    var windowOpen;
+                                    (function () {
+                                        function matches(el, sel) {
+                                            return !!(
+                                                el.matches && el.matches(sel) ||
+                                                el.msMatchesSelector && el.msMatchesSelector(sel)
+                                            );
+                                        }
 
-                                                document.body.addEventListener('click', function (event) {
-                                                    if (!event.target) {
-                                                        return;
-                                                    }
+                                        document.body.addEventListener('click', function (event) {
+                                            if (!event.target) {
+                                                return;
+                                            }
 
-                                                    var el;
-                                                    if (matches(event.target, 'a.share-twitter')) {
-                                                        el = event.target;
-                                                    } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-twitter')) {
-                                                        el = event.target.parentNode;
-                                                    }
+                                            var el;
+                                            if (matches(event.target, 'a.share-facebook')) {
+                                                el = event.target;
+                                            } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-facebook')) {
+                                                el = event.target.parentNode;
+                                            }
 
-                                                    if (el) {
-                                                        event.preventDefault();
+                                            if (el) {
+                                                event.preventDefault();
 
-                                                        // If there's another sharing window open, close it.
-                                                        if (typeof windowOpen !== 'undefined') {
-                                                            windowOpen.close();
-                                                        }
-                                                        windowOpen = window.open(el.getAttribute('href'), 'wpcomtwitter', 'menubar=1,resizable=1,width=600,height=350');
-                                                        return false;
-                                                    }
-                                                });
-                                            })();
-                                            var windowOpen;
-                                            (function () {
-                                                function matches(el, sel) {
-                                                    return !!(
-                                                        el.matches && el.matches(sel) ||
-                                                        el.msMatchesSelector && el.msMatchesSelector(sel)
-                                                    );
+                                                // If there's another sharing window open, close it.
+                                                if (typeof windowOpen !== 'undefined') {
+                                                    windowOpen.close();
                                                 }
+                                                windowOpen = window.open(el.getAttribute('href'), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400');
+                                                return false;
+                                            }
+                                        });
+                                    })();
+                                    var windowOpen;
+                                    (function () {
+                                        function matches(el, sel) {
+                                            return !!(
+                                                el.matches && el.matches(sel) ||
+                                                el.msMatchesSelector && el.msMatchesSelector(sel)
+                                            );
+                                        }
 
-                                                document.body.addEventListener('click', function (event) {
-                                                    if (!event.target) {
-                                                        return;
-                                                    }
+                                        document.body.addEventListener('click', function (event) {
+                                            if (!event.target) {
+                                                return;
+                                            }
 
-                                                    var el;
-                                                    if (matches(event.target, 'a.share-facebook')) {
-                                                        el = event.target;
-                                                    } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-facebook')) {
-                                                        el = event.target.parentNode;
-                                                    }
+                                            var el;
+                                            if (matches(event.target, 'a.share-tumblr')) {
+                                                el = event.target;
+                                            } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-tumblr')) {
+                                                el = event.target.parentNode;
+                                            }
 
-                                                    if (el) {
-                                                        event.preventDefault();
+                                            if (el) {
+                                                event.preventDefault();
 
-                                                        // If there's another sharing window open, close it.
-                                                        if (typeof windowOpen !== 'undefined') {
-                                                            windowOpen.close();
-                                                        }
-                                                        windowOpen = window.open(el.getAttribute('href'), 'wpcomfacebook', 'menubar=1,resizable=1,width=600,height=400');
-                                                        return false;
-                                                    }
-                                                });
-                                            })();
-                                            var windowOpen;
-                                            (function () {
-                                                function matches(el, sel) {
-                                                    return !!(
-                                                        el.matches && el.matches(sel) ||
-                                                        el.msMatchesSelector && el.msMatchesSelector(sel)
-                                                    );
+                                                // If there's another sharing window open, close it.
+                                                if (typeof windowOpen !== 'undefined') {
+                                                    windowOpen.close();
                                                 }
+                                                windowOpen = window.open(el.getAttribute('href'), 'wpcomtumblr', 'menubar=1,resizable=1,width=450,height=450');
+                                                return false;
+                                            }
+                                        });
+                                    })();
+                                    var windowOpen;
+                                    (function () {
+                                        function matches(el, sel) {
+                                            return !!(
+                                                el.matches && el.matches(sel) ||
+                                                el.msMatchesSelector && el.msMatchesSelector(sel)
+                                            );
+                                        }
 
-                                                document.body.addEventListener('click', function (event) {
-                                                    if (!event.target) {
-                                                        return;
-                                                    }
+                                        document.body.addEventListener('click', function (event) {
+                                            if (!event.target) {
+                                                return;
+                                            }
 
-                                                    var el;
-                                                    if (matches(event.target, 'a.share-tumblr')) {
-                                                        el = event.target;
-                                                    } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-tumblr')) {
-                                                        el = event.target.parentNode;
-                                                    }
+                                            var el;
+                                            if (matches(event.target, 'a.share-telegram')) {
+                                                el = event.target;
+                                            } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-telegram')) {
+                                                el = event.target.parentNode;
+                                            }
 
-                                                    if (el) {
-                                                        event.preventDefault();
+                                            if (el) {
+                                                event.preventDefault();
 
-                                                        // If there's another sharing window open, close it.
-                                                        if (typeof windowOpen !== 'undefined') {
-                                                            windowOpen.close();
-                                                        }
-                                                        windowOpen = window.open(el.getAttribute('href'), 'wpcomtumblr', 'menubar=1,resizable=1,width=450,height=450');
-                                                        return false;
-                                                    }
-                                                });
-                                            })();
-                                            var windowOpen;
-                                            (function () {
-                                                function matches(el, sel) {
-                                                    return !!(
-                                                        el.matches && el.matches(sel) ||
-                                                        el.msMatchesSelector && el.msMatchesSelector(sel)
-                                                    );
+                                                // If there's another sharing window open, close it.
+                                                if (typeof windowOpen !== 'undefined') {
+                                                    windowOpen.close();
                                                 }
+                                                windowOpen = window.open(el.getAttribute('href'), 'wpcomtelegram', 'menubar=1,resizable=1,width=450,height=450');
+                                                return false;
+                                            }
+                                        });
+                                    })();
+                                    var windowOpen;
+                                    (function () {
+                                        function matches(el, sel) {
+                                            return !!(
+                                                el.matches && el.matches(sel) ||
+                                                el.msMatchesSelector && el.msMatchesSelector(sel)
+                                            );
+                                        }
 
-                                                document.body.addEventListener('click', function (event) {
-                                                    if (!event.target) {
-                                                        return;
-                                                    }
+                                        document.body.addEventListener('click', function (event) {
+                                            if (!event.target) {
+                                                return;
+                                            }
 
-                                                    var el;
-                                                    if (matches(event.target, 'a.share-telegram')) {
-                                                        el = event.target;
-                                                    } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-telegram')) {
-                                                        el = event.target.parentNode;
-                                                    }
+                                            var el;
+                                            if (matches(event.target, 'a.share-skype')) {
+                                                el = event.target;
+                                            } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-skype')) {
+                                                el = event.target.parentNode;
+                                            }
 
-                                                    if (el) {
-                                                        event.preventDefault();
+                                            if (el) {
+                                                event.preventDefault();
 
-                                                        // If there's another sharing window open, close it.
-                                                        if (typeof windowOpen !== 'undefined') {
-                                                            windowOpen.close();
-                                                        }
-                                                        windowOpen = window.open(el.getAttribute('href'), 'wpcomtelegram', 'menubar=1,resizable=1,width=450,height=450');
-                                                        return false;
-                                                    }
-                                                });
-                                            })();
-                                            var windowOpen;
-                                            (function () {
-                                                function matches(el, sel) {
-                                                    return !!(
-                                                        el.matches && el.matches(sel) ||
-                                                        el.msMatchesSelector && el.msMatchesSelector(sel)
-                                                    );
+                                                // If there's another sharing window open, close it.
+                                                if (typeof windowOpen !== 'undefined') {
+                                                    windowOpen.close();
                                                 }
-
-                                                document.body.addEventListener('click', function (event) {
-                                                    if (!event.target) {
-                                                        return;
-                                                    }
-
-                                                    var el;
-                                                    if (matches(event.target, 'a.share-skype')) {
-                                                        el = event.target;
-                                                    } else if (event.target.parentNode && matches(event.target.parentNode, 'a.share-skype')) {
-                                                        el = event.target.parentNode;
-                                                    }
-
-                                                    if (el) {
-                                                        event.preventDefault();
-
-                                                        // If there's another sharing window open, close it.
-                                                        if (typeof windowOpen !== 'undefined') {
-                                                            windowOpen.close();
-                                                        }
-                                                        windowOpen = window.open(el.getAttribute('href'), 'wpcomskype', 'menubar=1,resizable=1,width=305,height=665');
-                                                        return false;
-                                                    }
-                                                });
-                                            })();
-                                            /* ]]> */
-                                        </script>
-                                        <!-- WooCommerce JavaScript -->
-                                        <script type="text/javascript">
-                                            jQuery(function ($) {
-                                                _wca.push({
-                                                    '_en': 'woocommerceanalytics_product_view',
-                                                    'pi': '86',
-                                                    'pn': 'Apple - HomePod mini - Space Gray',
-                                                    'pc': 'Accessories',
-                                                    'pp': '36.20',
-                                                    'pt': 'simple', 'blog_id': '189920065', 'ui': '189920065:36', 'url': 'https://smarthome.fuelthemes.net', 'woo_version': '7.7.0', 'cart_page_contains_cart_block': '0', 'cart_page_contains_cart_shortcode': '1', 'checkout_page_contains_checkout_block': '0', 'checkout_page_contains_checkout_shortcode': '1',
-                                                });
-                                            });
-                                        </script>
-                                    </div> <!-- End Wrapper -->
+                                                windowOpen = window.open(el.getAttribute('href'), 'wpcomskype', 'menubar=1,resizable=1,width=305,height=665');
+                                                return false;
+                                            }
+                                        });
+                                    })();
+                                    /* ]]> */
+                                </script>
+                                <!-- WooCommerce JavaScript -->
+                                <script type="text/javascript">
+                                    jQuery(function ($) {
+                                        _wca.push({
+                                            '_en': 'woocommerceanalytics_product_view',
+                                            'pi': '86',
+                                            'pn': 'Apple - HomePod mini - Space Gray',
+                                            'pc': 'Accessories',
+                                            'pp': '36.20',
+                                            'pt': 'simple', 'blog_id': '189920065', 'ui': '189920065:36', 'url': 'https://smarthome.fuelthemes.net', 'woo_version': '7.7.0', 'cart_page_contains_cart_block': '0', 'cart_page_contains_cart_shortcode': '1', 'checkout_page_contains_checkout_block': '0', 'checkout_page_contains_checkout_shortcode': '1',
+                                        });
+                                    });
+                                </script>
+                            </div> <!-- End Wrapper -->
 </body>
 
 </html>
