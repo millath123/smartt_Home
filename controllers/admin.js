@@ -4,6 +4,9 @@ import dotenv from 'dotenv';
 import Admin from '../model/admin.js';
 import User from '../model/user.js';
 import adminHelpers from "../helpers/adminHelpers.js"
+import cloudinary from '../servieces/cloudinary.js';
+import Product from '../model/product.js';
+import { log } from 'util';
 
 dotenv.config();
 
@@ -30,22 +33,22 @@ const adminLoginGetPage = async (req, res) => {
 
 
 const adminLoginPostPage = async (req, res) => {
-    try {
-        const { email, password } = req.body;
-        const loginResponse = await adminHelpers.adminLoginHelper({ email, password });
+  try {
+    const { email, password } = req.body;
+    const loginResponse = await adminHelpers.adminLoginHelper({ email, password });
 
-        if (loginResponse.admin) {
-            res.cookie('adminToken', loginResponse.savedAdmin._id.toString());
-            res.redirect('/admin/dashboard');
-        } else if (loginResponse.passwordMismatch) {
-            res.status(401).send('Incorrect Password');
-        } else {
-            res.status(404).send('Admin with provided email not found');
-        }
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
+    if (loginResponse.admin) {
+      res.cookie('adminToken', loginResponse.savedAdmin._id.toString());
+      res.redirect('/admin/dashboard');
+    } else if (loginResponse.passwordMismatch) {
+      res.status(401).send('Incorrect Password');
+    } else {
+      res.status(404).send('Admin with provided email not found');
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
 // admin logout
@@ -61,48 +64,48 @@ const adminDshboard = async function (req, res) {
 
 // users list
 const adminusers = async (req, res) => {
-    try {
-        const users = await adminHelpers.adminusersHelper();
-        res.render('admin/users', { users });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Internal Server Error');
-    }
+  try {
+    const users = await adminHelpers.adminusersHelper();
+    res.render('admin/users', { users });
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Internal Server Error');
+  }
 };
 
-  
-const deleteUserController = async (req, res) => {
-    const userId = req.params.id;
-  
-    try {
-      const deletedUser = await adminHelpers.deleteUserHelper(userId);
-        if (!deletedUser) {
-        return res.status(404).json({pageNotFound:'404page'})
-      }
-  
-      res.status(204).json({delete:'success'}) 
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({error:error});
-    }
-  };
 
-const updateUserController =  async (req, res) => {
-    const userId = req.params.id;
-    const { fullName, phoneNumber, email } = req.body;
-    try {
-      const updatedUser = await adminHelpers.updateUserHelper(userId, fullName, phoneNumber, email);
-  
-      if (!updatedUser) {
-        return res.status(404).send('User not found');
-      }
-  
-      res.send(updatedUser); 
-    } catch (error) {
-      console.error(error);
-      res.status(500).send('Error updating user');
+const deleteUserController = async (req, res) => {
+  const userId = req.params.id;
+
+  try {
+    const deletedUser = await adminHelpers.deleteUserHelper(userId);
+    if (!deletedUser) {
+      return res.status(404).json({ pageNotFound: '404page' })
     }
-  };
+
+    res.status(204).json({ delete: 'success' })
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: error });
+  }
+};
+
+const updateUserController = async (req, res) => {
+  const userId = req.params.id;
+  const { fullName, phoneNumber, email } = req.body;
+  try {
+    const updatedUser = await adminHelpers.updateUserHelper(userId, fullName, phoneNumber, email);
+
+    if (!updatedUser) {
+      return res.status(404).send('User not found');
+    }
+
+    res.send(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error updating user');
+  }
+};
 
 const deleteRoute = async (req, res) => {
   await deleteUserController(req, res);
@@ -115,34 +118,60 @@ const updateRoute = async (req, res) => {
 const bannerGet = async (req, res) => {
   res.render(path.join('../views/admin/banner'));
 };
-
 const bannerPost = async (req, res) => {
+  const admin = req.admin;
+  console.log(req.body);
+  const { files } = req;
+  console.log(files);
   try {
     const {
-      bannerProduct, bannerAnnouncement, bannerDescription, bannerPrice,
+      bannerProduct,
+      bannerAnnouncement,
+      bannerDescription,
+      bannerPrice,
     } = req.body;
-    const { path: bannerImagePath } = req.file;
+    const bannerImages = files.map((file) => file.path); // Assuming files contain banner images
 
     const parsedBannerPrice = Number(bannerPrice);
 
-    const { admin } = req;
-
-    admin.banners.push({
-      bannerImage: req.file.path,
+    const mainNewBanner = {
+      bannerImage: [bannerImages[0]],
       bannerProduct,
       bannerAnnouncement,
       bannerDescription,
       bannerPrice: parsedBannerPrice,
-    });
+    };
+
+    const secondNewBanner = {
+      bannerImage: [bannerImages[1], bannerImages[2]],
+      bannerProduct,
+      bannerAnnouncement,
+      bannerDescription,
+      bannerPrice: parsedBannerPrice,
+    };
+
+    const thirdNewBanner = {
+      bannerImage: [bannerImages[3], bannerImages[4], bannerImages[5]],
+      bannerProduct,
+      bannerAnnouncement,
+      bannerDescription,
+      bannerPrice: parsedBannerPrice,
+    };
+    admin.banners = {
+      mainBanners: [mainNewBanner],
+      secondBanners: [secondNewBanner],
+      thirdBanners: [thirdNewBanner],
+    };
 
     await admin.save();
 
-    res.status(200).json({ message: 'Banner added successfully' });
+    res.status(201).json({ message: 'Banner created successfully' });
   } catch (error) {
-    console.error('Error adding banner:', error);
-    res.status(500).json({ error: 'Failed to add banner' });
+    console.error('Error creating banner:', error);
+    res.status(500).json({ error: 'Failed to create banner' });
   }
 };
+
 
 // order list
 const ordersGet = async function (req, res) {

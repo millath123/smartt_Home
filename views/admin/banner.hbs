@@ -231,8 +231,16 @@
                         <!-- You can add a close button here if needed -->
                     </div>
                     <div class="modal-body">
-                        <form id="addBannerForm" action="/admin/addBanner" method="post">
+                        <form id="addBannerForm" action="/admin/addBanner" method="post" enctype="multipart/form-data">
                             <!-- Banner Image Input -->
+                            <div class="custom-file mb-3">
+                                <label class="form-label" for="bannerImage">Image</label>
+                                <input type="file" class="form-control" id="bannerImage" name="bannerImage" multiple>
+                            </div>
+                            <div class="custom-file mb-3">
+                                <label class="form-label" for="bannerImage">Image</label>
+                                <input type="file" class="form-control" id="bannerImage" name="bannerImage" multiple>
+                            </div>
                             <div class="custom-file mb-3">
                                 <label class="form-label" for="bannerImage">Image</label>
                                 <input type="file" class="form-control" id="bannerImage" name="bannerImage" multiple>
@@ -284,7 +292,7 @@
             }
 
             function addBanner() {
-                var bannerImage = document.getElementById('bannerImage').files[0];
+                var bannerImage = document.getElementById('bannerImage').value;
                 var bannerProduct = document.getElementById('bannerProduct').value;
                 var bannerAnnouncement = document.getElementById('bannerAnnouncement').value;
                 var bannerDescription = document.getElementById('bannerDescription').value;

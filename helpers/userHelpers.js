@@ -82,8 +82,6 @@ const googleLoginHelper = () => {
     const clientId = process.env.GOOGLE_CLIENT_ID;
     const redirectUri = process.env.callbackURL;
     const scope = process.env.SCOPE;
-    console.log(googleAuthUrl,'g',clientId,'l',redirectUri,'f',scope);
-
 
     const url = `${googleAuthUrl}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=code`;
 

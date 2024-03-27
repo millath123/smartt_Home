@@ -25,9 +25,7 @@ const homePage = async function (req, res) {
       res.render('../views/user/home', { user: req.user, cartBadge: userCart });
     } else{
       res.render('../views/user/home');
-    }
-
-  
+    } 
   } catch (error) {
     console.error(error);
     res.status(500).send('Internal Server Error');
