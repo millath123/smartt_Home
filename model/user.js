@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   name: String,
   Image: {
     type: String,
-    default: 'https://www.sengineering.it/wp-content/uploads/2020/02/user-icon-png-pnglogocom.png'
+    default: 'https://cdn-icons-png.freepik.com/512/9187/9187604.png'
   },
   address: [
     {

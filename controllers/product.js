@@ -182,6 +182,11 @@ const updateCart = async (req, res) => {
 };
 
 
+const cartEmpty = async function (req, res) {
+  res.render(path.join('../views/user/cartEmpty'));
+};
+
+
 // checkout
 const getCheckout = async (req, res) => {
   try {
@@ -190,7 +195,7 @@ const getCheckout = async (req, res) => {
     const userData = await Cart.find({ userId: user._id });
 
     if (!userData.length) {
-      return res.status(404).send('Cart is empty');
+      return res.redirect('/cartEmpty');
     }
 
     // Fetch product details for each item in the cart
@@ -372,4 +377,5 @@ export default {
   placeOrder,
   updateCart,
   getOrderSummery,
+  cartEmpty
 };

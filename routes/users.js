@@ -34,6 +34,8 @@ router.get('/cart', authenticateUser, productController.getCart);
 router.post('/addToCart', authenticateUser, productController.addToCart);
 router.delete('/cart/delete/:productId',authenticateUser,productController.deleteCart);
 router.put('/cart/:productId/:quantity', authenticateUser,productController.updateCart);
+router.get('/cartEmpty',  productController.cartEmpty);
+
 
 
 router.get('/checkout', authenticateUser, productController.getCheckout);
